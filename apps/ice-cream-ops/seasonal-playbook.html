@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joyus Ice Cream Shop - Milk Jawn Seasonal Playbook</title>
+  <meta name="description" content="Milk Jawn seasonal staffing playbook with trigger targets, assumptions, and scale timing guidance." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8D%A8%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260223a" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="app.js?v=20260223a" defer></script>
+  <style>
+    #main-content {
+      display: none;
+    }
+
+    #auth-gate {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: #f4efe6;
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-card {
+      width: min(420px, 100%);
+      border: 1px solid rgba(55, 40, 30, 0.18);
+      border-radius: 14px;
+      background: rgba(255, 251, 245, 0.95);
+      box-shadow: 0 20px 55px rgba(39, 24, 13, 0.16);
+      padding: 1rem;
+    }
+
+    .auth-card h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-family: "Newsreader", serif;
+      line-height: 1.1;
+    }
+
+    .auth-card p {
+      margin: 0.45rem 0 0;
+      font-size: 0.82rem;
+      color: #5c544c;
+      line-height: 1.35;
+    }
+
+    .auth-card form {
+      margin-top: 0.7rem;
+    }
+
+    .auth-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #5c544c;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .auth-user-proxy {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      border: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .auth-card input {
+      width: 100%;
+      margin-top: 0.36rem;
+      padding: 0.62rem 0.7rem;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 40, 30, 0.22);
+      font: inherit;
+      font-size: 0.9rem;
+      background: #fff;
+      color: #1f1a16;
+    }
+
+    .auth-card button {
+      width: 100%;
+      margin-top: 0.55rem;
+      padding: 0.62rem 0.7rem;
+      border-radius: 10px;
+      border: 0;
+      background: #1f1a16;
+      color: #fff;
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-error {
+      display: none;
+      margin-top: 0.5rem;
+      color: #8c1919;
+      font-size: 0.76rem;
+    }
+  </style>
+</head>
+<body data-page="seasonal_playbook">
+  <a class="skip-link" href="#main-content">Skip to seasonal playbook content</a>
+  <div class="noise"></div>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+
+  <section id="auth-gate">
+    <div class="auth-card">
+      <h2>Milk Jawn Dashboard Access</h2>
+      <p>Enter the project password to view the seasonal playbook.</p>
+      <form id="auth-form" novalidate>
+        <input type="text" name="username" autocomplete="username" tabindex="-1" class="auth-user-proxy" />
+        <label for="auth-password" class="auth-label">Password</label>
+        <input id="auth-password" type="password" autocomplete="current-password" />
+        <button id="auth-submit" type="submit">Open Seasonal Playbook</button>
+      </form>
+      <div class="auth-error" id="auth-error" role="alert" aria-live="polite">Incorrect password.</div>
+    </div>
+  </section>
+
+  <main class="shell" id="main-content" tabindex="-1">
+    <header class="hero panel">
+      <div>
+        <p class="kicker">Joyus Ice Cream Shop - Staffing Command Center</p>
+        <h1>Milk Jawn - Seasonal Playbook</h1>
+        <p class="hero-sub">Use trigger thresholds, seasonal templates, and scale timing guidance to decide when to ramp staffing up or down.</p>
+      </div>
+      <div class="hero-badge-wrap">
+        <div class="hero-badge">
+          <span>Data Window</span>
+          <strong id="dataWindowBadge">Loading period...</strong>
+        </div>
+        <div class="hero-badge subtle" id="lastUpdatedBadge"></div>
+      </div>
+    </header>
+
+    <nav class="page-nav panel" aria-label="Page Navigation">
+      <a class="page-nav-link" href="index.html">Dashboard</a>
+      <a class="page-nav-link" href="staffing-planner.html#shift_planner">Shift Planner</a>
+      <a class="page-nav-link" href="staffing-planner.html#shift_analysis">Shift Analysis</a>
+      <a class="page-nav-link active" aria-current="page" href="seasonal-playbook.html">Seasonal Playbook</a>
+      <a class="page-nav-link" href="staffing-planner.html#settings">Settings</a>
+    </nav>
+
+    <section class="panel page-instructions" aria-labelledby="playbook-instructions-heading">
+      <h2 id="playbook-instructions-heading">How To Use This Page</h2>
+      <p>Choose location and month first, then tune trigger thresholds and target profiles. Any threshold edits are saved locally and are reflected in exports and scale timing summaries.</p>
+    </section>
+
+    <section class="panel controls">
+      <div class="control-group">
+        <label>Location Focus</label>
+        <div class="segmented" id="locationToggle">
+          <button type="button" class="seg-btn active" data-location="EP">East Passyunk</button>
+          <button type="button" class="seg-btn" data-location="NL">Northern Liberties</button>
+          <button type="button" class="seg-btn" data-location="BOTH">Combined</button>
+        </div>
+        <p class="control-help">Pick the store context for recommendations and trigger checks.</p>
+      </div>
+
+      <div class="control-group select-wrap">
+        <label for="dateRangeSelect">Date Range View</label>
+        <select id="dateRangeSelect">
+          <option value="single_month">Month to Month</option>
+          <option value="last_month">Last Month</option>
+          <option value="ytd">YTD</option>
+          <option value="last_52_weeks">Last 52 Weeks</option>
+          <option value="last_year">Last Year</option>
+          <option value="full_period">Full Period</option>
+        </select>
+        <p class="control-help">Month-to-month mode gives precise trigger control. Multi-month ranges are for context checks.</p>
+      </div>
+
+      <div class="control-group select-wrap" id="monthSelectGroup">
+        <label for="monthPicker">Month Focus</label>
+        <div class="month-picker-wrap">
+          <button type="button" class="small-icon-btn" id="monthPrevBtn" aria-label="Previous month">◀</button>
+          <input id="monthPicker" type="month" />
+          <button type="button" class="small-icon-btn" id="monthNextBtn" aria-label="Next month">▶</button>
+        </div>
+        <select id="monthSelect" hidden aria-hidden="true"></select>
+        <p class="control-help">Use the calendar picker or arrows to switch months for trigger evaluation.</p>
+      </div>
+
+      <div class="control-group" id="doordashModeGroup">
+        <label>Daily Totals Basis</label>
+        <div class="segmented" id="doorDashModeToggle">
+          <button type="button" class="seg-btn active" data-doordash-mode="include">With DoorDash</button>
+          <button type="button" class="seg-btn" data-doordash-mode="exclude">Without DoorDash</button>
+        </div>
+        <p class="control-help">Affects trigger metrics and seasonal recommendation context.</p>
+      </div>
+    </section>
+
+    <section class="panel playbook-panel" id="playbookPanel"></section>
+  </main>
+
+  <script>
+    (function () {
+      const PASSWORD = 'mj2026';
+      const STORAGE_KEY = 'milk_jawn_dashboard_auth_v1';
+      const gate = document.getElementById('auth-gate');
+      const main = document.getElementById('main-content');
+      const input = document.getElementById('auth-password');
+      const form = document.getElementById('auth-form');
+      const error = document.getElementById('auth-error');
+
+      function unlock(remember) {
+        if (remember) {
+          try {
+            localStorage.setItem(STORAGE_KEY, 'ok');
+          } catch (_err) {
+            // Ignore storage failures.
+          }
+        }
+        gate.style.display = 'none';
+        main.style.display = 'grid';
+      }
+
+      let remembered = false;
+      try {
+        remembered = localStorage.getItem(STORAGE_KEY) === 'ok';
+      } catch (_err) {
+        remembered = false;
+      }
+      if (remembered) {
+        unlock(false);
+        return;
+      }
+
+      function attempt() {
+        if ((input.value || '').trim() === PASSWORD) {
+          error.style.display = 'none';
+          unlock(true);
+          return;
+        }
+        error.style.display = 'block';
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        attempt();
+      });
+      input.focus();
+    })();
+  </script>
+</body>
+</html>

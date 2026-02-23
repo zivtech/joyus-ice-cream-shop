@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joyus Ice Cream Shop - Milk Jawn Weekly Staffing Planner</title>
+  <meta name="description" content="Weekly staffing slot planner with manager change requests and admin approval workflow." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8D%A8%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="staffing-planner.css?v=20260223a" />
+  <script src="staffing-planner.js?v=20260223a" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#planner-shell">Skip to planner content</a>
+  <section id="auth-gate">
+    <div class="auth-card">
+      <h2>Milk Jawn Planner Access</h2>
+      <p>Enter the dashboard password to open the weekly staffing planner.</p>
+      <form id="auth-form" novalidate>
+        <input type="text" name="username" autocomplete="username" tabindex="-1" class="auth-user-proxy" />
+        <label for="auth-password" class="auth-label">Password</label>
+        <input id="auth-password" type="password" autocomplete="current-password" />
+        <button id="auth-submit" type="submit">Open Planner</button>
+      </form>
+      <p id="auth-error" class="auth-error" role="alert" aria-live="polite">Incorrect password.</p>
+    </div>
+  </section>
+
+  <main id="planner-shell" tabindex="-1">
+    <header class="hero panel">
+      <div>
+        <p class="kicker">Joyus Ice Cream Shop - Staffing Command Center</p>
+        <h1>Milk Jawn - Weekly Staffing Planner</h1>
+        <p class="hero-sub">Slot-level staffing recommendations for upcoming weeks. Managers assign people and can submit policy changes for admin approval before export.</p>
+      </div>
+    </header>
+
+    <nav class="page-nav panel" id="topMenuNav" aria-label="Page Navigation">
+      <a class="page-nav-link" href="index.html">Dashboard</a>
+      <a class="page-nav-link" href="#shift_planner" data-menu="shift_planner">Shift Planner</a>
+      <a class="page-nav-link" href="#shift_analysis" data-menu="shift_analysis">Shift Analysis</a>
+      <a class="page-nav-link" href="seasonal-playbook.html">Seasonal Playbook</a>
+      <a class="page-nav-link" href="#settings" data-menu="settings">Settings</a>
+    </nav>
+
+    <nav class="planner-subnav panel" id="plannerSubnav" aria-label="Weekly Planner Sub Navigation"></nav>
+    <section class="panel page-instructions" id="pageInstructionPanel" aria-live="polite"></section>
+
+    <section class="panel controls" id="plannerControls">
+      <div class="control-group">
+        <label for="locationSelect">Location</label>
+        <select id="locationSelect">
+          <option value="EP">East Passyunk</option>
+          <option value="NL">Northern Liberties</option>
+        </select>
+        <p class="help">Filters employee list and template baseline to one store.</p>
+      </div>
+
+      <div class="control-group">
+        <label for="horizonSelect">Planning Horizon</label>
+        <select id="horizonSelect">
+          <option value="2" selected>Next 2 Weeks (Default)</option>
+          <option value="13">Next 13 Weeks (3 months)</option>
+          <option value="52">Next 52 Weeks (1 year)</option>
+        </select>
+        <p class="help">Default is next 2 weeks. Expand only when you need longer-term planning.</p>
+      </div>
+
+      <div class="control-group">
+        <label for="startDateInput">Week Start (Monday)</label>
+        <input id="startDateInput" type="date" />
+        <p class="help">All weekly suggestions are generated from this start date.</p>
+      </div>
+
+      <div class="control-group control-actions">
+        <label>Planner Actions</label>
+        <button type="button" id="generateBtn" class="ghost-btn">Generate Suggested Slots</button>
+        <button type="button" id="exportBtn" class="ghost-btn">Export Approved Plan JSON</button>
+        <p class="help">No one is auto-assigned. Assignments are manager-selected.</p>
+      </div>
+    </section>
+
+    <section class="panel rules-panel" id="plannerRules">
+      <h2>Rules + Workflow</h2>
+      <ul>
+        <li>Opening may be a single person when needed; closing must always have two people.</li>
+        <li>Managers assign people into slots from the location employee pool.</li>
+        <li>Weather recommendations can increase/decrease support slots, but never below 1 opener and 2 closers.</li>
+        <li>Any staffing policy change (added shift, extra headcount, changed time/role) requires admin approval.</li>
+        <li>Only approved changes should be exported.</li>
+      </ul>
+    </section>
+
+    <section class="layout-grid" id="weeklyPlanView">
+      <section class="panel" id="plannerBoard"></section>
+      <aside class="panel" id="weeklySidebar"></aside>
+    </section>
+
+    <section class="panel subpage-panel" id="recentStaffingView" hidden></section>
+    <section class="panel subpage-panel" id="approvalsView" hidden></section>
+    <section class="panel subpage-panel" id="complianceView" hidden></section>
+  </main>
+</body>
+</html>
