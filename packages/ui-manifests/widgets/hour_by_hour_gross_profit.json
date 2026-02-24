@@ -1,0 +1,75 @@
+{
+  "id": "hour_by_hour_gross_profit",
+  "title": "Hour-by-Hour Gross Profit",
+  "owner": "ops-analytics",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "hourly_profile",
+      "path": "data.hourly_profile[loc][monthKey]",
+      "kind": "snapshot_json",
+      "notes": "Loaded from apps/ice-cream-ops/data.json"
+    },
+    {
+      "name": "doordash_mode",
+      "path": "state.doordashMode",
+      "kind": "ui_state"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "hour_gp",
+      "formula_or_logic": "hourGp = revenueWithMode(avg_revenue, avg_doordash_net, mode) * 0.72 - avg_labor",
+      "references": [
+        "apps/ice-cream-ops/app.js:1319",
+        "apps/ice-cream-ops/app.js:1320"
+      ]
+    },
+    {
+      "name": "shared_manager_adjustment",
+      "formula_or_logic": "When shared manager mode is active, subtract per-hour allocated net manager labor from target hours",
+      "references": [
+        "apps/ice-cream-ops/app.js:1334"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "bar_color_thresholds",
+      "logic": ">=350 dark green; >=140 light green; >=0 amber; <0 red",
+      "token_refs": [
+        "color.chart.gp.high",
+        "color.chart.gp.medium",
+        "color.chart.gp.low",
+        "color.chart.gp.negative"
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "action": "reactive_recompute",
+      "effect": "Chart updates when plan/location/date/monday/doordash/manager controls change"
+    }
+  ],
+  "states": [
+    {
+      "name": "single_location",
+      "description": "Displays hourly GP bars for EP or NL"
+    },
+    {
+      "name": "combined_location",
+      "description": "Combines EP + NL hourly series"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "library",
+      "name": "Chart.js",
+      "notes": "Global UMD script"
+    }
+  ],
+  "adr_refs": [],
+  "status": "draft"
+}

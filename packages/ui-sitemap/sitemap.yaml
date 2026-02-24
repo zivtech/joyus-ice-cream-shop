@@ -1,0 +1,51 @@
+version: 1
+updated_on: 2026-02-24
+nodes:
+  - node_id: dashboard
+    label: Dashboard
+    route: /index.html
+    persona: owner
+    goal: Evaluate profitability and labor efficiency
+    requires_auth: true
+    children: []
+
+  - node_id: shift-planner
+    label: Shift Planner
+    route: /staffing-planner.html#shift_planner
+    persona: manager
+    goal: Build and assign weekly schedules
+    requires_auth: true
+    children:
+      - shift-planner-approvals
+
+  - node_id: shift-planner-approvals
+    label: Approvals
+    route: /staffing-planner.html#shift_planner
+    persona: admin
+    goal: Approve day changes and next-week submissions
+    requires_auth: true
+    children: []
+
+  - node_id: shift-analysis
+    label: Shift Analysis
+    route: /staffing-planner.html#shift_analysis
+    persona: manager
+    goal: Compare actual performance vs expected
+    requires_auth: true
+    children: []
+
+  - node_id: seasonal-playbook
+    label: Seasonal Playbook
+    route: /seasonal-playbook.html
+    persona: owner
+    goal: Review scale-up and scale-down timing
+    requires_auth: true
+    children: []
+
+  - node_id: settings
+    label: Settings
+    route: /staffing-planner.html#settings
+    persona: admin
+    goal: Configure workflow guardrails and assumptions
+    requires_auth: true
+    children: []

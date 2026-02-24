@@ -1,0 +1,24 @@
+{
+  "id": "shift_planner",
+  "route": "/staffing-planner.html#shift_planner",
+  "title": "Shift Planner",
+  "widgets": [
+    "shift_planner_day_card"
+  ],
+  "filters": [
+    { "name": "location", "effect": "Selects store-specific plan context" },
+    { "name": "horizon_weeks", "effect": "Sets number of generated planning weeks" },
+    { "name": "week_start", "effect": "Shifts planning window" }
+  ],
+  "actions": [
+    { "name": "submit_policy_change", "effect": "Creates pending day request" },
+    { "name": "submit_next_week_for_approval", "effect": "Routes week to CEO approval gate" },
+    { "name": "export_plan_json", "effect": "Produces schedule payload for publish flow" }
+  ],
+  "permissions": [
+    { "role": "manager", "capabilities": ["view", "edit_schedule", "submit_request"] },
+    { "role": "admin", "capabilities": ["view", "edit_schedule", "approve_request", "export"] }
+  ],
+  "sitemap_node_id": "shift-planner",
+  "owner": "ops-workflow"
+}

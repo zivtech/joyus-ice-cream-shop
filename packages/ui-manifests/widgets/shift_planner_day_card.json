@@ -1,0 +1,93 @@
+{
+  "id": "shift_planner_day_card",
+  "title": "Shift Planner Day Card",
+  "owner": "ops-workflow",
+  "source_files": [
+    "apps/ice-cream-ops/staffing-planner.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "week_day_state",
+      "path": "state.weeks[].days[]",
+      "kind": "planner_state"
+    },
+    {
+      "name": "weather_data",
+      "path": "weatherData[loc]",
+      "kind": "live_optional"
+    },
+    {
+      "name": "pto_requests",
+      "path": "state.ptoRequests",
+      "kind": "snapshot_or_live_sync"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "day_validation",
+      "formula_or_logic": "Evaluates staffing coverage and policy requirements for the day",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2291"
+      ]
+    },
+    {
+      "name": "day_financial_viability",
+      "formula_or_logic": "Computes expected revenue/labor/labor%/GP(72) for the day",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2295"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "status_class",
+      "logic": "Card style changes by pending/approved/default request state"
+    },
+    {
+      "name": "weather_heat_tint",
+      "logic": "Weather box tint varies by temp delta class (hot/cold/neutral)"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "slot_editing",
+      "effect": "Edit time/role/headcount and assignments"
+    },
+    {
+      "action": "copy_last_week",
+      "effect": "Copy names/shifts/both from last week reference"
+    },
+    {
+      "action": "submit_policy_request",
+      "effect": "Queues day-level request for approvals workflow"
+    }
+  ],
+  "states": [
+    {
+      "name": "default",
+      "description": "No pending request"
+    },
+    {
+      "name": "pending_request",
+      "description": "Pending admin approval"
+    },
+    {
+      "name": "approved_request",
+      "description": "Last change approved"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "service",
+      "name": "open-meteo",
+      "notes": "Used for weather recommendation rendering"
+    },
+    {
+      "type": "endpoint",
+      "name": "/api/v1/integrations/square/pto",
+      "notes": "Optional PTO sync"
+    }
+  ],
+  "adr_refs": [],
+  "status": "draft"
+}

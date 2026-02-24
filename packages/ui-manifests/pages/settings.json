@@ -1,0 +1,19 @@
+{
+  "id": "settings",
+  "route": "/staffing-planner.html#settings",
+  "title": "Settings",
+  "widgets": [],
+  "filters": [
+    { "name": "settings_subtab", "effect": "Switches operations/compliance views" }
+  ],
+  "actions": [
+    { "name": "update_guardrails", "effect": "Changes planner workflow constraints" },
+    { "name": "update_opening_schedule", "effect": "Changes seasonal schedule assumptions" }
+  ],
+  "permissions": [
+    { "role": "admin", "capabilities": ["view", "configure"] },
+    { "role": "manager", "capabilities": ["view"] }
+  ],
+  "sitemap_node_id": "settings",
+  "owner": "ops-admin"
+}

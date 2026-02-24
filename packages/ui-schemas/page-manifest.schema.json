@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joyus.ai/schemas/page-manifest.schema.json",
+  "title": "Page Manifest",
+  "type": "object",
+  "required": [
+    "id",
+    "route",
+    "title",
+    "widgets",
+    "filters",
+    "actions",
+    "permissions",
+    "sitemap_node_id",
+    "owner"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "route": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "widgets": { "type": "array", "items": { "type": "string" } },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "effect"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "effect": { "type": "string" }
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "effect"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "effect": { "type": "string" }
+        }
+      }
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "capabilities"],
+        "additionalProperties": false,
+        "properties": {
+          "role": { "type": "string" },
+          "capabilities": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "sitemap_node_id": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "minLength": 1 }
+  }
+}
