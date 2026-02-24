@@ -1,0 +1,35 @@
+{
+  "widget_id": "historical_trend_panel",
+  "upstreams": [
+    {
+      "name": "monthly_series",
+      "source": "apps/ice-cream-ops/data.json via monthlySeriesForScope",
+      "fields": ["label", "monthKey", "revenue", "labor", "gp72", "laborPct"]
+    },
+    {
+      "name": "history_metric",
+      "source": "dashboard state",
+      "fields": ["historyMetric", "plan", "location", "dateRange", "doordashMode"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "metric_projection",
+      "logic": "Map month rows to selected metric values for scenario and baseline series"
+    },
+    {
+      "name": "rolling_average",
+      "logic": "Compute 3-month rolling trend over scenario series"
+    },
+    {
+      "name": "conditional_baseline_overlay",
+      "logic": "Include baseline overlay only for open_7_day plan mode"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "historical_trend_chart",
+      "consumer": "dashboard history panel"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "id": "historical_trend_panel",
+  "version": "1.0.0",
+  "title": "Historical Trend Panel",
+  "owner": "ops-analytics",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "monthly_scope_series",
+      "path": "monthlySeriesForScope(plan, mondayScenario)",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "history_metric_selection",
+      "path": "state.historyMetric + HISTORY_METRIC_DEFS",
+      "kind": "ui_state"
+    },
+    {
+      "name": "scenario_context",
+      "path": "state.plan/state.location/state.dateRange/state.doordashMode",
+      "kind": "ui_state"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "series_construction",
+      "formula_or_logic": "Build baseline (current_6_day) and active scenario series from monthly scope rows using selected metric extractor",
+      "references": [
+        "apps/ice-cream-ops/app.js:1807"
+      ]
+    },
+    {
+      "name": "rolling_trend",
+      "formula_or_logic": "Compute 3-month rolling average for scenario values via rollingAverage(scenarioVals, 3)",
+      "references": [
+        "apps/ice-cream-ops/app.js:1813"
+      ]
+    },
+    {
+      "name": "baseline_overlay_rule",
+      "formula_or_logic": "Show Current 6-Day baseline overlay dataset only when plan is open_7_day",
+      "references": [
+        "apps/ice-cream-ops/app.js:1845"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "line_series_styles",
+      "logic": "Scenario line uses orange solid stroke, trend line uses teal dashed stroke, optional baseline overlay uses neutral gray"
+    },
+    {
+      "name": "axis_and_tooltip_formatting",
+      "logic": "Y-axis tick and tooltip labels are metric-specific through HISTORY_METRIC_DEFS formatter callbacks"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "switch_history_metric",
+      "effect": "Re-renders chart with selected metric extraction and formatting"
+    },
+    {
+      "action": "change_plan_scope_or_range",
+      "effect": "Rebuilds labels/series and updates panel subtitle context"
+    }
+  ],
+  "states": [
+    {
+      "name": "default_scenario",
+      "description": "Scenario and 3-month trend lines shown for selected metric"
+    },
+    {
+      "name": "open_7_day_with_baseline_overlay",
+      "description": "Includes additional 6-day baseline overlay dataset"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "library",
+      "name": "Chart.js",
+      "notes": "Line chart rendering and interactive tooltip behavior"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft"
+}

@@ -1,0 +1,35 @@
+{
+  "widget_id": "trigger_gap_planner_panel",
+  "upstreams": [
+    {
+      "name": "trigger_rule_profiles",
+      "source": "dashboard state trigger rules",
+      "fields": ["ruleKey", "conditions", "operator", "threshold"]
+    },
+    {
+      "name": "anchor_month_metrics",
+      "source": "derived month metrics",
+      "fields": ["avgDailyRevenue", "laborPct", "weekendShare", "peakShare"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "condition_gap_eval",
+      "logic": "Calculate per-condition delta and unmet status"
+    },
+    {
+      "name": "rule_gap_ranking",
+      "logic": "Rank unmet rules by normalized gap score and select closest threshold"
+    },
+    {
+      "name": "action_mapping",
+      "logic": "Map closest threshold rule to recommended operating action"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "trigger_gap_cards",
+      "consumer": "dashboard trigger gap planner panel"
+    }
+  ]
+}

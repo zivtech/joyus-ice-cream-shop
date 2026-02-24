@@ -3,7 +3,9 @@
   "route": "/index.html",
   "title": "Dashboard",
   "widgets": [
-    "hour_by_hour_gross_profit"
+    "hour_by_hour_gross_profit",
+    "historical_trend_panel",
+    "trigger_gap_planner_panel"
   ],
   "filters": [
     {

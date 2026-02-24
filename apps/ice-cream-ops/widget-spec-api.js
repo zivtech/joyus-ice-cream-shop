@@ -5,7 +5,9 @@
     planner_day_card: "shift_planner_day_card",
     shiftPlannerCard: "shift_planner_day_card",
     recentStaffingPanel: "recent_staffing_analysis_panel",
-    approvalsPanel: "approvals_workbench_panel"
+    approvalsPanel: "approvals_workbench_panel",
+    historyTrendPanel: "historical_trend_panel",
+    triggerGapPlanner: "trigger_gap_planner_panel"
   });
 
   const WIDGET_SPEC_INDEX = Object.freeze({
@@ -79,6 +81,38 @@
         file: "packages/ui-lineage/widgets/approvals_workbench_panel.lineage.json",
         upstreams: ["next_week_state", "pto_sync"],
         outputs: ["approvals_subtab_views", "next_week_publish_gate"]
+      },
+      story_links: []
+    },
+    historical_trend_panel: {
+      manifest: {
+        id: "historical_trend_panel",
+        version: "1.0.0",
+        title: "Historical Trend Panel",
+        owner: "ops-analytics",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/historical_trend_panel.lineage.json",
+        upstreams: ["monthly_series", "history_metric"],
+        outputs: ["historical_trend_chart"]
+      },
+      story_links: []
+    },
+    trigger_gap_planner_panel: {
+      manifest: {
+        id: "trigger_gap_planner_panel",
+        version: "1.0.0",
+        title: "Trigger Gap Planner Panel",
+        owner: "ops-strategy",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/trigger_gap_planner_panel.lineage.json",
+        upstreams: ["trigger_rule_profiles", "anchor_month_metrics"],
+        outputs: ["trigger_gap_cards"]
       },
       story_links: []
     }

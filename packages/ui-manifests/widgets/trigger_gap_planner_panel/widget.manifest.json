@@ -1,0 +1,91 @@
+{
+  "id": "trigger_gap_planner_panel",
+  "version": "1.0.0",
+  "title": "Trigger Gap Planner Panel",
+  "owner": "ops-strategy",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "trigger_rules",
+      "path": "state.triggerRules[location]",
+      "kind": "ui_state"
+    },
+    {
+      "name": "monthly_metrics_anchor",
+      "path": "monthMetricsForLocation(location, state.month)",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "active_trigger_timing",
+      "path": "triggerTimingForLocation(location)",
+      "kind": "derived_in_memory"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "condition_gap_math",
+      "formula_or_logic": "For each condition compute delta to threshold via conditionGap(cond, metrics) and normalize unmet severity by threshold magnitude",
+      "references": [
+        "apps/ice-cream-ops/app.js:2149",
+        "apps/ice-cream-ops/app.js:2263"
+      ]
+    },
+    {
+      "name": "closest_unmet_trigger_selection",
+      "formula_or_logic": "Evaluate all trigger rules, rank unmet rules by normalized gap score, and choose the nearest unmet trigger",
+      "references": [
+        "apps/ice-cream-ops/app.js:2257"
+      ]
+    },
+    {
+      "name": "location_card_render_logic",
+      "formula_or_logic": "Per location card either show all-met state with active triggers or show closest trigger and top unmet gap lines with suggested action",
+      "references": [
+        "apps/ice-cream-ops/app.js:2306"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "gap_card_layout",
+      "logic": "Render one gap card per active location scope in timing-grid with anchor month and suggested move copy"
+    },
+    {
+      "name": "all_met_vs_gap_state",
+      "logic": "All-met cards show met trigger summary; unmet cards show closest threshold and condition gap bullet list"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_location_or_month",
+      "effect": "Re-evaluates nearest trigger gaps and suggested scaling move per location"
+    },
+    {
+      "action": "change_trigger_profiles",
+      "effect": "Updates gap ranking and action guidance based on adjusted trigger rules"
+    }
+  ],
+  "states": [
+    {
+      "name": "all_triggers_met",
+      "description": "Current anchor month meets all configured triggers for location"
+    },
+    {
+      "name": "closest_threshold_gap",
+      "description": "Displays nearest unmet trigger and required threshold movement"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "module",
+      "name": "playbook trigger engine",
+      "notes": "Uses transition rule evaluation and condition gap helpers"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft"
+}
