@@ -1,0 +1,100 @@
+{
+  "id": "compliance_scaffold_panel",
+  "version": "1.0.0",
+  "title": "Compliance Scaffold Panel",
+  "owner": "ops-compliance",
+  "source_files": [
+    "apps/ice-cream-ops/staffing-planner.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "compliance_subtab",
+      "path": "state.complianceSubtab",
+      "kind": "ui_state"
+    },
+    {
+      "name": "settings_profile_state",
+      "path": "state.settings",
+      "kind": "ui_state_persisted",
+      "notes": "Operations tab uses normalized settings defaults before rendering editable controls"
+    },
+    {
+      "name": "static_compliance_copy",
+      "path": "inline card copy in renderComplianceView()",
+      "kind": "static_config"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "compliance_subtab_normalization",
+      "formula_or_logic": "Subtab key is constrained to operations/setup/youth/feeds/overview, with fallback to operations",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:3590"
+      ]
+    },
+    {
+      "name": "subtab_card_set_selection",
+      "formula_or_logic": "Rendered compliance card set branches by normalized subtab, surfacing setup/youth/feeds/overview placeholder guidance blocks",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:3775",
+        "apps/ice-cream-ops/staffing-planner.js:3833",
+        "apps/ice-cream-ops/staffing-planner.js:3862"
+      ]
+    },
+    {
+      "name": "compliance_subtab_switching",
+      "formula_or_logic": "Planner subnav click routes to compliance subtab and rerenders panel contents",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:4510"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "compliance_card_grid",
+      "logic": "Non-operations subtabs render two-card compliance grid with scoped list sections per topic"
+    },
+    {
+      "name": "placeholder_disclosure_copy",
+      "logic": "Header copy explicitly marks current compliance sections as framework placeholders pending legal review"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "switch_compliance_subtab",
+      "effect": "Changes visible compliance scaffold content section"
+    },
+    {
+      "action": "save_operations_settings_changes",
+      "effect": "Operations subtab updates state.settings and rerenders with normalized defaults"
+    }
+  ],
+  "states": [
+    {
+      "name": "overview",
+      "description": "Displays scope and phased implementation framework cards"
+    },
+    {
+      "name": "setup_or_youth_or_feeds",
+      "description": "Displays subtab-specific guidance cards for jurisdiction, youth, or rule-feed planning"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "storage",
+      "name": "planner local state",
+      "notes": "Subtab selection and operations settings edits persist in local planner state"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

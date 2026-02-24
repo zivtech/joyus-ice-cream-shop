@@ -1,8 +1,10 @@
 {
   "approvals_workbench_panel": "widgets/approvals_workbench_panel.lineage.json",
+  "compliance_scaffold_panel": "widgets/compliance_scaffold_panel.lineage.json",
   "historical_trend_panel": "widgets/historical_trend_panel.lineage.json",
   "industry_survey_lens_panel": "widgets/industry_survey_lens_panel.lineage.json",
   "operational_guardrails_panel": "widgets/operational_guardrails_panel.lineage.json",
+  "operations_settings_panel": "widgets/operations_settings_panel.lineage.json",
   "hour_by_hour_gross_profit": "widgets/hour_by_hour_gross_profit.lineage.json",
   "performance_intelligence_panel": "widgets/performance_intelligence_panel.lineage.json",
   "recent_staffing_analysis_panel": "widgets/recent_staffing_analysis_panel.lineage.json",

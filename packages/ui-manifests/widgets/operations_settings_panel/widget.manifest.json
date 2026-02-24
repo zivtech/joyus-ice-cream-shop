@@ -1,0 +1,99 @@
+{
+  "id": "operations_settings_panel",
+  "version": "1.0.0",
+  "title": "Operations Settings Panel",
+  "owner": "ops-admin",
+  "source_files": [
+    "apps/ice-cream-ops/staffing-planner.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "settings_profile_state",
+      "path": "state.settings",
+      "kind": "ui_state_persisted"
+    },
+    {
+      "name": "recommended_opening_dates",
+      "path": "RECOMMENDED_OPENING_DATES",
+      "kind": "static_config"
+    },
+    {
+      "name": "compliance_subtab",
+      "path": "state.complianceSubtab",
+      "kind": "ui_state"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "settings_profile_normalization",
+      "formula_or_logic": "normalizeSettingsProfile merges persisted settings with required defaults for workflow, opening schedule, target profile, and pay assumptions",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:315"
+      ]
+    },
+    {
+      "name": "sectional_settings_update",
+      "formula_or_logic": "updateSettingsValue writes scalar values into root/workflow/openingSchedule/targetProfile sections and re-normalizes state",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:354",
+        "apps/ice-cream-ops/staffing-planner.js:4416"
+      ]
+    },
+    {
+      "name": "recommended_date_quick_apply",
+      "formula_or_logic": "Recommended seasonal date buttons map key-specific defaults from RECOMMENDED_OPENING_DATES into openingSchedule",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:227",
+        "apps/ice-cream-ops/staffing-planner.js:4445"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "settings_card_grid",
+      "logic": "Operations view renders four deterministic settings cards for guardrails, opening schedule, target profile, and manager assumptions"
+    },
+    {
+      "name": "field_row_patterns",
+      "logic": "Settings rows use numeric, date, and checkbox controls with helper copy and badge callouts for expected operating defaults"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_settings_field",
+      "effect": "Persist setting updates and refresh operations settings render state"
+    },
+    {
+      "action": "apply_recommended_opening_date",
+      "effect": "Injects recommended seasonal milestone date for selected key"
+    }
+  ],
+  "states": [
+    {
+      "name": "operations_subtab_active",
+      "description": "Operations settings card grid is visible and editable"
+    },
+    {
+      "name": "non_operations_subtab",
+      "description": "Panel is hidden while other compliance subtabs are active"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "storage",
+      "name": "planner local state",
+      "notes": "Settings are persisted via saveState and restored from storage payload"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

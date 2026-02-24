@@ -11,7 +11,9 @@
     performanceIntelPanel: "performance_intelligence_panel",
     surveyLensPanel: "industry_survey_lens_panel",
     timingMonitorPanel: "scale_timing_monitor_panel",
-    guardrailsPanel: "operational_guardrails_panel"
+    guardrailsPanel: "operational_guardrails_panel",
+    operationsSettingsPanel: "operations_settings_panel",
+    complianceScaffoldPanel: "compliance_scaffold_panel"
   });
 
   const WIDGET_SPEC_INDEX = Object.freeze({
@@ -59,7 +61,7 @@
     recent_staffing_analysis_panel: {
       manifest: {
         id: "recent_staffing_analysis_panel",
-        version: "1.0.0",
+        version: "1.1.0",
         title: "Recent Staffing Analysis Panel",
         owner: "ops-analytics",
         source_files: ["apps/ice-cream-ops/staffing-planner.js"],
@@ -181,6 +183,38 @@
         file: "packages/ui-lineage/widgets/operational_guardrails_panel.lineage.json",
         upstreams: ["weekly_scope_metrics", "manager_scenario_state", "benchmark_thresholds"],
         outputs: ["guardrail_cards"]
+      },
+      story_links: []
+    },
+    operations_settings_panel: {
+      manifest: {
+        id: "operations_settings_panel",
+        version: "1.0.0",
+        title: "Operations Settings Panel",
+        owner: "ops-admin",
+        source_files: ["apps/ice-cream-ops/staffing-planner.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/operations_settings_panel.lineage.json",
+        upstreams: ["settings_profile_state", "recommended_opening_dates", "settings_input_events"],
+        outputs: ["operations_settings_cards", "planner_guardrail_assumptions"]
+      },
+      story_links: []
+    },
+    compliance_scaffold_panel: {
+      manifest: {
+        id: "compliance_scaffold_panel",
+        version: "1.0.0",
+        title: "Compliance Scaffold Panel",
+        owner: "ops-compliance",
+        source_files: ["apps/ice-cream-ops/staffing-planner.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/compliance_scaffold_panel.lineage.json",
+        upstreams: ["compliance_subtab_state", "settings_profile_state", "static_compliance_scaffold_copy"],
+        outputs: ["compliance_guidance_cards", "subtab_navigation_state"]
       },
       story_links: []
     }

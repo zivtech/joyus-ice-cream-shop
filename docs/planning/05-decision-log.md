@@ -24,6 +24,7 @@
 11. API/MCP/script contracts are now tracked with first-class interface manifests under `packages/ui-manifests/interfaces/` and validated with the same observation-vs-approval lifecycle model.
 12. Square publish automation preflight now enforces stronger approval/data sanity checks (reviewer metadata, workflow flags, location consistency, overlap detection, max shift duration) before apply/publish actions.
 13. Planned-vs-actual variance now exposes explicit expected-source attribution (planned targets vs fallback baseline) at both summary and day-card levels for transparent fallback behavior.
+14. Settings page now treats operations controls and compliance placeholder framework as governed widgets (`operations_settings_panel`, `compliance_scaffold_panel`) to support incremental compliance hardening.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

@@ -1,0 +1,44 @@
+{
+  "widget_id": "compliance_scaffold_panel",
+  "upstreams": [
+    {
+      "name": "compliance_subtab_state",
+      "source": "planner local state",
+      "fields": ["complianceSubtab"]
+    },
+    {
+      "name": "settings_profile_state",
+      "source": "planner local state",
+      "fields": ["settings"]
+    },
+    {
+      "name": "static_compliance_scaffold_copy",
+      "source": "inline runtime card templates",
+      "fields": ["setup", "youth", "feeds", "overview", "operations"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "subtab_normalization",
+      "logic": "Restrict compliance subtab key to known values and fallback to operations"
+    },
+    {
+      "name": "subtab_content_branch",
+      "logic": "Choose scaffold card set by normalized subtab"
+    },
+    {
+      "name": "settings_delegation",
+      "logic": "Operations tab delegates editable controls to settings profile workflow"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "compliance_guidance_cards",
+      "consumer": "settings compliance subtabs"
+    },
+    {
+      "name": "subtab_navigation_state",
+      "consumer": "planner subnav and settings surface state"
+    }
+  ]
+}

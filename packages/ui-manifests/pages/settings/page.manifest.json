@@ -2,7 +2,10 @@
   "id": "settings",
   "route": "/staffing-planner.html#settings",
   "title": "Settings",
-  "widgets": [],
+  "widgets": [
+    "operations_settings_panel",
+    "compliance_scaffold_panel"
+  ],
   "filters": [
     {
       "name": "settings_subtab",
@@ -36,7 +39,7 @@
   ],
   "sitemap_node_id": "settings",
   "owner": "ops-admin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "validation": {
     "basis": "as_built_observation",

@@ -1,0 +1,44 @@
+{
+  "widget_id": "operations_settings_panel",
+  "upstreams": [
+    {
+      "name": "settings_profile_state",
+      "source": "planner local state",
+      "fields": ["settings.workflow", "settings.openingSchedule", "settings.targetProfile", "settings.pay"]
+    },
+    {
+      "name": "recommended_opening_dates",
+      "source": "runtime static config",
+      "fields": ["springUpDate", "summerUpDate", "fallDownDate", "winterDownDate"]
+    },
+    {
+      "name": "settings_input_events",
+      "source": "settings-field + settings-apply-recommended UI events",
+      "fields": ["section", "key", "value"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "settings_normalization",
+      "logic": "Normalize persisted settings into complete profile before render"
+    },
+    {
+      "name": "sectioned_state_merge",
+      "logic": "Apply field changes to specific settings section and persist merged result"
+    },
+    {
+      "name": "recommended_date_injection",
+      "logic": "Map selected opening schedule key to predefined recommended seasonal date"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "operations_settings_cards",
+      "consumer": "settings operations subtab"
+    },
+    {
+      "name": "planner_guardrail_assumptions",
+      "consumer": "planner policy/edit workflows"
+    }
+  ]
+}
