@@ -13,7 +13,7 @@
 
 ## Next
 1. Formalize API/MCP interfaces for sync, export, recompute, compliance checks. (Wave 1 baseline complete: interface schema + validation + draft manifests for `sync_run_orchestration`, `ops_excel_export`, `staffing_recompute`, `compliance_check`)
-2. Harden approvals flow and publish gates for Square.
+2. Harden approvals flow and publish gates for Square. (Wave 1 baseline complete: publish interface manifest + stricter preflight checks in `publish_schedule_to_square_mcp.py`)
 3. Add planned-vs-actual staffing variance model with transparent fallbacks.
 4. Add compliance scaffolding for youth/overtime/notice rules.
 

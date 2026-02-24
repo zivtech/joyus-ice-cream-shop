@@ -1,0 +1,50 @@
+{
+  "id": "square_schedule_publish",
+  "version": "1.0.0",
+  "title": "Square Schedule Publish",
+  "owner": "platform-integrations",
+  "status": "draft",
+  "transport": [
+    "api",
+    "script"
+  ],
+  "contracts": [
+    {
+      "name": "publish_schedule_to_square",
+      "kind": "http_endpoint",
+      "operation": "publish approved schedule to Square shifts service",
+      "method": "POST",
+      "path": "/api/v1/tenants/{tenantId}/schedules/{scheduleId}/square/publish"
+    },
+    {
+      "name": "publish_schedule_to_square_mcp_script",
+      "kind": "script_entrypoint",
+      "operation": "create/publish scheduled shifts via Square MCP with preflight gates",
+      "script": "apps/ice-cream-ops/scripts/publish_schedule_to_square_mcp.py"
+    }
+  ],
+  "consumers": [
+    {
+      "surface": "approvals_workbench",
+      "purpose": "final handoff after next-week and request approvals"
+    },
+    {
+      "surface": "operations_runbook",
+      "purpose": "controlled publish workflow with dry-run and audit report"
+    }
+  ],
+  "source_refs": [
+    "docs/planning/recovered/joyus-fast-casual-feature-tracker-2026-02-21.md",
+    "apps/ice-cream-ops/scripts/publish_schedule_to_square_mcp.py"
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from recovered publish roadmap and current script implementation; approval workflow usefulness still needs operational review.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

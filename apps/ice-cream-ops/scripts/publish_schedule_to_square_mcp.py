@@ -26,6 +26,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 ET = ZoneInfo("America/New_York")
+PLACEHOLDER_REVIEWERS = {"", "unassigned", "tbd", "unknown", "n/a", "na", "none", "-"}
 
 LOCATION_IDS = {
     "EP": "LYPJTCTZKM211",
@@ -57,6 +58,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--publish", action="store_true", help="Publish each created shift after creation")
     parser.add_argument("--allow-unmatched-names", action="store_true", help="Skip unresolved names instead of failing")
     parser.add_argument("--force", action="store_true", help="Ignore approval/policy validation failures")
+    parser.add_argument(
+        "--max-shift-hours",
+        type=float,
+        default=14.0,
+        help="Fail preflight when an individual planned shift exceeds this many hours (default: 14)",
+    )
     parser.add_argument("--job-scooper", help="Square job_id override for scooper roles")
     parser.add_argument("--job-key-lead", help="Square job_id override for lead roles")
     parser.add_argument("--job-manager", help="Square job_id override for manager roles")
@@ -219,25 +226,98 @@ def load_plan(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
 
 
-def validate_plan(plan: dict[str, Any], force: bool = False) -> list[str]:
+def validate_plan(plan: dict[str, Any], max_shift_hours: float = 14.0) -> list[str]:
     issues: list[str] = []
+    assignment_windows: dict[str, list[tuple[datetime, datetime, str, str]]] = {}
 
     next_week = (plan.get("approvals") or {}).get("nextWeek") or {}
     status = (next_week.get("status") or "").lower()
     if status != "approved":
         issues.append("Amy next-week approval is not approved.")
+    else:
+        reviewer = normalize_name(next_week.get("reviewer") or "")
+        if reviewer in PLACEHOLDER_REVIEWERS:
+            issues.append("Amy next-week approval reviewer is missing/unassigned.")
+
+        reviewed_at = (next_week.get("reviewedAt") or "").strip()
+        if not reviewed_at:
+            issues.append("Amy next-week approval is approved but reviewedAt is missing.")
+
+    workflow = plan.get("workflow") or {}
+    if workflow.get("approvalRequiredForPolicyChanges") is not True:
+        issues.append("Workflow flag approvalRequiredForPolicyChanges must be true.")
+    if workflow.get("ceoApprovalRequiredForNextWeek") is not True:
+        issues.append("Workflow flag ceoApprovalRequiredForNextWeek must be true.")
+
+    location_code = (plan.get("location") or "").strip().upper()
+    if location_code in LOCATION_IDS:
+        square_location_id = ((plan.get("square") or {}).get("location_id") or "").strip()
+        expected_location_id = LOCATION_IDS[location_code]
+        if square_location_id and square_location_id != expected_location_id:
+            issues.append(
+                f"Square location_id mismatch for {location_code}: expected {expected_location_id}, got {square_location_id}."
+            )
+        if not square_location_id:
+            issues.append("Square location_id is missing from plan export payload.")
 
     weeks = plan.get("weeks") or []
+    seen_day_dates: set[str] = set()
     for week_idx, week in enumerate(weeks):
         for day in week.get("days") or []:
+            day_date = (day.get("date") or "").strip()
+            if day_date:
+                if day_date in seen_day_dates:
+                    issues.append(f"Duplicate day date in export payload: {day_date}.")
+                seen_day_dates.add(day_date)
             if day.get("pendingRequestId"):
                 issues.append(f"Week {week_idx + 1} day {day.get('date')}: pending request exists.")
             if day.get("policyChanged"):
                 issues.append(f"Week {week_idx + 1} day {day.get('date')}: unsubmitted policy edits exist.")
 
-    if issues and not force:
-        return issues
-    return []
+            for slot_idx, slot in enumerate(day.get("slots") or []):
+                start_raw = (slot.get("start") or "").strip()
+                end_raw = (slot.get("end") or "").strip()
+                if not day_date or not start_raw or not end_raw:
+                    continue
+
+                try:
+                    start_dt = parse_local_dt(day_date, start_raw)
+                    end_dt = parse_local_dt(day_date, end_raw)
+                except Exception:
+                    issues.append(f"Week {week_idx + 1} day {day_date} slot {slot_idx + 1}: invalid start/end time.")
+                    continue
+
+                if end_dt <= start_dt:
+                    end_dt = end_dt + timedelta(days=1)
+
+                duration_hours = (end_dt - start_dt).total_seconds() / 3600
+                if duration_hours > max_shift_hours:
+                    issues.append(
+                        f"Week {week_idx + 1} day {day_date} slot {slot_idx + 1}: shift duration {duration_hours:.2f}h exceeds {max_shift_hours:.2f}h limit."
+                    )
+
+                assignments = slot.get("assignments") or []
+                headcount = max(1, int(slot.get("headcount") or len(assignments) or 1))
+                for assign_idx in range(headcount):
+                    assigned = (assignments[assign_idx] if assign_idx < len(assignments) else "") or ""
+                    assigned = assigned.strip()
+                    if not assigned:
+                        continue
+                    key = normalize_name(assigned)
+                    assignment_windows.setdefault(key, []).append((start_dt, end_dt, day_date, assigned))
+
+    for _name_key, windows in assignment_windows.items():
+        ordered = sorted(windows, key=lambda row: row[0])
+        for idx in range(1, len(ordered)):
+            prev_start, prev_end, prev_date, prev_name = ordered[idx - 1]
+            curr_start, curr_end, curr_date, _ = ordered[idx]
+            if curr_start < prev_end:
+                issues.append(
+                    f"Overlapping shifts for '{prev_name}' between {prev_date} {prev_start.strftime('%H:%M')}-{prev_end.strftime('%H:%M')} and {curr_date} {curr_start.strftime('%H:%M')}-{curr_end.strftime('%H:%M')}."
+                )
+                break
+
+    return sorted(set(issues))
 
 
 def extract_planned_shifts(plan: dict[str, Any], location_code: str) -> tuple[list[PlannedShift], int]:
@@ -500,8 +580,8 @@ def main() -> None:
     if location_code not in LOCATION_IDS:
         raise RuntimeError(f"Unknown location code: {location_code}")
 
-    validation_issues = validate_plan(plan, force=args.force)
-    if validation_issues:
+    validation_issues = validate_plan(plan, max_shift_hours=max(args.max_shift_hours, 0.5))
+    if validation_issues and not args.force:
         raise RuntimeError("Plan validation failed:\n- " + "\n- ".join(validation_issues))
 
     planned_rows, unassigned_positions = extract_planned_shifts(plan, location_code)
@@ -627,6 +707,7 @@ def main() -> None:
             "skipped_existing": skipped_existing,
             "created": created,
             "published": published,
+            "validation_issues": validation_issues,
             "errors": errors,
         }
 

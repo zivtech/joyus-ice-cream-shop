@@ -77,14 +77,18 @@ Notes:
 4. Dry run:
 
 ```bash
-python3 projects/milk-jawn/scripts/publish_schedule_to_square_mcp.py --plan-file /path/to/exported-plan.json --dry-run
+python3 apps/ice-cream-ops/scripts/publish_schedule_to_square_mcp.py --plan-file /path/to/exported-plan.json --dry-run
 ```
 
 5. Apply + publish:
 
 ```bash
-python3 projects/milk-jawn/scripts/publish_schedule_to_square_mcp.py --plan-file /path/to/exported-plan.json --apply --publish
+python3 apps/ice-cream-ops/scripts/publish_schedule_to_square_mcp.py --plan-file /path/to/exported-plan.json --apply --publish
 ```
+
+Safety notes:
+- Publish preflight now fails when approval reviewer metadata is missing, required workflow flags are off, location metadata is inconsistent, assignment windows overlap, or any slot exceeds the max shift duration (`--max-shift-hours`, default `14`).
+- Use `--force` only when bypassing these checks intentionally, and inspect `validation_issues` in the output report.
 
 ## Future Architecture Note: Operating Calendar Flexibility
 Add an operating-calendar layer to assumptions so each store can define when it is open, how hours change seasonally, and whether it closes for part of the year.
