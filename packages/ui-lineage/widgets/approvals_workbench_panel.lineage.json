@@ -1,0 +1,39 @@
+{
+  "widget_id": "approvals_workbench_panel",
+  "upstreams": [
+    {
+      "name": "next_week_state",
+      "source": "planner local state",
+      "fields": ["weeks", "nextWeekApproval", "requests"]
+    },
+    {
+      "name": "pto_sync",
+      "source": "square pto sync endpoint",
+      "fields": ["status", "lastAttemptAt", "lastSuccessAt", "requests"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "readiness_gate_counts",
+      "logic": "Calculate pending requests, unsubmitted edits, unassigned slots, coverage failures, and PTO conflicts"
+    },
+    {
+      "name": "request_status_transitions",
+      "logic": "Transition pending day requests to approved/rejected and propagate day-level decision state"
+    },
+    {
+      "name": "pto_scope_summary",
+      "logic": "Sort scoped PTO rows and derive status summaries for approvals view"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "approvals_subtab_views",
+      "consumer": "shift planner approvals page"
+    },
+    {
+      "name": "next_week_publish_gate",
+      "consumer": "plan export flow"
+    }
+  ]
+}

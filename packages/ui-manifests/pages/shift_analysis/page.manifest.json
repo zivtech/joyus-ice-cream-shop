@@ -2,7 +2,9 @@
   "id": "shift_analysis",
   "route": "/staffing-planner.html#shift_analysis",
   "title": "Shift Analysis",
-  "widgets": [],
+  "widgets": [
+    "recent_staffing_analysis_panel"
+  ],
   "filters": [
     {
       "name": "store_scope",

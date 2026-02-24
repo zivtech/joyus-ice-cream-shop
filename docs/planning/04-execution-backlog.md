@@ -7,7 +7,7 @@
 ## Now
 1. Stabilize one manifest/schema structure and commit it as baseline. (Completed: `c950cbd`)
 2. Complete page-by-page clarification for all top-level surfaces.
-3. Expand widget clarification for remaining critical widgets.
+3. Expand widget clarification for remaining critical widgets. (Wave 1 completed: `recent_staffing_analysis_panel`, `approvals_workbench_panel`)
 4. Preserve and link recovered planning artifacts.
 5. Keep data policy enforced (`data.json` snapshot, no rebuild).
 

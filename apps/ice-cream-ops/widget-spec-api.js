@@ -3,7 +3,9 @@
     hourly_gp_chart: "hour_by_hour_gross_profit",
     hourByHourGrossProfit: "hour_by_hour_gross_profit",
     planner_day_card: "shift_planner_day_card",
-    shiftPlannerCard: "shift_planner_day_card"
+    shiftPlannerCard: "shift_planner_day_card",
+    recentStaffingPanel: "recent_staffing_analysis_panel",
+    approvalsPanel: "approvals_workbench_panel"
   });
 
   const WIDGET_SPEC_INDEX = Object.freeze({
@@ -47,6 +49,38 @@
         "/storybook/?path=/story/widgets-shift-planner-day-card--pending-request",
         "/storybook/?path=/story/widgets-shift-planner-day-card--approved-request"
       ]
+    },
+    recent_staffing_analysis_panel: {
+      manifest: {
+        id: "recent_staffing_analysis_panel",
+        version: "1.0.0",
+        title: "Recent Staffing Analysis Panel",
+        owner: "ops-analytics",
+        source_files: ["apps/ice-cream-ops/staffing-planner.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/recent_staffing_analysis_panel.lineage.json",
+        upstreams: ["daily_actual_rows", "expected_baseline_profile", "weather_context", "analysis_notes"],
+        outputs: ["recent_analysis_cards", "saved_context_notes"]
+      },
+      story_links: []
+    },
+    approvals_workbench_panel: {
+      manifest: {
+        id: "approvals_workbench_panel",
+        version: "1.0.0",
+        title: "Approvals Workbench Panel",
+        owner: "ops-workflow",
+        source_files: ["apps/ice-cream-ops/staffing-planner.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/approvals_workbench_panel.lineage.json",
+        upstreams: ["next_week_state", "pto_sync"],
+        outputs: ["approvals_subtab_views", "next_week_publish_gate"]
+      },
+      story_links: []
     }
   });
 

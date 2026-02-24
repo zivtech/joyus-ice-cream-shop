@@ -1,0 +1,110 @@
+{
+  "id": "approvals_workbench_panel",
+  "version": "1.0.0",
+  "title": "Approvals Workbench Panel",
+  "owner": "ops-workflow",
+  "source_files": [
+    "apps/ice-cream-ops/staffing-planner.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "day_change_requests",
+      "path": "state.requests[]",
+      "kind": "planner_state"
+    },
+    {
+      "name": "next_week_approval_state",
+      "path": "state.nextWeekApproval + nextWeekChecks()",
+      "kind": "planner_state"
+    },
+    {
+      "name": "pto_sync_and_rows",
+      "path": "state.ptoSync + ptoRowsForRange(...)",
+      "kind": "snapshot_or_live_sync"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "next_week_readiness_gate",
+      "formula_or_logic": "Compute gate counters for pending requests, unsubmitted edits, unassigned positions, invalid coverage days, and PTO conflicts before Amy approval",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2638",
+        "apps/ice-cream-ops/staffing-planner.js:2701"
+      ]
+    },
+    {
+      "name": "day_request_status_transition",
+      "formula_or_logic": "Approve/reject transitions mutate request status, clear pendingRequestId, and re-open policy changes when rejected",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:3974"
+      ]
+    },
+    {
+      "name": "pto_sync_scope_summary",
+      "formula_or_logic": "Sort PTO rows by status/date/employee and derive pending/approved totals plus sync status metadata",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:1347",
+        "apps/ice-cream-ops/staffing-planner.js:3464"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "status_tones",
+      "logic": "Status lines use status-ok/status-pending/status-risk class mapping for approvals and PTO sync health",
+      "token_refs": [
+        "color.status.approved",
+        "color.status.pending",
+        "color.chart.gp.negative"
+      ]
+    },
+    {
+      "name": "subtab_body_switch",
+      "logic": "Panel body switches between next_week, day_requests, and pto_requests views based on approvalsSubtab"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "amy_next_week_decision",
+      "effect": "Amy can approve or reject next-week gate when status is pending"
+    },
+    {
+      "action": "approve_or_reject_day_request",
+      "effect": "Admin resolves pending manager policy-change requests"
+    },
+    {
+      "action": "sync_pto_from_square",
+      "effect": "Triggers PTO sync and refreshes PTO request summaries"
+    }
+  ],
+  "states": [
+    {
+      "name": "next_week_gate",
+      "description": "Readiness metrics and Amy approval gate for upcoming week"
+    },
+    {
+      "name": "day_request_queue",
+      "description": "Pending, approved, and rejected day-level request lists"
+    },
+    {
+      "name": "pto_scope_view",
+      "description": "PTO sync health and scoped PTO rows for conflict review"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "endpoint",
+      "name": "/api/v1/integrations/square/pto",
+      "notes": "Live PTO sync endpoint"
+    },
+    {
+      "type": "storage",
+      "name": "localStorage",
+      "notes": "Approvals and request state persisted via planner saveState payload"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft"
+}

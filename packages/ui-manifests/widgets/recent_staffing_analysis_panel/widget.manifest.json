@@ -1,0 +1,111 @@
+{
+  "id": "recent_staffing_analysis_panel",
+  "version": "1.0.0",
+  "title": "Recent Staffing Analysis Panel",
+  "owner": "ops-analytics",
+  "source_files": [
+    "apps/ice-cream-ops/staffing-planner.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "daily_actual_rows",
+      "path": "sourceData.daily_actual[location]",
+      "kind": "snapshot_json",
+      "notes": "Scoped through recentActualRowsForScope() by lookback window and active store scope"
+    },
+    {
+      "name": "planned_daily_targets",
+      "path": "sourceData.planned_daily[location] or sourceData.daily_planned[location]",
+      "kind": "snapshot_json",
+      "notes": "Used in planned-vs-actual compare mode with baseline fallback"
+    },
+    {
+      "name": "weather_context",
+      "path": "weatherData[location][date]",
+      "kind": "live_optional"
+    },
+    {
+      "name": "saved_context_notes",
+      "path": "state.recentAnalysisNotes",
+      "kind": "ui_state_persisted"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "lookback_window_scope",
+      "formula_or_logic": "Anchor to latest eligible actual date across selected locations, then include lookbackWeeks * 7 days and sort by date/location",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:1820"
+      ]
+    },
+    {
+      "name": "expected_baseline_selection",
+      "formula_or_logic": "Expected revenue/labor/profit uses planned daily values only when compare mode is planned_vs_actual and planned values are valid, otherwise falls back to historical weekday profile baseline",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2823"
+      ]
+    },
+    {
+      "name": "attainment_and_alignment_metrics",
+      "formula_or_logic": "Derive profitability/sales/labor attainment percentages and weather-alignment summary rates for portfolio and location cards",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2843",
+        "apps/ice-cream-ops/staffing-planner.js:2910"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "meter_tones",
+      "logic": "Attainment gauges use tone-strong/tone-close/tone-watch/tone-risk class thresholds from gaugeTone()",
+      "token_refs": [
+        "color.status.approved",
+        "color.status.pending"
+      ]
+    },
+    {
+      "name": "weather_heat_tint",
+      "logic": "Weather context cards apply weather-heat-hot/cold/neutral class from weather visual temp class"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_analysis_scope_window_compare_mode",
+      "effect": "Recomputes rows, attainment metrics, and weather-alignment summaries"
+    },
+    {
+      "action": "draft_and_save_context_note",
+      "effect": "Persists note drafts and saved notes for location/date review context"
+    }
+  ],
+  "states": [
+    {
+      "name": "default",
+      "description": "Rows available and full summary/location/day cards rendered"
+    },
+    {
+      "name": "no_recent_rows",
+      "description": "No recent actual rows available for selected scope/window"
+    },
+    {
+      "name": "weather_unavailable",
+      "description": "Weather feed error shown; narrative falls back to non-weather variance commentary"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "service",
+      "name": "open-meteo",
+      "notes": "Weather history/forecast context for variance narrative"
+    },
+    {
+      "type": "storage",
+      "name": "localStorage",
+      "notes": "Context notes persisted via planner saveState payload"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft"
+}

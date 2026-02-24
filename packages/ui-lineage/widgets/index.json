@@ -1,4 +1,6 @@
 {
+  "approvals_workbench_panel": "widgets/approvals_workbench_panel.lineage.json",
   "hour_by_hour_gross_profit": "widgets/hour_by_hour_gross_profit.lineage.json",
+  "recent_staffing_analysis_panel": "widgets/recent_staffing_analysis_panel.lineage.json",
   "shift_planner_day_card": "widgets/shift_planner_day_card.lineage.json"
 }

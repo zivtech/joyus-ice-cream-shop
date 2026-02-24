@@ -1,0 +1,49 @@
+{
+  "widget_id": "recent_staffing_analysis_panel",
+  "upstreams": [
+    {
+      "name": "daily_actual_rows",
+      "source": "apps/ice-cream-ops/data.json",
+      "fields": ["date", "revenue", "store_labor", "gross_profit_72", "location"]
+    },
+    {
+      "name": "expected_baseline_profile",
+      "source": "apps/ice-cream-ops/data.json weekday_profile",
+      "fields": ["avg_revenue", "avg_labor", "avg_gp_72", "labor_pct"]
+    },
+    {
+      "name": "weather_context",
+      "source": "open-meteo",
+      "fields": ["temperature_2m_max", "weathercode", "precipitation_hours"]
+    },
+    {
+      "name": "analysis_notes",
+      "source": "planner local state",
+      "fields": ["recentAnalysisDraftNotes", "recentAnalysisNotes"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "scope_window_filter",
+      "logic": "Select recent rows by store scope and lookback weeks anchored to latest actual date"
+    },
+    {
+      "name": "expected_selection",
+      "logic": "Choose expected values from planned targets when valid in planned_vs_actual mode, else fallback to historical baseline"
+    },
+    {
+      "name": "attainment_summary",
+      "logic": "Compute profitability, sales, labor attainment and weather-alignment summary metrics"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "recent_analysis_cards",
+      "consumer": "shift analysis page"
+    },
+    {
+      "name": "saved_context_notes",
+      "consumer": "future analysis reviews"
+    }
+  ]
+}

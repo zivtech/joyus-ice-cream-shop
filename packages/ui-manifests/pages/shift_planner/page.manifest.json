@@ -3,7 +3,8 @@
   "route": "/staffing-planner.html#shift_planner",
   "title": "Shift Planner",
   "widgets": [
-    "shift_planner_day_card"
+    "shift_planner_day_card",
+    "approvals_workbench_panel"
   ],
   "filters": [
     {
