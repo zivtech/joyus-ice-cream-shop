@@ -17,3 +17,4 @@ Required top-level fields:
 - `permissions`
 - `sitemap_node_id`
 - `owner`
+- `validation`

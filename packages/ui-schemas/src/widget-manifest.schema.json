@@ -16,7 +16,8 @@
     "states",
     "dependencies",
     "adr_refs",
-    "status"
+    "status",
+    "validation"
   ],
   "additionalProperties": false,
   "properties": {
@@ -113,6 +114,24 @@
     "status": {
       "type": "string",
       "enum": ["draft", "active", "deprecated"]
+    },
+    "validation": {
+      "type": "object",
+      "required": ["basis", "state", "notes", "reviewed_on", "reviewer"],
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string",
+          "enum": ["as_built_observation", "approved_product_decision"]
+        },
+        "state": {
+          "type": "string",
+          "enum": ["unreviewed", "validated_useful", "needs_redesign", "remove_candidate"]
+        },
+        "notes": { "type": "string", "minLength": 1 },
+        "reviewed_on": { "type": "string", "format": "date" },
+        "reviewer": { "type": "string", "minLength": 1 }
+      }
     }
   }
 }

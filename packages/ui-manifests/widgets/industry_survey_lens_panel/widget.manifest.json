@@ -1,0 +1,99 @@
+{
+  "id": "industry_survey_lens_panel",
+  "version": "1.0.0",
+  "title": "Industry Survey Lens Panel",
+  "owner": "ops-strategy",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "survey_benchmarks",
+      "path": "SURVEY_BENCHMARKS",
+      "kind": "static_config"
+    },
+    {
+      "name": "weekly_scope_metrics",
+      "path": "sumForScope(weeklyMetricsForLocation(...))",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "benchmark_positioning",
+      "path": "benchmarkTone(currentLaborPct, bands.laborPct, true)",
+      "kind": "derived_in_memory"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "current_labor_ratio",
+      "formula_or_logic": "Compute current labor percent from weekly revenue and labor sums across active scope",
+      "references": [
+        "apps/ice-cream-ops/app.js:2191"
+      ]
+    },
+    {
+      "name": "benchmark_delta_actions",
+      "formula_or_logic": "Delta-to-median and delta-to-top-quartile drive action copy and weekly dollar opportunity estimates",
+      "references": [
+        "apps/ice-cream-ops/app.js:2195",
+        "apps/ice-cream-ops/app.js:2207"
+      ]
+    },
+    {
+      "name": "tone_classification",
+      "formula_or_logic": "benchmarkTone() maps metric placement to status class and label (good/watch/risk)",
+      "references": [
+        "apps/ice-cream-ops/app.js:2171"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "survey_three_card_layout",
+      "logic": "Panel renders peer medians, labor benchmark position, and benchmark action pack cards"
+    },
+    {
+      "name": "status_pill_tone",
+      "logic": "Labor position status pill uses benchmarkTone-derived class for messaging emphasis",
+      "token_refs": [
+        "color.status.approved",
+        "color.status.pending",
+        "color.chart.gp.negative"
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_scope_inputs",
+      "effect": "Recomputes current labor position and benchmark opportunity values"
+    }
+  ],
+  "states": [
+    {
+      "name": "above_median",
+      "description": "Shows recommended reduction to reach median and top quartile"
+    },
+    {
+      "name": "at_or_better_than_median",
+      "description": "Shows favorable status and no required median reduction"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "config",
+      "name": "survey benchmark constants",
+      "notes": "Benchmark medians and quartile bands are static in app configuration"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

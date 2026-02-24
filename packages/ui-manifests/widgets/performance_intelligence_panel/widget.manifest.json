@@ -1,0 +1,106 @@
+{
+  "id": "performance_intelligence_panel",
+  "version": "1.0.0",
+  "title": "Performance Intelligence Panel",
+  "owner": "ops-analytics",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "monthly_scope_rows",
+      "path": "monthlySeriesForScope(state.plan, state.mondayScenario)",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "hourly_daypart_insights",
+      "path": "hourlyInsightsForScope()",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "weekday_insights",
+      "path": "weekdayInsightsForScope()",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "yearly_summary",
+      "path": "yearlySummaryForScope('current_6_day', 'base')",
+      "kind": "derived_in_memory"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "basis_month_selection",
+      "formula_or_logic": "Use revenue-positive months when available; fallback to full month rows; branch card copy for single-month, superlative, and comparative modes",
+      "references": [
+        "apps/ice-cream-ops/app.js:1896"
+      ]
+    },
+    {
+      "name": "demand_shape_metrics",
+      "formula_or_logic": "Compute weekend revenue share and 6-9PM peak share from weekday and hourly aggregates",
+      "references": [
+        "apps/ice-cream-ops/app.js:1957"
+      ]
+    },
+    {
+      "name": "year_over_year_line",
+      "formula_or_logic": "Build YoY narrative only when at least two full-year rows exist (months >= 12)",
+      "references": [
+        "apps/ice-cream-ops/app.js:1969"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "insight_card_grid",
+      "logic": "Render four insight cards (best/worst month, peak vs weak hour, demand shape) with dynamic copy branches"
+    },
+    {
+      "name": "yearly_metrics_table",
+      "logic": "Render yearly revenue/labor/gp table and append YoY narrative line beneath table"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_plan_or_scope",
+      "effect": "Recomputes card narratives and yearly table summaries"
+    },
+    {
+      "action": "change_date_range_or_monday_or_doordash",
+      "effect": "Updates all card/table values and explanatory context line"
+    }
+  ],
+  "states": [
+    {
+      "name": "single_month_view",
+      "description": "Shows current-month and month-over-month branch copy"
+    },
+    {
+      "name": "multi_month_superlative_view",
+      "description": "Shows best/worst month and broader demand-shape summaries"
+    },
+    {
+      "name": "insufficient_yoy_overlap",
+      "description": "YoY line shows not-enough-full-year-overlap message"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "module",
+      "name": "dashboard analytics helpers",
+      "notes": "Uses monthly/hourly/weekday/yearly aggregation helper functions"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

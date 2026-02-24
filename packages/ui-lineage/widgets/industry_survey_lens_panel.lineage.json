@@ -1,0 +1,31 @@
+{
+  "widget_id": "industry_survey_lens_panel",
+  "upstreams": [
+    {
+      "name": "survey_benchmarks",
+      "source": "app benchmark constants",
+      "fields": ["medians", "bands", "sampleSize", "profitSampleSize"]
+    },
+    {
+      "name": "weekly_scope_metrics",
+      "source": "derived weekly location metrics",
+      "fields": ["weeklyRevenue", "weeklyLabor", "currentLaborPct"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "benchmark_positioning",
+      "logic": "Classify labor ratio against quartile bands via benchmarkTone"
+    },
+    {
+      "name": "opportunity_estimation",
+      "logic": "Estimate weekly dollar opportunity to median and top quartile"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "survey_lens_cards",
+      "consumer": "dashboard survey panel"
+    }
+  ]
+}

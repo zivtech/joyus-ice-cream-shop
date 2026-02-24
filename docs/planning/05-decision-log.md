@@ -17,6 +17,9 @@
 8. Naming convergence approach:
 - new artifacts use `joyus-ice-cream-shop`
 - historical `joyus-fast-casual` names remain in recovered/archive artifacts until superseded.
+9. Manifests must explicitly separate observation from approval:
+- `validation.basis = as_built_observation` is default for captured runtime behavior.
+- Items are not treated as approved design facts until explicitly reviewed and moved to `approved_product_decision` with validated utility.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

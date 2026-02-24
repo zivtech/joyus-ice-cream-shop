@@ -7,7 +7,9 @@
     recentStaffingPanel: "recent_staffing_analysis_panel",
     approvalsPanel: "approvals_workbench_panel",
     historyTrendPanel: "historical_trend_panel",
-    triggerGapPlanner: "trigger_gap_planner_panel"
+    triggerGapPlanner: "trigger_gap_planner_panel",
+    performanceIntelPanel: "performance_intelligence_panel",
+    surveyLensPanel: "industry_survey_lens_panel"
   });
 
   const WIDGET_SPEC_INDEX = Object.freeze({
@@ -113,6 +115,38 @@
         file: "packages/ui-lineage/widgets/trigger_gap_planner_panel.lineage.json",
         upstreams: ["trigger_rule_profiles", "anchor_month_metrics"],
         outputs: ["trigger_gap_cards"]
+      },
+      story_links: []
+    },
+    performance_intelligence_panel: {
+      manifest: {
+        id: "performance_intelligence_panel",
+        version: "1.0.0",
+        title: "Performance Intelligence Panel",
+        owner: "ops-analytics",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/performance_intelligence_panel.lineage.json",
+        upstreams: ["monthly_scope_rows", "hourly_weekday_aggregates", "yearly_summary"],
+        outputs: ["performance_intelligence_cards", "yearly_summary_table"]
+      },
+      story_links: []
+    },
+    industry_survey_lens_panel: {
+      manifest: {
+        id: "industry_survey_lens_panel",
+        version: "1.0.0",
+        title: "Industry Survey Lens Panel",
+        owner: "ops-strategy",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/industry_survey_lens_panel.lineage.json",
+        upstreams: ["survey_benchmarks", "weekly_scope_metrics"],
+        outputs: ["survey_lens_cards"]
       },
       story_links: []
     }

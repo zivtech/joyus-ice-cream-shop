@@ -86,5 +86,12 @@
   "adr_refs": [
     "docs/adr/ADR-0001-ui-governance-baseline.md"
   ],
-  "status": "draft"
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
 }

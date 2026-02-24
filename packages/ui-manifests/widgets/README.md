@@ -20,3 +20,8 @@ Required top-level fields:
 - `dependencies`
 - `adr_refs`
 - `status`
+- `validation`
+
+`validation` must explicitly mark whether the manifest reflects:
+- `as_built_observation` (captured behavior, not endorsed design), or
+- `approved_product_decision` (explicitly accepted behavior).

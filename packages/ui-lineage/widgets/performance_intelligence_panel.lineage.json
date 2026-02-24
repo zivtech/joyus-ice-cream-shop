@@ -1,0 +1,44 @@
+{
+  "widget_id": "performance_intelligence_panel",
+  "upstreams": [
+    {
+      "name": "monthly_scope_rows",
+      "source": "apps/ice-cream-ops/data.json via monthlySeriesForScope",
+      "fields": ["monthKey", "label", "revenue", "laborPct", "gp72"]
+    },
+    {
+      "name": "hourly_weekday_aggregates",
+      "source": "derived dashboard aggregations",
+      "fields": ["avgRevenue", "avgGp72", "laborPct", "day", "hour"]
+    },
+    {
+      "name": "yearly_summary",
+      "source": "derived yearly summary",
+      "fields": ["year", "months", "revenue", "laborPct", "gp72"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "narrative_branching",
+      "logic": "Branch between single-month and multi-month card narratives"
+    },
+    {
+      "name": "demand_shape",
+      "logic": "Compute weekend and evening peak shares"
+    },
+    {
+      "name": "yoy_summary",
+      "logic": "Generate YoY line when at least two full-year rows are available"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "performance_intelligence_cards",
+      "consumer": "dashboard insight panel"
+    },
+    {
+      "name": "yearly_summary_table",
+      "consumer": "dashboard insight panel"
+    }
+  ]
+}

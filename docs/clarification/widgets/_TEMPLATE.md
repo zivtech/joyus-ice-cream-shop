@@ -5,6 +5,7 @@
 - Parent page(s):
 - Owner:
 - Last clarified:
+- Utility review state: `unreviewed` | `validated_useful` | `needs_redesign` | `remove_candidate`
 
 ## Purpose
 - Why this widget exists and what decision it supports.

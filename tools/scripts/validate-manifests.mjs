@@ -41,6 +41,15 @@ for (const file of widgetFiles) {
     errors.push(`${rel(file)}: duplicate widget id '${manifest.id}'`);
   }
   widgetIds.add(manifest.id);
+
+  if (manifest.status === "active") {
+    if (manifest.validation?.state !== "validated_useful") {
+      errors.push(`${rel(file)}: active widget must have validation.state = 'validated_useful'`);
+    }
+    if (manifest.validation?.basis !== "approved_product_decision") {
+      errors.push(`${rel(file)}: active widget must have validation.basis = 'approved_product_decision'`);
+    }
+  }
 }
 
 for (const file of pageFiles) {
@@ -61,6 +70,15 @@ for (const file of pageFiles) {
     errors.push(`${rel(file)}: duplicate page id '${manifest.id}'`);
   }
   pageIds.add(manifest.id);
+
+  if (manifest.status === "active") {
+    if (manifest.validation?.state !== "validated_useful") {
+      errors.push(`${rel(file)}: active page must have validation.state = 'validated_useful'`);
+    }
+    if (manifest.validation?.basis !== "approved_product_decision") {
+      errors.push(`${rel(file)}: active page must have validation.basis = 'approved_product_decision'`);
+    }
+  }
 
   for (const widgetId of manifest.widgets || []) {
     if (!widgetIds.has(widgetId)) {
