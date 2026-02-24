@@ -6,7 +6,8 @@ const scripts = [
   "validate-manifests.mjs",
   "check-routes.mjs",
   "check-adr-refs.mjs",
-  "token-audit.mjs"
+  "token-audit.mjs",
+  "report-usefulness-backlog.mjs"
 ];
 
 for (const script of scripts) {

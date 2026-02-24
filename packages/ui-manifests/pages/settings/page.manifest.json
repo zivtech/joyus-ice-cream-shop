@@ -37,6 +37,7 @@
   "sitemap_node_id": "settings",
   "owner": "ops-admin",
   "version": "1.0.0",
+  "status": "draft",
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",

@@ -56,6 +56,7 @@
   "sitemap_node_id": "shift-planner",
   "owner": "ops-workflow",
   "version": "1.0.0",
+  "status": "draft",
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",

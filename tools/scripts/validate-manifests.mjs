@@ -22,6 +22,62 @@ const pageFiles = listManifestFiles(pageManifestDir, "page.manifest.json");
 const errors = [];
 const widgetIds = new Set();
 const pageIds = new Set();
+const todayIso = new Date().toISOString().slice(0, 10);
+
+function isPlaceholderReviewer(value) {
+  const normalized = String(value || "")
+    .trim()
+    .toLowerCase();
+  return (
+    normalized.length === 0 ||
+    ["unassigned", "tbd", "unknown", "none", "n/a", "na", "-"].includes(normalized)
+  );
+}
+
+function enforceValidationConsistency(manifest, file, entityLabel) {
+  const validation = manifest.validation || {};
+  const { basis, state, reviewed_on: reviewedOn, reviewer } = validation;
+
+  if (typeof reviewedOn === "string" && reviewedOn > todayIso) {
+    errors.push(`${rel(file)}: validation.reviewed_on '${reviewedOn}' cannot be in the future`);
+  }
+
+  if (state === "unreviewed" && basis === "approved_product_decision") {
+    errors.push(
+      `${rel(file)}: unreviewed ${entityLabel} cannot use validation.basis = 'approved_product_decision'`
+    );
+  }
+
+  if (state === "validated_useful" && basis !== "approved_product_decision") {
+    errors.push(
+      `${rel(file)}: ${entityLabel} with validation.state = 'validated_useful' must use validation.basis = 'approved_product_decision'`
+    );
+  }
+
+  if (state !== "unreviewed" && isPlaceholderReviewer(reviewer)) {
+    errors.push(
+      `${rel(file)}: ${entityLabel} with validation.state = '${state}' requires assigned validation.reviewer`
+    );
+  }
+
+  if (manifest.status === "active" && isPlaceholderReviewer(reviewer)) {
+    errors.push(`${rel(file)}: active ${entityLabel} requires assigned validation.reviewer`);
+  }
+
+  if (manifest.status === "active" && state !== "validated_useful") {
+    errors.push(`${rel(file)}: active ${entityLabel} must have validation.state = 'validated_useful'`);
+  }
+
+  if (manifest.status === "active" && basis !== "approved_product_decision") {
+    errors.push(
+      `${rel(file)}: active ${entityLabel} must have validation.basis = 'approved_product_decision'`
+    );
+  }
+
+  if (manifest.status === "active" && ["needs_redesign", "remove_candidate"].includes(state)) {
+    errors.push(`${rel(file)}: active ${entityLabel} cannot be '${state}'`);
+  }
+}
 
 for (const file of widgetFiles) {
   const manifest = readJson(file);
@@ -42,14 +98,7 @@ for (const file of widgetFiles) {
   }
   widgetIds.add(manifest.id);
 
-  if (manifest.status === "active") {
-    if (manifest.validation?.state !== "validated_useful") {
-      errors.push(`${rel(file)}: active widget must have validation.state = 'validated_useful'`);
-    }
-    if (manifest.validation?.basis !== "approved_product_decision") {
-      errors.push(`${rel(file)}: active widget must have validation.basis = 'approved_product_decision'`);
-    }
-  }
+  enforceValidationConsistency(manifest, file, "widget");
 }
 
 for (const file of pageFiles) {
@@ -71,14 +120,7 @@ for (const file of pageFiles) {
   }
   pageIds.add(manifest.id);
 
-  if (manifest.status === "active") {
-    if (manifest.validation?.state !== "validated_useful") {
-      errors.push(`${rel(file)}: active page must have validation.state = 'validated_useful'`);
-    }
-    if (manifest.validation?.basis !== "approved_product_decision") {
-      errors.push(`${rel(file)}: active page must have validation.basis = 'approved_product_decision'`);
-    }
-  }
+  enforceValidationConsistency(manifest, file, "page");
 
   for (const widgetId of manifest.widgets || []) {
     if (!widgetIds.has(widgetId)) {

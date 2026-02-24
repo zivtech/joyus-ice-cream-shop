@@ -203,11 +203,22 @@
     const base = WIDGET_SPEC_INDEX[normalizedId];
     if (!base) return null;
 
+    const manifest = clone(base.manifest);
+    if (!manifest.validation) {
+      manifest.validation = {
+        basis: "as_built_observation",
+        state: "unreviewed",
+        notes: "Widget spec index entry; usefulness review pending.",
+        reviewed_on: "2026-02-24",
+        reviewer: "unassigned"
+      };
+    }
+
     return {
       requested_id: widgetId,
       widget_id: normalizedId,
       alias_applied: normalizedId !== widgetId ? widgetId : null,
-      manifest: clone(base.manifest),
+      manifest,
       lineage: clone(base.lineage),
       story_links: clone(base.story_links)
     };

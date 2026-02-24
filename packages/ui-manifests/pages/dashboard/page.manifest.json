@@ -55,6 +55,7 @@
   "sitemap_node_id": "dashboard",
   "owner": "ops-analytics",
   "version": "1.0.0",
+  "status": "draft",
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",
