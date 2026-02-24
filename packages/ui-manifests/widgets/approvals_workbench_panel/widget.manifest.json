@@ -110,8 +110,8 @@
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "notes": "Captured from current runtime implementation; utility/usability review pending. Wave 1 review priority.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

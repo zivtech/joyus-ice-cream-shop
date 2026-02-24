@@ -43,8 +43,8 @@
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",
-    "notes": "Captured from recovered publish roadmap and current script implementation; approval workflow usefulness still needs operational review.",
+    "notes": "Captured from recovered publish roadmap and current script implementation; approval workflow usefulness still needs operational review. Wave 1 review priority.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

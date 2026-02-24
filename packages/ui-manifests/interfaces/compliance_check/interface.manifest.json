@@ -43,8 +43,8 @@
   "validation": {
     "basis": "as_built_observation",
     "state": "unreviewed",
-    "notes": "Recovered compliance interface baseline; legal/policy semantics are not yet validated for production usage.",
+    "notes": "Recovered compliance interface baseline; legal/policy semantics are not yet validated for production usage. Wave 1 review priority.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }
