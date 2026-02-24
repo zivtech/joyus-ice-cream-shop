@@ -92,9 +92,9 @@
   "status": "draft",
   "version": "1.0.0",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Approved as useful by AlexUA in Wave 1 review. Keep widget, with follow-ups for reduced card density, less duplicated readiness messaging, and stronger role-aware action constraints.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }

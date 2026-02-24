@@ -30,6 +30,7 @@
 17. Baseline product constitution established in `docs/planning/00-baseline-constitution.md` to define owner/manager jobs, required outcomes, assumptions, and usefulness criteria before item-level ratification.
 18. Constitution amended to include owner comparative-performance needs (year-over-year, store-to-store, portfolio average, industry baseline) and duplication checks in usefulness evaluation.
 19. Wave 1 review pass for `shift_planner_day_card` recorded in governance reviews with recommendation `validated_useful` pending explicit confirmation.
+20. `shift_planner_day_card` usefulness recommendation was approved by `AlexUA`; manifest validation promoted to `state=validated_useful` and `basis=approved_product_decision` while keeping lifecycle status as `draft`.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.
