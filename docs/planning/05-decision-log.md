@@ -28,6 +28,7 @@
 15. Recovered planning artifacts are now indexed with provenance and canonical mapping in `docs/planning/recovered/README.md`.
 16. Usefulness review Wave 1 is prioritized on planner approvals/publish/compliance flows, with reviewer assignment set to `AlexUA` while items remain `unreviewed` pending explicit judgments.
 17. Baseline product constitution established in `docs/planning/00-baseline-constitution.md` to define owner/manager jobs, required outcomes, assumptions, and usefulness criteria before item-level ratification.
+18. Constitution amended to include owner comparative-performance needs (year-over-year, store-to-store, portfolio average, industry baseline) and duplication checks in usefulness evaluation.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

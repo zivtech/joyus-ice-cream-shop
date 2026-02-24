@@ -29,5 +29,6 @@ Tie-breaker used:
 
 ## Review rule
 - Evaluate each item against `docs/planning/00-baseline-constitution.md` first.
+- Include overlap/duplication assessment so redundant artifacts are flagged for redesign or removal.
 - Items remain `validation.state = unreviewed` until explicit usefulness judgment is recorded.
 - Promotion to `validated_useful`/`active` requires explicit decision updates in manifest validation fields.

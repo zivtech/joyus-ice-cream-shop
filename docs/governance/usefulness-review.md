@@ -19,7 +19,9 @@ This repo separates observed behavior from approved product truth for widgets, p
 1. What decision does this item help the user make faster or more accurately?
 2. What confusion did reviewers report?
 3. Is the displayed metric/action trusted enough to drive operations?
-4. Keep, redesign, or remove?
+4. Does this duplicate another widget/feature that already covers most of the same decision?
+5. For owner-facing decisions, does it provide meaningful comparative context (history/store/portfolio/industry) when needed?
+6. Keep, redesign, or remove?
 
 ## Operational flow
 1. Capture item as `as_built_observation` + `unreviewed` in manifest.

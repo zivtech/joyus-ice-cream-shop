@@ -15,6 +15,8 @@ This constitution is the evaluation baseline for usefulness reviews.
    - Decide when to scale staffing up/down based on evidence.
    - Control risk exposure (profitability, compliance, overwork).
    - Approve or reject weekly plans with confidence.
+   - Gain understanding of why a week was better or worse than expected
+   - See performance vs. last year, vs other specific stores, vs averages across all stores, or against known industry baselines 
 
 2. Store manager jobs:
    - Build and adjust weekly schedules fast.
@@ -60,6 +62,7 @@ For each widget/page/interface, ask:
 2. What action changes because this exists?
 3. What risk is reduced (profit, staffing quality, compliance, or confusion)?
 4. If removed, what would break in the decision loop?
+5. Is there another widget or feature that already does most of this? 
 
 If these answers are weak, classify as `needs_redesign` or `remove_candidate`.
 
