@@ -8,3 +8,5 @@ storybook-static/
 .DS_Store
 __pycache__/
 *.pyc
+.omc/
+.claude/
