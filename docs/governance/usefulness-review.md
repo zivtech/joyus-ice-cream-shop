@@ -1,6 +1,6 @@
 # Usefulness Review Gate
 
-This repo separates observed behavior from approved product truth.
+This repo separates observed behavior from approved product truth for widgets, pages, and interfaces.
 
 ## States and meaning
 1. `unreviewed`: captured from runtime as-is. Not an approved design fact.

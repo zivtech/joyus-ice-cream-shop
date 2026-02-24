@@ -1,0 +1,62 @@
+{
+  "id": "sync_run_orchestration",
+  "version": "1.0.0",
+  "title": "Sync Run Orchestration",
+  "owner": "platform-integrations",
+  "status": "draft",
+  "transport": [
+    "api",
+    "mcp"
+  ],
+  "contracts": [
+    {
+      "name": "create_sync_run",
+      "kind": "http_endpoint",
+      "operation": "create sync run request",
+      "method": "POST",
+      "path": "/api/v1/tenants/{tenantId}/sync-runs"
+    },
+    {
+      "name": "get_sync_run_status",
+      "kind": "http_endpoint",
+      "operation": "poll sync run status",
+      "method": "GET",
+      "path": "/api/v1/tenants/{tenantId}/sync-runs/{runId}"
+    },
+    {
+      "name": "ops_sync_run_create",
+      "kind": "mcp_tool",
+      "operation": "trigger provider sync run from assistant workflow",
+      "tool": "ops_sync_run_create"
+    },
+    {
+      "name": "ops_sync_run_status",
+      "kind": "mcp_tool",
+      "operation": "retrieve sync run status from assistant workflow",
+      "tool": "ops_sync_run_status"
+    }
+  ],
+  "consumers": [
+    {
+      "surface": "settings_integrations",
+      "purpose": "connector run kickoff and tracking"
+    },
+    {
+      "surface": "ops_console",
+      "purpose": "sync operations and diagnostics"
+    }
+  ],
+  "source_refs": [
+    "docs/planning/recovered/joyus-fast-casual-data-sync-foundation-2026-02-21.md"
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from recovered planning docs; usefulness and ownership still need product/platform confirmation.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

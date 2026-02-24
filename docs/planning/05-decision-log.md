@@ -21,6 +21,7 @@
 - `validation.basis = as_built_observation` is default for captured runtime behavior.
 - Items are not treated as approved design facts until explicitly reviewed and moved to `approved_product_decision` with validated utility.
 10. Page manifests now carry explicit lifecycle status (`draft|active|deprecated`) so page-level approval gates are enforced consistently with widgets.
+11. API/MCP/script contracts are now tracked with first-class interface manifests under `packages/ui-manifests/interfaces/` and validated with the same observation-vs-approval lifecycle model.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

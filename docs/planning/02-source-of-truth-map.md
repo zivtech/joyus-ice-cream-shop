@@ -5,13 +5,8 @@
 - `docs/planning/01-product-charter.md`
 
 2. Current page/widget clarification:
-- `docs/clarification/pages/dashboard.md`
-- `docs/clarification/pages/shift-planner.md`
-- `docs/clarification/pages/shift-analysis.md`
-- `docs/clarification/pages/seasonal-playbook.md`
-- `docs/clarification/pages/settings.md`
-- `docs/clarification/widgets/hour-by-hour-gross-profit.md`
-- `docs/clarification/widgets/shift-planner-day-card.md`
+- `docs/clarification/pages/*.md`
+- `docs/clarification/widgets/*.md`
 
 3. Governance contracts:
 - `packages/ui-manifests/`

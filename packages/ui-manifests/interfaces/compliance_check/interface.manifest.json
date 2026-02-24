@@ -1,0 +1,50 @@
+{
+  "id": "compliance_check",
+  "version": "1.0.0",
+  "title": "Compliance Check",
+  "owner": "compliance-engine",
+  "status": "draft",
+  "transport": [
+    "api",
+    "mcp"
+  ],
+  "contracts": [
+    {
+      "name": "run_compliance_check",
+      "kind": "http_endpoint",
+      "operation": "evaluate schedule draft against compliance policies",
+      "method": "POST",
+      "path": "/api/v1/tenants/{tenantId}/schedules/{scheduleId}/compliance/check"
+    },
+    {
+      "name": "ops_compliance_check",
+      "kind": "mcp_tool",
+      "operation": "run compliance workflow in assistant context",
+      "tool": "ops_compliance_check"
+    }
+  ],
+  "consumers": [
+    {
+      "surface": "approvals_workbench",
+      "purpose": "block publish when compliance status is fail"
+    },
+    {
+      "surface": "settings_compliance",
+      "purpose": "visibility into pass/warn/fail policy outcomes"
+    }
+  ],
+  "source_refs": [
+    "docs/planning/recovered/joyus-fast-casual-data-sync-foundation-2026-02-21.md",
+    "docs/planning/recovered/joyus-fast-casual-feature-tracker-2026-02-21.md"
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Recovered compliance interface baseline; legal/policy semantics are not yet validated for production usage.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

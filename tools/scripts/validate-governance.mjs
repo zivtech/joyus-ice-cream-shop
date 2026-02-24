@@ -4,6 +4,7 @@ import { REPO_ROOT } from "./lib.mjs";
 
 const scripts = [
   "validate-manifests.mjs",
+  "validate-interfaces.mjs",
   "check-routes.mjs",
   "check-adr-refs.mjs",
   "token-audit.mjs",

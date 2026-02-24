@@ -1,0 +1,64 @@
+{
+  "id": "ops_excel_export",
+  "version": "1.0.0",
+  "title": "Ops Excel Export",
+  "owner": "platform-integrations",
+  "status": "draft",
+  "transport": [
+    "api",
+    "mcp",
+    "script"
+  ],
+  "contracts": [
+    {
+      "name": "create_excel_export",
+      "kind": "http_endpoint",
+      "operation": "submit export job",
+      "method": "POST",
+      "path": "/api/v1/tenants/{tenantId}/exports/excel"
+    },
+    {
+      "name": "get_export_status",
+      "kind": "http_endpoint",
+      "operation": "poll export job status",
+      "method": "GET",
+      "path": "/api/v1/tenants/{tenantId}/exports/{exportId}"
+    },
+    {
+      "name": "ops_export_excel",
+      "kind": "mcp_tool",
+      "operation": "request workbook export from assistant workflow",
+      "tool": "ops_export_excel"
+    },
+    {
+      "name": "planner_export_payload",
+      "kind": "script_entrypoint",
+      "operation": "consume planner JSON export prior to downstream publish flow",
+      "script": "apps/ice-cream-ops/scripts/publish_schedule_to_square_mcp.py"
+    }
+  ],
+  "consumers": [
+    {
+      "surface": "dashboard",
+      "purpose": "download operator workbook for current scope"
+    },
+    {
+      "surface": "shift_planner",
+      "purpose": "produce publish-ready export payload"
+    }
+  ],
+  "source_refs": [
+    "docs/planning/recovered/joyus-fast-casual-feature-tracker-2026-02-21.md",
+    "apps/ice-cream-ops/README.md"
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from recovered planning docs and runtime script usage; interface finalization pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

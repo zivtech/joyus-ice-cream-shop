@@ -3,9 +3,11 @@ import { REPO_ROOT, listManifestFiles, readJson, rel } from "./lib.mjs";
 
 const widgetManifestDir = path.join(REPO_ROOT, "packages", "ui-manifests", "widgets");
 const pageManifestDir = path.join(REPO_ROOT, "packages", "ui-manifests", "pages");
+const interfaceManifestDir = path.join(REPO_ROOT, "packages", "ui-manifests", "interfaces");
 
 const widgetFiles = listManifestFiles(widgetManifestDir, "widget.manifest.json");
 const pageFiles = listManifestFiles(pageManifestDir, "page.manifest.json");
+const interfaceFiles = listManifestFiles(interfaceManifestDir, "interface.manifest.json");
 
 function summarize(kind, file) {
   const manifest = readJson(file);
@@ -23,7 +25,8 @@ function summarize(kind, file) {
 
 const allItems = [
   ...widgetFiles.map((file) => summarize("widget", file)),
-  ...pageFiles.map((file) => summarize("page", file))
+  ...pageFiles.map((file) => summarize("page", file)),
+  ...interfaceFiles.map((file) => summarize("interface", file))
 ];
 
 const pending = allItems.filter((item) => item.state !== "validated_useful");

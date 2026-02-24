@@ -1,0 +1,50 @@
+{
+  "id": "staffing_recompute",
+  "version": "1.0.0",
+  "title": "Staffing Recompute",
+  "owner": "decision-engine",
+  "status": "draft",
+  "transport": [
+    "api",
+    "mcp"
+  ],
+  "contracts": [
+    {
+      "name": "recompute_staffing_recommendations",
+      "kind": "http_endpoint",
+      "operation": "recompute recommendation set from updated assumptions",
+      "method": "POST",
+      "path": "/api/v1/tenants/{tenantId}/schedules/{scheduleId}/recommendations/recompute"
+    },
+    {
+      "name": "ops_recompute_staffing",
+      "kind": "mcp_tool",
+      "operation": "trigger recompute workflow from assistant operations flow",
+      "tool": "ops_recompute_staffing"
+    }
+  ],
+  "consumers": [
+    {
+      "surface": "shift_planner",
+      "purpose": "rerun schedule recommendations after assumption changes"
+    },
+    {
+      "surface": "scenario_analysis",
+      "purpose": "what-if staffing simulations"
+    }
+  ],
+  "source_refs": [
+    "docs/planning/recovered/joyus-fast-casual-data-sync-foundation-2026-02-21.md",
+    "docs/planning/recovered/joyus-fast-casual-feature-tracker-2026-02-21.md"
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Interface shape is extracted from recovered implementation notes and still needs product + engine review.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

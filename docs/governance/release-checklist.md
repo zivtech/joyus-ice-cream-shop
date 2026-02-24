@@ -1,8 +1,8 @@
 # Release Checklist
 
 1. `pnpm validate` passes.
-2. Changed widgets/pages have updated manifests.
-3. Any changed page/widget promoted to `active` has:
+2. Changed widgets/pages/interfaces have updated manifests.
+3. Any changed page/widget/interface promoted to `active` has:
    - `validation.state = validated_useful`
    - `validation.basis = approved_product_decision`
    - assigned (non-placeholder) reviewer
