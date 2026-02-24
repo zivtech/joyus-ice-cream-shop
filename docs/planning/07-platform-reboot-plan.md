@@ -42,7 +42,7 @@ These decisions are final and govern all downstream work.
 | 3 | **Restructure the existing repo** (`joyus-ice-cream-shop`) | Starting fresh discards git history and working calculation logic. The repo gets restructured, not abandoned. |
 | 4 | **Build it right** — no artificial timeline pressure | Quality and correctness over speed. Each phase ships when it's solid, not when a deadline says so. |
 | 5 | **React frontend** | React with Vite tooling for the operational UI. Modern component patterns, fast dev experience, large ecosystem. |
-| 5b | **Backend platform: to be evaluated** | The backend choice (Drupal, Node/Express, Django, Rails, Laravel, Supabase, custom, etc.) is a significant architectural decision that must be evaluated on its merits — not defaulted based on familiarity. See Open Item #7. |
+| 5b | **Laravel backend** | Evaluated Drupal, Node/NestJS, Django, Rails, Laravel, and Supabase against 7 criteria. Laravel selected for: team PHP expertise, mature multi-tenancy (stancl/tenancy), built-in queue/scheduler (Horizon), strong role/permission packages (spatie), excellent AI-assisted development (~85-90% code accuracy), and $60-75/month hosting cost (Forge + DigitalOcean). |
 
 ---
 
@@ -62,7 +62,7 @@ The platform defines five roles. Role names are **editable per tenant** so each 
 
 - **Five roles, not fewer.** The Key Lead role exists specifically for compliance reasons: food safety regulations (ServSafe and equivalents) require a certified person on every shift in most jurisdictions. Collapsing Key Lead into Staff loses the ability to enforce this as a scheduling constraint.
 - **Tenant-configurable labels.** A bakery might call their GM a "Head Baker." A food truck might not distinguish Store Manager from GM. The label is cosmetic; the permission set is what matters.
-- **Permissions are server-side.** Whatever backend is chosen must enforce access control server-side. The React frontend renders based on the authenticated user's permissions but never trusts client-side role checks alone.
+- **Permissions are server-side.** Laravel enforces access control server-side via Policies and spatie/laravel-permission. The React frontend renders based on the authenticated user's permissions but never trusts client-side role checks alone.
 
 ---
 
@@ -76,7 +76,7 @@ Food safety certification requirements (ServSafe, state-specific equivalents) va
 2. A tenant sets their **state/locality** and receives default rules for that jurisdiction.
 3. Tenants can **tighten** rules (require more than the legal minimum) but **cannot loosen** below legal minimums.
 4. Rules are consumed as **scheduling constraints**, not just informational displays.
-5. Compliance rules are stored as **backend configuration entities** — the specific storage mechanism depends on the backend platform choice (see Open Item #7).
+5. Compliance rules are stored as **Eloquent models** with seeded jurisdiction presets.
 
 ### What a Compliance Rule Defines
 
@@ -187,7 +187,7 @@ These are the problems the platform must solve, organized by role. Each job has 
 
 **Job 15: "Let me configure my business rules without coding."**
 - Operating hours, positions, pay rates, coverage rules per position, compliance jurisdiction selection, trigger thresholds for demand-based staffing.
-- All configurable through the UI, stored as backend configuration entities.
+- All configurable through the UI, stored as Laravel configuration entities (Eloquent models).
 
 **Job 16: "Let me run this for multiple locations."**
 - Multi-location support with per-location configuration.
@@ -207,8 +207,8 @@ These are the problems the platform must solve, organized by role. Each job has 
 ```
 +-------------------+       +---------------------+       +------------------+
 |                   |       |                     |       |                  |
-|   React (Vite)    | <---> |   Backend Platform   | <---> |   POS Adapters   |
-|   Operational UI  |  API  |   (see Open Item #7) |       |   (Square, ...)  |
+|   React (Vite)    | <---> |   Laravel (API)      | <---> |   POS Adapters   |
+|   Operational UI  |  API  |   Sanctum + Horizon  |       |   (Square, ...)  |
 |                   |       |                     |       |                  |
 +-------------------+       +---------------------+       +------------------+
                                       |                          |
@@ -220,7 +220,7 @@ These are the problems the platform must solve, organized by role. Each job has 
                             +---------------------+   +------------------------+
 ```
 
-- **Backend (platform TBD — see Open Item #7)**: User management, roles and permissions, entity/data model for tenants/locations/employees, multi-tenant configuration, compliance rules storage, REST API endpoints for frontend consumption. Candidates include Drupal, Node/Express+Postgres, Django, Rails, Laravel, Supabase, and others — to be evaluated.
+- **Backend (Laravel)**: User management via Sanctum (API token auth), roles and permissions via spatie/laravel-permission, multi-tenancy via stancl/tenancy (single-database, row-level scoping), Eloquent ORM for tenants/locations/employees/schedules/compliance rules, Horizon for queue monitoring, built-in task scheduler for POS/delivery cron jobs, REST API endpoints for frontend consumption. Hosted on Forge + DigitalOcean (~$60-75/month).
 - **Frontend (React + Vite)**: Operational UI — dashboard, shift planner, analytics, settings, onboarding. Communicates with backend exclusively via API.
 - **Scheduling Engine (pure JS/TS module)**: Extracted calculation logic with zero UI or framework dependencies. Coverage validation, cost projection, schedule scoring, compliance constraint checking. Testable in isolation.
 - **POS Adapters (plugin pattern)**: Square adapter ships first. Abstract interface allows additional adapters (Toast, Clover, Lightspeed, etc.) without modifying core platform code.
@@ -287,13 +287,13 @@ The normalized delivery data merges with POS data in the analytics layer, with *
 
 - Each tenant is an **organization** entity in the backend.
 - An organization has: `locations[]`, `employees[]`, `roles` (with custom labels), `compliance_jurisdiction`, `pos_connection_config`, `business_rules`.
-- Data isolation is enforced at the backend level. Tenant A never sees Tenant B's data. The specific isolation mechanism (row-level security, entity access, schema separation, etc.) depends on the backend platform choice.
+- Data isolation is enforced via stancl/tenancy's automatic query scoping (single-database, row-level tenant_id filtering). Tenant A never sees Tenant B's data.
 - Shared codebase, per-tenant configuration. No per-tenant code forks.
 - Multi-location is modeled as multiple location entities under one organization, with rollup analytics aggregating across them.
 
 ### Compliance Rules Engine
 
-- Jurisdiction presets are stored as backend configuration entities.
+- Jurisdiction presets are stored as Laravel configuration entities (Eloquent models).
 - Each preset defines: required certifications, coverage requirements (when certified person must be present), tracking periods, expiration rules.
 - The scheduling engine consumes compliance rules as constraints during schedule validation:
   - **Hard constraints**: Block schedule publishing (e.g., "every shift must have at least one ServSafe-certified person").
@@ -309,7 +309,7 @@ The API layer between the React frontend and the backend must support:
 - Role-based access control (filter responses based on authenticated user's permissions)
 - Real-time or near-real-time data for dashboard updates
 
-The specific API approach (REST, GraphQL, tRPC, JSON:API, etc.) depends on the backend platform choice. See Open Items #4 and #7.
+Laravel API Resources provide REST endpoints for standard CRUD. Custom controllers handle business operations (schedule validation, compliance checks, POS publishing). Laravel's built-in route model binding and form request validation enforce contracts.
 
 ---
 
@@ -327,24 +327,24 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 | Audit `app.js` calculation logic | Identify pure business logic vs. DOM/UI code | Not started |
 | Audit `staffing-planner.js` calculation logic | Identify extractable scheduling logic | Not started |
 | Map existing `data.json` fields to normalized schema | Understand what Square data we have and how it maps | Not started |
-| Evaluate backend platform options | Drupal, Node/Express, Django, Rails, Laravel, Supabase, etc. — see Open Item #7 | Not started |
+| Set up Laravel project | `laravel new` with API mode, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Not started |
 | Define normalized data types | TypeScript interfaces for `NormalizedTransaction`, `NormalizedLaborEntry`, etc. | Not started |
 | Audit Milk Jawn's delivery platform usage | Which platforms (DoorDash, UberEats, Grubhub), how orders flow (through POS or separate), commission structures | Not started |
 
 ### Phase 1: Foundation
 
-**Goal**: Standing backend with user management, multi-tenant entities, and a React shell that authenticates and renders based on permissions.
+**Goal**: Standing Laravel backend with user management, multi-tenant entities, and a React shell that authenticates via Sanctum and renders based on permissions.
 
 **Delivers**: The skeleton that everything else builds on. No end-user value yet, but all the plumbing is in place.
 
 | Task | Description | Jobs Addressed |
 |---|---|---|
-| Backend platform setup | Install and configure chosen backend (see Open Item #7) with API layer | Infrastructure |
-| User/role/permission system | Five platform roles with server-side permission enforcement | Role Model |
-| Multi-tenant entity model | Organization, Location, Employee data models with tenant isolation | Job 16, 17 |
-| Configurable role labels per tenant | Custom labels stored as organization-level config | Job 17 |
-| API endpoints | Entity CRUD + custom endpoints for business operations | Infrastructure |
-| Authentication | Token-based auth (OAuth2 or JWT) | Infrastructure |
+| Laravel project setup | `laravel new --api`, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Infrastructure |
+| User/role/permission system | Five roles via spatie/laravel-permission, Policies for authorization, server-side enforcement | Role Model |
+| Multi-tenant entity model | Organization, Location, Employee Eloquent models with stancl/tenancy row-level scoping | Job 16, 17 |
+| Configurable role labels per tenant | `role_labels` JSON column on Organization model | Job 17 |
+| API endpoints | Laravel API Resources for CRUD + custom controllers for business operations | Infrastructure |
+| Authentication | Sanctum API tokens for React SPA auth | Infrastructure |
 | React shell | Vite + React with routing, auth integration, role-based rendering | Infrastructure |
 
 ### Phase 2: Scheduling Engine
@@ -450,12 +450,12 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 | Asset | Current Location | Reason |
 |---|---|---|
 | 6-package monorepo structure | `packages/ui-*` | Premature for current scale. The rebuild will introduce packages when they are earned by actual code that needs them. |
-| 22 manifest files + governance validation pipeline | `packages/ui-manifests/`, `tools/scripts/` | Replace with standard linting, tests, and the chosen backend's configuration management. The validation pipeline was solving a problem we don't have yet. |
+| 22 manifest files + governance validation pipeline | `packages/ui-manifests/`, `tools/scripts/` | Replace with standard linting, tests, and Laravel's Eloquent validation. The validation pipeline was solving a problem we don't have yet. |
 | Review documents (20 files) | `docs/reviews/` | The value from these reviews is captured in the jobs-to-be-done above and in the decision log. The individual review files are historical. |
 | React migration shell | `apps/ice-cream-ops/react-shell.html`, `apps/ice-cream-ops/src/` | Was scaffolding for a migration approach that's been superseded by this full reboot. |
 | Storybook setup | `apps/storybook/` | Rebuild when there are actual components to document. Premature without a component library. |
 | `ui-tokens`, `ui-schemas`, `ui-lineage`, `ui-sitemap` packages | `packages/` | Premature abstractions. Design tokens, schemas, lineage tracking, and sitemap management will be reintroduced when the platform has enough components and pages to justify them. |
-| `pnpm validate` governance pipeline | `tools/scripts/validate-*.mjs` | The manifest-driven governance model is replaced by standard engineering practices: tests, linting, type checking, and the chosen backend's built-in validation. |
+| `pnpm validate` governance pipeline | `tools/scripts/validate-*.mjs` | The manifest-driven governance model is replaced by standard engineering practices: tests, linting, type checking, and Laravel's Form Request validation. |
 
 ---
 
@@ -463,103 +463,46 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 
 These are decisions that need to be made before or during the relevant phase. They are not blockers for Phase 0 work.
 
-### 1. Hosting Infrastructure
+### Resolved Decisions
 
-**Options**:
-- PaaS (Vercel, Railway, Render, Fly.io, Platform.sh, Pantheon, Acquia)
-- IaaS (AWS/GCP/Azure with custom infrastructure)
-- BaaS (Supabase Cloud, Firebase)
-
-**Considerations**: Depends heavily on the backend platform choice (Open Item #7). PaaS reduces DevOps overhead. IaaS gives full control but requires investment. Some backend choices constrain hosting options (e.g., Drupal → Pantheon/Acquia; Supabase → Supabase Cloud or self-hosted). Cost, scaling needs, and operational complexity are the key tradeoffs.
-
-**Needed by**: Phase 1.
-
-### 2. Multi-Tenant Isolation Strategy
-
-**Options**:
-- Row-level security (shared database, tenant ID on every row)
-- Schema-per-tenant (separate database schemas)
-- Database-per-tenant (strongest isolation, most operational overhead)
-- Application-level access control (e.g., Drupal Group module, Django organizations)
-
-**Considerations**: Row-level security is the simplest for a hosted platform with many small tenants. Schema/database-per-tenant provides stronger isolation but adds operational complexity. The choice may be influenced by the backend platform's native multi-tenancy patterns.
-
-**Needed by**: Phase 1.
-
-### 3. API Strategy
-
-**Options**:
-- REST (most universal, well-understood)
-- GraphQL (flexible querying, good for complex data relationships)
-- tRPC (end-to-end type safety if backend is TypeScript/Node)
-- JSON:API (if Drupal, built-in and standards-compliant)
-
-**Considerations**: Complex operations like "validate and publish a schedule" need custom endpoints regardless of approach. The choice should align with the backend platform and the team's strengths. A pragmatic starting point is REST or tRPC for business operations, with the option to add GraphQL later if query flexibility becomes a bottleneck.
-
-**Needed by**: Phase 1.
-
-### 4. React Framework Choice
-
-**Options**:
-- Plain Vite + React with react-router (SPA)
-- Next.js (SSR/SSG, adds a Node server layer)
-- Remix (loader/action model, adds a server layer)
-
-**Considerations**: The operational UI is a client-side application that talks to a backend API — it doesn't need SSR or SEO optimization. Plain Vite + React is likely sufficient. However, if the backend is Node-based, Next.js or Remix could share infrastructure. Evaluate based on the backend choice.
-
-**Needed by**: Phase 1.
-
-### 5. Transition Period Strategy
-
-**Question**: How do we handle the period between starting the rebuild and having a usable new platform?
-
-**Options**:
-- Keep current vanilla JS running as-is, build new platform in parallel
-- Freeze current codebase, focus entirely on new platform
-- Incremental migration (replace pieces of the current app one at a time)
-
-**Considerations**: The current vanilla JS app works. Milk Jawn can continue using it while the new platform is built. Incremental migration was the previous plan (React migration shell) and proved to be more complex than a clean rebuild. The recommendation is: keep the current app running, build the new platform to feature parity, then switch over.
-
-**Needed by**: Phase 0 (decision), Phase 4 (execution).
-
-### 6. Delivery Platform Audit
-
-**Question**: Which delivery platforms does Milk Jawn currently use, and how do orders flow?
-
-**Details needed**:
-- Which platforms? (DoorDash, UberEats, Grubhub, others)
-- Do delivery orders route through Square or arrive on separate tablets?
-- What commission structures are in place?
-- Is delivery data currently tracked anywhere, or is it a blind spot?
-
-**Needed by**: Phase 0 (informs adapter design in Phase 3).
-
-### 7. Backend Platform Evaluation (Critical Decision)
-
-This is the most consequential architectural decision in the project. The backend platform affects every other open item and most phases of the build plan.
-
-**Candidates** (non-exhaustive):
-
-| Option | Strengths | Considerations |
+| # | Decision | Resolution |
 |---|---|---|
-| **Drupal** | Mature role/permission system, entity/field model, configurable content types, large module ecosystem, strong multi-tenant patterns (Group module), built-in JSON:API | PHP ecosystem, heavier runtime for a headless API, Drupal-specific hosting often needed, learning curve for non-Drupal developers |
-| **Node/Express + Postgres** | Same language as frontend (JS/TS), lightweight, tRPC for type safety, large ecosystem, flexible hosting | Build auth/roles/permissions/multi-tenancy from scratch or with libraries, more DIY |
-| **Django (Python)** | Excellent ORM, built-in admin, strong auth/permissions, mature ecosystem, good for data-heavy apps | Separate language from frontend, Django REST Framework adds some complexity |
-| **Rails** | Convention-over-configuration, rapid development, strong ActiveRecord ORM, built-in auth patterns | Ruby ecosystem smaller than Node/Python, deployment can be opinionated |
-| **Laravel (PHP)** | Eloquent ORM, built-in auth/authorization, multi-tenancy packages (Tenancy for Laravel), modern PHP | PHP ecosystem (same as Drupal but different paradigm), less "enterprise" perception |
-| **Supabase** | Postgres with row-level security, auth built-in, real-time subscriptions, auto-generated API, minimal backend code needed | Less control over business logic layer, vendor coupling, Edge Functions for custom logic |
-| **NestJS + Postgres** | TypeScript, opinionated structure, built-in auth/guards, good for enterprise patterns | Heavier than Express, more boilerplate |
+| 1 | Hosting Infrastructure | Laravel Forge + DigitalOcean (~$60-75/month). Team has experience with all major platforms. |
+| 2 | Multi-Tenant Isolation | stancl/tenancy with single-database, row-level tenant_id scoping. Adequate for 5-100+ tenants. |
+| 3 | API Strategy | Laravel REST API — API Resources for CRUD, custom controllers for business operations. |
+| 4 | React Framework | Vite + React with react-router (SPA). No SSR needed for an operations dashboard. |
+| 5 | Transition Period | Keep current vanilla JS running, build new platform in parallel, switch at feature parity. |
+| 6 | Delivery Platforms | DoorDash only (currently). Orders arrive on separate tablets, not through Square. DoorDash adapter needed in Phase 3. |
+| 7 | Backend Platform | **Laravel**. Evaluated Drupal, Node/NestJS, Django, Rails, Laravel, Supabase against 7 criteria. Laravel selected for team PHP expertise, mature multi-tenancy/permission packages, built-in queue/scheduler, excellent AI code generation, and budget fit. |
 
-**Evaluation criteria** (proposed):
-1. **Multi-tenant readiness** — How well does the platform support tenant isolation, configurable roles, and per-tenant customization out of the box?
-2. **Role/permission flexibility** — Can we model 5 roles with tenant-configurable labels and server-side enforcement without excessive custom code?
-3. **POS/delivery adapter hosting** — Can the platform run scheduled data imports, webhook receivers, and outbound API calls to POS/delivery platforms?
-4. **Compliance rules storage** — Can we model jurisdiction-specific compliance rules as configurable entities?
-5. **Development velocity** — How quickly can we reach Phase 4 (usable product) given the team's skills?
-6. **Operational cost** — Hosting, maintenance, and scaling cost at 10 tenants, 100 tenants, 1000 tenants?
-7. **AI-assisted development** — How well do AI coding tools (Claude, Copilot) support the platform? (Pragmatic consideration for a small team.)
+### Remaining Open Items
 
-**Needed by**: Phase 0 (blocks Phase 1).
+### 1. DoorDash Commission Structure
+
+**Question**: What commission rates does DoorDash charge Milk Jawn? Are there different tiers or promotional rates?
+
+**Needed by**: Phase 3 (delivery adapter design — need to model commission accurately for channel economics).
+
+### 2. Scheduling Engine Integration Pattern
+
+**Question**: How does the Laravel backend call the JS/TS scheduling engine?
+
+**Options**:
+- Lightweight Node HTTP service (Express with a `/compute` endpoint)
+- Serverless function (AWS Lambda, Vercel Edge Function)
+- Node subprocess from PHP (`Process::run('node engine.js ...')`)
+
+**Recommendation**: Lightweight Node HTTP service. Simplest to develop, test, and debug. Laravel calls it via `Http::post()`.
+
+**Needed by**: Phase 2.
+
+### 3. Filament for Admin Panel
+
+**Question**: Use Filament (Laravel admin panel package) for internal operations tooling?
+
+**Considerations**: Filament gives you a free admin UI for managing compliance presets, debugging tenant data, and creating test tenants. Low effort to set up. Should not be customer-facing.
+
+**Needed by**: Phase 1 (nice-to-have, not blocking).
 
 ---
 

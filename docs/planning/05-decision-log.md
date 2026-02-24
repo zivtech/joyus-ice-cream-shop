@@ -41,5 +41,16 @@
 28. Wave 2 usefulness review complete: all remaining 15 items reviewed and promoted to `validated_useful`. Backlog: 0/22 pending. All widgets, pages, and interfaces are now validated.
 29. All person-specific "Amy (CEO)" references replaced with role-based "General Manager" / "GM" labels across runtime code, publish script, docs, manifests, and review docs. Approval workflow now uses `requireGMApproval`, `gmApprovalRequiredForNextWeek`, and GM-prefixed UI labels/actions. Breaking change: export JSON flag renamed from `ceoApprovalRequiredForNextWeek` to `gmApprovalRequiredForNextWeek`; existing exported JSON files need re-export.
 
+30. Platform reboot plan established (`docs/planning/07-platform-reboot-plan.md`): hosted multi-tenant platform, POS-agnostic with delivery marketplace integration, 5-role model (Admin/GM/Store Manager/Key Lead/Staff) with tenant-configurable labels, jurisdiction-aware compliance engine. Jobs-to-be-done framework with 17 jobs across 7 phased build stages.
+31. Backend platform decision: **Laravel** selected after evaluating Drupal, Node/NestJS, Django, Rails, Laravel, and Supabase against 7 criteria (multi-tenant readiness, role/permission flexibility, POS/delivery adapter hosting, compliance storage, development velocity, operational cost, AI-assisted development). Key factors: team PHP expertise, stancl/tenancy for multi-tenancy, spatie/laravel-permission for roles, Horizon for queue management, Sanctum for API auth, ~85-90% AI code generation accuracy, $60-75/month hosting on Forge + DigitalOcean.
+32. Delivery platform: DoorDash only (currently), orders on separate tablets (not through Square). DoorDash adapter needed as separate integration from POS adapter.
+33. Hosting: Laravel Forge + DigitalOcean within $100-200/month budget.
+34. Multi-tenant isolation: stancl/tenancy single-database with row-level tenant_id scoping.
+35. API strategy: Laravel REST API (API Resources for CRUD, custom controllers for business operations).
+36. React framework: Vite + React with react-router (SPA, no SSR).
+37. Transition strategy: Keep current vanilla JS running, build Laravel platform in parallel, switch at feature parity.
+
 ## Pending decisions
-1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.
+1. Scheduling engine integration pattern: lightweight Node HTTP service vs. serverless function vs. subprocess.
+2. DoorDash commission structure details (needed for delivery adapter economics).
+3. Filament admin panel for internal operations tooling.
