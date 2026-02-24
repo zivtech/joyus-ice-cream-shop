@@ -27,6 +27,7 @@
 14. Settings page now treats operations controls and compliance placeholder framework as governed widgets (`operations_settings_panel`, `compliance_scaffold_panel`) to support incremental compliance hardening.
 15. Recovered planning artifacts are now indexed with provenance and canonical mapping in `docs/planning/recovered/README.md`.
 16. Usefulness review Wave 1 is prioritized on planner approvals/publish/compliance flows, with reviewer assignment set to `AlexUA` while items remain `unreviewed` pending explicit judgments.
+17. Baseline product constitution established in `docs/planning/00-baseline-constitution.md` to define owner/manager jobs, required outcomes, assumptions, and usefulness criteria before item-level ratification.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

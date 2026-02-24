@@ -28,5 +28,6 @@ Tie-breaker used:
    - Route-level control plane for guardrails and compliance scaffolding.
 
 ## Review rule
+- Evaluate each item against `docs/planning/00-baseline-constitution.md` first.
 - Items remain `validation.state = unreviewed` until explicit usefulness judgment is recorded.
 - Promotion to `validated_useful`/`active` requires explicit decision updates in manifest validation fields.

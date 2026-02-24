@@ -13,11 +13,12 @@ It consolidates:
 - and the execution backlog.
 
 ## Read order
-1. `01-product-charter.md`
-2. `02-source-of-truth-map.md`
-3. `03-current-agent-delta.md`
-4. `04-execution-backlog.md`
-5. `05-decision-log.md`
+1. `00-baseline-constitution.md`
+2. `01-product-charter.md`
+3. `02-source-of-truth-map.md`
+4. `03-current-agent-delta.md`
+5. `04-execution-backlog.md`
+6. `05-decision-log.md`
 
 ## Guardrail
 Do not delete or rewrite recovered docs under `recovered/` until they are either:

@@ -1,14 +1,17 @@
 # Source of Truth Map
 
 ## Tier A: Canonical planning (this repo)
-1. Product charter:
+1. Baseline constitution:
+- `docs/planning/00-baseline-constitution.md`
+
+2. Product charter:
 - `docs/planning/01-product-charter.md`
 
-2. Current page/widget clarification:
+3. Current page/widget clarification:
 - `docs/clarification/pages/*.md`
 - `docs/clarification/widgets/*.md`
 
-3. Governance contracts:
+4. Governance contracts:
 - `packages/ui-manifests/`
 - `packages/ui-schemas/`
 - `packages/ui-sitemap/`
