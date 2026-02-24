@@ -41,9 +41,9 @@
     "docs/adr/ADR-0001-ui-governance-baseline.md"
   ],
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Recovered compliance interface baseline; legal/policy semantics are not yet validated for production usage. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 1 review passed. Useful as the only compliance evaluation interface; addresses constitutional policy-safety requirement. Caveat: compliance rules require legal statute validation before production reliance. Follow-ups: validate rules against actual statutes, define pass/warn/fail semantics for approval workflow, add jurisdiction-specific configuration.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }

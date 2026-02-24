@@ -42,9 +42,9 @@
   "version": "1.1.0",
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 1 review passed. Useful as the only dedicated configuration surface for operational assumptions and compliance scaffolding. Follow-ups: migrate settings to server-side storage, prioritize compliance sub-tab implementation, add change audit log.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }

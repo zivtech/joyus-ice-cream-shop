@@ -90,9 +90,9 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 1 review passed. High usefulness as the only surface for editing operational assumptions driving planner and economic calculations. Follow-ups: add role-based edit restrictions, migrate settings to server-side storage, add field validation rules.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }

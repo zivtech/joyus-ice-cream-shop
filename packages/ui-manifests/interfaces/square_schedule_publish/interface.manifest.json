@@ -41,9 +41,9 @@
     "docs/adr/ADR-0001-ui-governance-baseline.md"
   ],
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from recovered publish roadmap and current script implementation; approval workflow usefulness still needs operational review. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 1 review passed. High usefulness as the only governed publish path to Square with comprehensive preflight validation. Follow-ups: add structured audit logging, harden name resolution for multi-store rosters, add rollback capability.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }

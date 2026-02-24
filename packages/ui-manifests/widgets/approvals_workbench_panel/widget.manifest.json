@@ -108,9 +108,9 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending. Wave 1 review priority.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 1 review passed. High usefulness for approval governance and publish-safety gate. Follow-ups: consolidate duplicated readiness messaging, add role-aware enforcement at service layer, clarify PTO conflict policy semantics.",
     "reviewed_on": "2026-02-24",
     "reviewer": "AlexUA"
   }
