@@ -1,6 +1,6 @@
 {
   "id": "recent_staffing_analysis_panel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Recent Staffing Analysis Panel",
   "owner": "ops-analytics",
   "source_files": [
@@ -42,7 +42,16 @@
       "name": "expected_baseline_selection",
       "formula_or_logic": "Expected revenue/labor/profit uses planned daily values only when compare mode is planned_vs_actual and planned values are valid, otherwise falls back to historical weekday profile baseline",
       "references": [
-        "apps/ice-cream-ops/staffing-planner.js:2823"
+        "apps/ice-cream-ops/staffing-planner.js:2823",
+        "apps/ice-cream-ops/staffing-planner.js:2831"
+      ]
+    },
+    {
+      "name": "expected_source_attribution",
+      "formula_or_logic": "Each location-day is classified as planned_targets, mixed_fallback, or historical_baseline_fallback; summary counts expose how often fallback logic was used",
+      "references": [
+        "apps/ice-cream-ops/staffing-planner.js:2837",
+        "apps/ice-cream-ops/staffing-planner.js:2946"
       ]
     },
     {
@@ -66,6 +75,10 @@
     {
       "name": "weather_heat_tint",
       "logic": "Weather context cards apply weather-heat-hot/cold/neutral class from weather visual temp class"
+    },
+    {
+      "name": "expected_source_disclosure",
+      "logic": "Day cards and overview surface expected-source labels/details so fallback to historical baseline is explicit in planned-vs-actual mode"
     }
   ],
   "interactions": [
@@ -90,6 +103,10 @@
     {
       "name": "weather_unavailable",
       "description": "Weather feed error shown; narrative falls back to non-weather variance commentary"
+    },
+    {
+      "name": "planned_target_fallback",
+      "description": "Planned-vs-actual mode renders expected-source fallback details when planned rows are partial/missing"
     }
   ],
   "dependencies": [

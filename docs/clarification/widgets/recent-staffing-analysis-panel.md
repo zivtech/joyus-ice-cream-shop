@@ -21,6 +21,9 @@
 - Compare mode logic:
   - `actual_vs_baseline`: expected values come from historical profile.
   - `planned_vs_actual`: expected values use planned targets when present, otherwise fallback to baseline.
+- Expected-source attribution:
+  - Each location-day is labeled as `planned targets`, `mixed fallback`, or `fallback baseline`.
+  - Fallback details list which expected fields (`revenue`, `labor`, `profit`) used baseline due to missing planned values.
 - Attainment metrics per location-day:
   - Profit attainment = `actualProfit / expectedProfit`.
   - Sales attainment = `actualRevenue / expectedRevenue`.
@@ -35,6 +38,7 @@
   4. Day-level review cards with three attainment meters + weather context + notes
 - Meter tones use `tone-strong`, `tone-close`, `tone-watch`, `tone-risk`, `tone-neutral` classes.
 - Weather context tint uses `weather-heat-hot`, `weather-heat-cold`, `weather-heat-neutral`.
+- Day cards now show expected-source labels/details so planned-target fallback is visible at row level.
 
 ## Interactions and actions
 - Shift Analysis controls change scope, lookback weeks, and compare mode.
@@ -48,7 +52,7 @@
 ## Known limitations
 - Narrative heuristics are threshold-based and may over-simplify non-weather variance drivers.
 - Planned-target coverage may be sparse, causing frequent fallback to baseline expected values.
-- No explicit confidence/uncertainty indicator for attainment outputs.
+- Source attribution is explicit, but confidence remains heuristic (no statistical confidence score yet).
 
 ## Open questions
 - Should note taxonomy be structured (event/promo/ops issue) instead of free text?
@@ -59,5 +63,6 @@
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:1820`
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2756`
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2823`
-- `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2910`
+- `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2837`
+- `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2946`
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:4345`

@@ -2820,18 +2820,42 @@ function renderRecentPerformanceSection() {
     const plannedLabor = pickNumber(plannedRow, ['planned_labor', 'store_labor', 'labor', 'total_labor']);
     const plannedProfit = pickNumber(plannedRow, ['planned_gross_profit_72', 'gross_profit_72', 'gross_profit', 'gp72']);
 
-    const expectedRevenue =
-      compareMode === 'planned_vs_actual' && Number.isFinite(plannedRevenue) && Number(plannedRevenue) > 0
-        ? Number(plannedRevenue)
-        : expectedRevenueBaseline;
-    const expectedLabor =
-      compareMode === 'planned_vs_actual' && Number.isFinite(plannedLabor) && Number(plannedLabor) > 0
-        ? Number(plannedLabor)
-        : expectedLaborBaseline;
-    const expectedProfit =
-      compareMode === 'planned_vs_actual' && Number.isFinite(plannedProfit) && Number(plannedProfit) > 0
-        ? Number(plannedProfit)
-        : expectedProfitBaseline;
+    const usePlannedRevenue = compareMode === 'planned_vs_actual' && Number.isFinite(plannedRevenue) && Number(plannedRevenue) > 0;
+    const usePlannedLabor = compareMode === 'planned_vs_actual' && Number.isFinite(plannedLabor) && Number(plannedLabor) > 0;
+    const usePlannedProfit = compareMode === 'planned_vs_actual' && Number.isFinite(plannedProfit) && Number(plannedProfit) > 0;
+
+    const expectedRevenue = usePlannedRevenue ? Number(plannedRevenue) : expectedRevenueBaseline;
+    const expectedLabor = usePlannedLabor ? Number(plannedLabor) : expectedLaborBaseline;
+    const expectedProfit = usePlannedProfit ? Number(plannedProfit) : expectedProfitBaseline;
+
+    const fallbackFields = [];
+    if (compareMode === 'planned_vs_actual') {
+      if (!usePlannedRevenue) fallbackFields.push('revenue');
+      if (!usePlannedLabor) fallbackFields.push('labor');
+      if (!usePlannedProfit) fallbackFields.push('profit');
+    }
+    const expectedSource =
+      compareMode !== 'planned_vs_actual'
+        ? 'historical_baseline'
+        : fallbackFields.length === 0
+        ? 'planned_targets'
+        : fallbackFields.length === 3
+        ? 'historical_baseline_fallback'
+        : 'mixed_fallback';
+    const expectedSourceLabel =
+      expectedSource === 'planned_targets'
+        ? 'Planned targets'
+        : expectedSource === 'historical_baseline'
+        ? 'Historical baseline'
+        : expectedSource === 'historical_baseline_fallback'
+        ? 'Fallback baseline (planned targets missing)'
+        : 'Mixed source (partial fallback)';
+    const expectedSourceDetail =
+      compareMode === 'planned_vs_actual' && fallbackFields.length
+        ? `Fallback fields: ${fallbackFields.join(', ')}`
+        : compareMode === 'planned_vs_actual'
+        ? 'All expected fields sourced from planned targets'
+        : 'Expected fields sourced from historical month/weekday profile';
 
     const actualRevenue = Number(row.revenue || 0);
     const actualLabor = Number(row.store_labor || 0);
@@ -2878,6 +2902,9 @@ function renderRecentPerformanceSection() {
       note,
       noteText,
       noteKey: recentNoteKey(loc, row.date),
+      expectedSource,
+      expectedSourceLabel,
+      expectedSourceDetail,
     };
   });
 
@@ -2916,10 +2943,20 @@ function renderRecentPerformanceSection() {
   const unexplainedDropDays = rowsWithMetrics.filter(
     (item) => Number(item.salesAttainment || 0) <= 92 && item.assessment.weatherSignal?.impact !== 'down'
   ).length;
+  const plannedSourceDays = rowsWithMetrics.filter((item) => item.expectedSource === 'planned_targets').length;
+  const fallbackSourceDays = rowsWithMetrics.filter(
+    (item) => item.expectedSource === 'historical_baseline_fallback' || item.expectedSource === 'mixed_fallback'
+  ).length;
   const explainedShare =
     rowsWithMetrics.length > 0
       ? ((weatherAlignedLiftDays + weatherAlignedDropDays) / rowsWithMetrics.length) * 100
       : 0;
+  const expectedSourceSummary =
+    compareMode === 'planned_vs_actual'
+      ? `${plannedSourceDays} row${plannedSourceDays === 1 ? '' : 's'} used planned targets; ${fallbackSourceDays} row${
+          fallbackSourceDays === 1 ? '' : 's'
+        } used baseline fallback.`
+      : 'Expected values source: historical month/weekday baseline.';
 
   const locationCards = scopeLocations
     .map((loc) => {
@@ -2997,6 +3034,7 @@ function renderRecentPerformanceSection() {
               <p class="help">${NUM.format(item.actualLaborPct)}% actual labor vs ${NUM.format(item.expectedLaborPct)}% expected labor</p>
             </div>
           </div>
+          <p class="help"><strong>Expected source:</strong> ${esc(item.expectedSourceLabel)} · ${esc(item.expectedSourceDetail)}</p>
           <div class="weather-box ${item.heatTintClass}">
             <div class="weather-header">
               <span class="weather-icon ${item.weatherVisual.skyClass}" aria-hidden="true">${weatherIconSvg(item.weatherVisual.iconKey)}</span>
@@ -3057,7 +3095,7 @@ function renderRecentPerformanceSection() {
       <article class="recent-overview-card">
         <p class="kicker">Data Window</p>
         <h4>${rowsWithMetrics.length} location-day records</h4>
-        <p class="help">Expected values source: ${compareMode === 'planned_vs_actual' ? 'planned targets with baseline fallback' : 'historical month/weekday baseline'}.</p>
+        <p class="help">${esc(expectedSourceSummary)}</p>
       </article>
     </div>
     <div class="recent-location-grid">
