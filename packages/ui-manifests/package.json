@@ -1,0 +1,11 @@
+{
+  "name": "@joyus/ui-manifests",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo 'Manifests are source artifacts only'",
+    "lint": "echo 'No manifest lint configured yet'",
+    "test": "echo 'No manifest tests configured yet'",
+    "typecheck": "echo 'No manifest typecheck configured yet'"
+  }
+}

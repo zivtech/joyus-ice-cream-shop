@@ -1,0 +1,90 @@
+:root {
+  --surface: #f7f2ea;
+  --panel: #fff9f2;
+  --text: #2e251f;
+  --muted: #6a5a50;
+  --line: #d6c5b6;
+  --token-color-chart-gp-high: rgba(47, 143, 91, 0.9);
+  --token-color-chart-gp-medium: rgba(154, 211, 178, 0.92);
+  --token-color-chart-gp-low: rgba(247, 190, 117, 0.92);
+  --token-color-chart-gp-negative: rgba(198, 37, 37, 0.88);
+  --token-status-default: #d2c3b6;
+  --token-status-pending: #f3bf6f;
+  --token-status-approved: #8cc9a3;
+  --token-surface-card: #fff8f0;
+  --token-surface-line: #d8cfc5;
+  --token-surface-line-subtle: #e2d6ca;
+  --token-surface-line-strong: #c9b4a1;
+  --token-surface-track: #efe2d4;
+  --token-surface-button: #fef9f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  background: radial-gradient(circle at top right, #fff5eb, #f2e7da 55%);
+  color: var(--text);
+}
+
+.react-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+h1 {
+  margin: 0.2rem 0;
+  font-family: "Newsreader", serif;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.inspector {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.inspector-header h2 {
+  margin: 0;
+}
+
+.inspector select {
+  margin-left: 0.35rem;
+}
+
+pre {
+  background: #f4ece2;
+  border: 1px solid #e6d8ca;
+  border-radius: 10px;
+  padding: 0.6rem;
+  overflow: auto;
+  font-size: 0.75rem;
+}

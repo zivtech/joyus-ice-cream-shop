@@ -1,0 +1,11 @@
+{
+  "name": "@joyus/ui-schemas",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo 'Schemas are source artifacts only'",
+    "lint": "echo 'No schema lint configured yet'",
+    "test": "echo 'No schema tests configured yet'",
+    "typecheck": "echo 'No schema typecheck configured yet'"
+  }
+}

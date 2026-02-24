@@ -1,0 +1,44 @@
+{
+  "id": "seasonal_playbook",
+  "route": "/seasonal-playbook.html",
+  "title": "Seasonal Playbook",
+  "widgets": [],
+  "filters": [
+    {
+      "name": "location_focus",
+      "effect": "Applies location context"
+    },
+    {
+      "name": "date_range",
+      "effect": "Applies analysis range"
+    },
+    {
+      "name": "month_focus",
+      "effect": "Targets single month"
+    }
+  ],
+  "actions": [
+    {
+      "name": "update_trigger_profile",
+      "effect": "Adjusts threshold interpretation context"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "owner",
+      "capabilities": [
+        "view",
+        "configure"
+      ]
+    },
+    {
+      "role": "manager",
+      "capabilities": [
+        "view"
+      ]
+    }
+  ],
+  "sitemap_node_id": "seasonal-playbook",
+  "owner": "ops-strategy",
+  "version": "1.0.0"
+}

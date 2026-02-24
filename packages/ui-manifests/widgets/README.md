@@ -1,10 +1,14 @@
 # Widget Manifests
 
 Each widget manifest must conform to:
-- `packages/ui-schemas/widget-manifest.schema.json`
+- `packages/ui-schemas/src/widget-manifest.schema.json`
+
+Path contract:
+- `packages/ui-manifests/widgets/<widget-id>/widget.manifest.json`
 
 Required top-level fields:
 - `id`
+- `version`
 - `title`
 - `owner`
 - `source_files`

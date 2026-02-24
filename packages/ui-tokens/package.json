@@ -1,0 +1,14 @@
+{
+  "name": "@joyus/ui-tokens",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "style-dictionary build --config style-dictionary.config.cjs",
+    "lint": "echo 'No token lint configured yet'",
+    "test": "echo 'No token tests configured yet'",
+    "typecheck": "echo 'No token typecheck configured yet'"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.3"
+  }
+}

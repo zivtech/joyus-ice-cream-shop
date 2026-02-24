@@ -1,0 +1,40 @@
+{
+  "widget_id": "shift_planner_day_card",
+  "upstreams": [
+    {
+      "name": "planner_state",
+      "source": "apps/ice-cream-ops/staffing-planner.js",
+      "fields": ["weeks.days", "approvals", "rules"]
+    },
+    {
+      "name": "weather_signal",
+      "source": "open-meteo",
+      "fields": ["temperature_delta", "precipitation_signal"]
+    },
+    {
+      "name": "pto_requests",
+      "source": "planner local state or square sync",
+      "fields": ["employee", "start_date", "end_date", "status"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "day_validation",
+      "logic": "enforce opener and closer minimums and workflow policy conditions"
+    },
+    {
+      "name": "day_financial_viability",
+      "logic": "calculate expected revenue, labor dollars, labor percent, and expected GP72"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "day_card_state",
+      "consumer": "weekly planner day card"
+    },
+    {
+      "name": "approval_request",
+      "consumer": "approvals workflow queue"
+    }
+  ]
+}

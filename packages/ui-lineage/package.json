@@ -1,0 +1,11 @@
+{
+  "name": "@joyus/ui-lineage",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo 'Lineage metadata is source artifact only'",
+    "lint": "echo 'No lineage lint configured yet'",
+    "test": "echo 'No lineage tests configured yet'",
+    "typecheck": "echo 'No lineage typecheck configured yet'"
+  }
+}

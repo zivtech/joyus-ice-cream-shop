@@ -25,6 +25,8 @@ Static dashboard for Milk Jawn staffing strategy:
 - `build_data.py` (rebuilds `data.json` from local CSVs)
 - `SEASONAL_STAFFING_RECOMMENDATIONS_2026.md` (seasonal scale-up/down strategy with trigger thresholds)
 - `staffing-planner.html`, `staffing-planner.css`, `staffing-planner.js` (weekly slot planner + approval queue)
+- `widget-spec-api.js`, `widget-inspector.js` (runtime widget explainability API + inspector panel)
+- `react-shell.html`, `src/react-shell/*` (React + Vite migration shell for governed widget extraction)
 - `scripts/publish_schedule_to_square_mcp.py` (publishes approved planner exports to Square scheduled shifts via MCP)
 
 ## Publish on GitHub Pages

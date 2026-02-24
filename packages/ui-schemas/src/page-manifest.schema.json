@@ -5,6 +5,7 @@
   "type": "object",
   "required": [
     "id",
+    "version",
     "route",
     "title",
     "widgets",
@@ -17,6 +18,7 @@
   "additionalProperties": false,
   "properties": {
     "id": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "minLength": 1 },
     "route": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
     "widgets": { "type": "array", "items": { "type": "string" } },

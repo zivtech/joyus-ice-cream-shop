@@ -1,0 +1,11 @@
+{
+  "name": "@joyus/ui-sitemap",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo 'Sitemap is source of truth only'",
+    "lint": "echo 'No sitemap lint configured yet'",
+    "test": "echo 'No sitemap tests configured yet'",
+    "typecheck": "echo 'No sitemap typecheck configured yet'"
+  }
+}

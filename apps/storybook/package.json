@@ -1,0 +1,31 @@
+{
+  "name": "@joyus/storybook",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "test:interaction": "test-storybook --url http://127.0.0.1:6006",
+    "test:a11y": "echo 'A11y is enforced through @storybook/addon-a11y in required stories.'",
+    "visual:backstop": "backstop test --config backstop.config.cjs",
+    "lint": "echo 'No Storybook lint configured yet'",
+    "test": "echo 'No Storybook tests configured yet'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@joyus/ui-components": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.14",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test-runner": "^0.20.4",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "backstopjs": "^6.3.25",
+    "storybook": "^8.6.14",
+    "typescript": "^5.9.2"
+  }
+}

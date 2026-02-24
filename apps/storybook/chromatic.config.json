@@ -1,0 +1,6 @@
+{
+  "projectTokenEnv": "CHROMATIC_PROJECT_TOKEN",
+  "storybookBuildDir": "storybook-static",
+  "exitZeroOnChanges": false,
+  "onlyChanged": true
+}

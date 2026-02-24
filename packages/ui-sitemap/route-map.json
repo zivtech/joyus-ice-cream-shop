@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "page_id": "dashboard", "label": "Dashboard", "route": "/index.html" },
+    { "page_id": "shift_planner", "label": "Shift Planner", "route": "/staffing-planner.html#shift_planner" },
+    { "page_id": "shift_analysis", "label": "Shift Analysis", "route": "/staffing-planner.html#shift_analysis" },
+    { "page_id": "seasonal_playbook", "label": "Seasonal Playbook", "route": "/seasonal-playbook.html" },
+    { "page_id": "settings", "label": "Settings", "route": "/staffing-planner.html#settings" }
+  ]
+}

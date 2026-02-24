@@ -1,0 +1,29 @@
+# Widget Inspector API
+
+## Contract
+
+Runtime exposes:
+
+```ts
+getWidgetSpec(widgetId: string): {
+  requested_id: string;
+  widget_id: string;
+  alias_applied: string | null;
+  manifest: Record<string, unknown>;
+  lineage: Record<string, unknown>;
+  story_links: string[];
+} | null
+```
+
+## Purpose
+
+Provide explainability data in runtime and Storybook from a single widget identifier.
+
+## Alias Support
+
+Legacy widget IDs are resolved through a compatibility alias map before lookup.
+
+## Coverage
+
+- `hour_by_hour_gross_profit`
+- `shift_planner_day_card`

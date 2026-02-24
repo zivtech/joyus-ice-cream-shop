@@ -1,0 +1,31 @@
+{
+  "widget_id": "hour_by_hour_gross_profit",
+  "upstreams": [
+    {
+      "name": "hourly_profile_snapshot",
+      "source": "apps/ice-cream-ops/data.json",
+      "fields": ["avg_revenue", "avg_labor", "avg_doordash_net"]
+    },
+    {
+      "name": "dashboard_state",
+      "source": "apps/ice-cream-ops/app.js",
+      "fields": ["plan", "location", "dateRange", "doordashMode", "managerScenario"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "hour_gp",
+      "logic": "gross profit at 72 percent = revenue basis minus labor"
+    },
+    {
+      "name": "shared_manager_labor_adjustment",
+      "logic": "subtract per-hour manager labor allocation when shared manager scenario is active"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "hourly_gp_series",
+      "consumer": "dashboard chart canvas"
+    }
+  ]
+}

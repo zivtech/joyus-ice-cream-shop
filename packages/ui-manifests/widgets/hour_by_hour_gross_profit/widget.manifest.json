@@ -71,5 +71,6 @@
     }
   ],
   "adr_refs": [],
-  "status": "draft"
+  "status": "draft",
+  "version": "1.0.0"
 }
