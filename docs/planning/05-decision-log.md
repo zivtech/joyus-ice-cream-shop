@@ -38,6 +38,8 @@
 25. Wave 1 review pass for `shift_planner` (page) recorded and promoted. Essential central composition surface for plan -> validate -> approve -> publish workflow. Follow-ups: server-side permission enforcement for approve/export, filter persistence behavior.
 26. Wave 1 review pass for `settings` (page) recorded and promoted. Only dedicated configuration surface for operational assumptions and compliance scaffolding. Follow-ups: server-side settings persistence, compliance sub-tab implementation prioritization, change audit log.
 27. Wave 1 usefulness review complete: 7/7 items promoted to `validated_useful`. Overall backlog: 15/22 items remain `unreviewed` for future waves.
+28. Wave 2 usefulness review complete: all remaining 15 items reviewed and promoted to `validated_useful`. Backlog: 0/22 pending. All widgets, pages, and interfaces are now validated.
+29. All person-specific "Amy (CEO)" references replaced with role-based "General Manager" / "GM" labels across runtime code, publish script, docs, manifests, and review docs. Approval workflow now uses `requireGMApproval`, `gmApprovalRequiredForNextWeek`, and GM-prefixed UI labels/actions. Breaking change: export JSON flag renamed from `ceoApprovalRequiredForNextWeek` to `gmApprovalRequiredForNextWeek`; existing exported JSON files need re-export.
 
 ## Pending decisions
 1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.
