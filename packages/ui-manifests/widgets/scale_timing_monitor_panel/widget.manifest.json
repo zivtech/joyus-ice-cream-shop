@@ -1,0 +1,90 @@
+{
+  "id": "scale_timing_monitor_panel",
+  "version": "1.0.0",
+  "title": "Scale Timing Monitor Panel",
+  "owner": "ops-strategy",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "trigger_rule_profiles",
+      "path": "state.triggerRules[location]",
+      "kind": "ui_state"
+    },
+    {
+      "name": "observed_month_rows",
+      "path": "selectedMonthKeys() + data.monthly[location][monthKey]",
+      "kind": "snapshot_json"
+    },
+    {
+      "name": "current_month_anchor",
+      "path": "state.month",
+      "kind": "ui_state"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "trigger_hit_rate",
+      "formula_or_logic": "For each transition rule compute observed-month hit set, hit rate percentage, first hit and last hit labels",
+      "references": [
+        "apps/ice-cream-ops/app.js:2037"
+      ]
+    },
+    {
+      "name": "single_vs_multi_location_table",
+      "formula_or_logic": "Heading and row composition branch by location scope: single-store (Now/Hit Rate/First Met) or EP+NL side-by-side",
+      "references": [
+        "apps/ice-cream-ops/app.js:2115"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "status_pill_mapping",
+      "logic": "Current trigger state maps to status-good (Met) or status-watch (Gap) in compact table rows"
+    },
+    {
+      "name": "timing_table_layout",
+      "logic": "Panel renders compact trigger matrix with dynamic headers and per-location first-hit annotations"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_location_or_date_range",
+      "effect": "Recomputes trigger hit rates and met/gap statuses"
+    },
+    {
+      "action": "update_trigger_rules",
+      "effect": "Re-evaluates threshold timing history and current met state"
+    }
+  ],
+  "states": [
+    {
+      "name": "single_location_scope",
+      "description": "Compact table for one location with direct now/hit-rate columns"
+    },
+    {
+      "name": "combined_location_scope",
+      "description": "Dual EP/NL status columns with per-location first-hit details"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "module",
+      "name": "trigger timing evaluators",
+      "notes": "Depends on conditionMet + monthMetricsForLocation helper stack"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

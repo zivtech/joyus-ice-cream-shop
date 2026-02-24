@@ -1,0 +1,36 @@
+{
+  "widget_id": "operational_guardrails_panel",
+  "upstreams": [
+    {
+      "name": "weekly_scope_metrics",
+      "source": "derived weekly metrics",
+      "fields": ["weeklyRevenue", "weeklyLabor", "weeklyLaborPct"]
+    },
+    {
+      "name": "manager_scenario_state",
+      "source": "dashboard state",
+      "fields": ["plan", "managerScenario", "managerMgmtShare"]
+    },
+    {
+      "name": "benchmark_thresholds",
+      "source": "survey benchmark constants",
+      "fields": ["medianLaborPct", "riskLaborPct"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "guardrail_status_classification",
+      "logic": "Map labor pressure and data confidence into good/watch/risk status states"
+    },
+    {
+      "name": "manager_cap_narrative",
+      "logic": "Build manager cap card text based on shared-manager mode and assumptions"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "guardrail_cards",
+      "consumer": "dashboard guardrails section"
+    }
+  ]
+}

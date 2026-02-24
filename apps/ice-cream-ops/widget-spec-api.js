@@ -9,7 +9,9 @@
     historyTrendPanel: "historical_trend_panel",
     triggerGapPlanner: "trigger_gap_planner_panel",
     performanceIntelPanel: "performance_intelligence_panel",
-    surveyLensPanel: "industry_survey_lens_panel"
+    surveyLensPanel: "industry_survey_lens_panel",
+    timingMonitorPanel: "scale_timing_monitor_panel",
+    guardrailsPanel: "operational_guardrails_panel"
   });
 
   const WIDGET_SPEC_INDEX = Object.freeze({
@@ -147,6 +149,38 @@
         file: "packages/ui-lineage/widgets/industry_survey_lens_panel.lineage.json",
         upstreams: ["survey_benchmarks", "weekly_scope_metrics"],
         outputs: ["survey_lens_cards"]
+      },
+      story_links: []
+    },
+    scale_timing_monitor_panel: {
+      manifest: {
+        id: "scale_timing_monitor_panel",
+        version: "1.0.0",
+        title: "Scale Timing Monitor Panel",
+        owner: "ops-strategy",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/scale_timing_monitor_panel.lineage.json",
+        upstreams: ["trigger_rule_profiles", "observed_month_metrics"],
+        outputs: ["scale_timing_matrix"]
+      },
+      story_links: []
+    },
+    operational_guardrails_panel: {
+      manifest: {
+        id: "operational_guardrails_panel",
+        version: "1.0.0",
+        title: "Operational Guardrails Panel",
+        owner: "ops-workflow",
+        source_files: ["apps/ice-cream-ops/app.js"],
+        status: "draft"
+      },
+      lineage: {
+        file: "packages/ui-lineage/widgets/operational_guardrails_panel.lineage.json",
+        upstreams: ["weekly_scope_metrics", "manager_scenario_state", "benchmark_thresholds"],
+        outputs: ["guardrail_cards"]
       },
       story_links: []
     }

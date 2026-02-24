@@ -1,0 +1,102 @@
+{
+  "id": "operational_guardrails_panel",
+  "version": "1.0.0",
+  "title": "Operational Guardrails Panel",
+  "owner": "ops-workflow",
+  "source_files": [
+    "apps/ice-cream-ops/app.js"
+  ],
+  "data_inputs": [
+    {
+      "name": "weekly_scope_metrics",
+      "path": "sumForScope(weeklyMetricsForLocation)",
+      "kind": "derived_in_memory"
+    },
+    {
+      "name": "manager_scenario_context",
+      "path": "state.plan/state.managerScenario/state.managerMgmtShare",
+      "kind": "ui_state"
+    },
+    {
+      "name": "survey_benchmark_bands",
+      "path": "SURVEY_BENCHMARKS.bands.laborPct",
+      "kind": "static_config"
+    },
+    {
+      "name": "data_confidence_status",
+      "path": "selectedMonthKeys() + data.month_status",
+      "kind": "snapshot_json"
+    }
+  ],
+  "calculation_rules": [
+    {
+      "name": "labor_pressure_tone",
+      "formula_or_logic": "Weekly labor ratio classified as good/watch/risk against benchmark median and risk bands",
+      "references": [
+        "apps/ice-cream-ops/app.js:2380"
+      ]
+    },
+    {
+      "name": "manager_cap_narrative",
+      "formula_or_logic": "Guardrail text branches by shared-manager scenario and includes modeled hourly assumptions",
+      "references": [
+        "apps/ice-cream-ops/app.js:2371"
+      ]
+    },
+    {
+      "name": "data_confidence_card",
+      "formula_or_logic": "Counts modeled months in selected range and sets watch/good confidence messaging",
+      "references": [
+        "apps/ice-cream-ops/app.js:2357"
+      ]
+    }
+  ],
+  "visual_rules": [
+    {
+      "name": "status_pill_styles",
+      "logic": "Each guardrail card applies status-good/status-watch/status-risk class by card-level computed status"
+    },
+    {
+      "name": "guardrail_card_stack",
+      "logic": "Panel renders deterministic five-card stack (opening, closing, manager cap, labor pressure, data confidence)"
+    }
+  ],
+  "interactions": [
+    {
+      "action": "change_plan_or_manager_inputs",
+      "effect": "Recomputes manager cap and labor pressure narratives"
+    },
+    {
+      "action": "change_scope_or_range",
+      "effect": "Updates weekly labor ratio and modeled-month confidence status"
+    }
+  ],
+  "states": [
+    {
+      "name": "on_track",
+      "description": "Labor pressure and confidence cards remain in good/watch bands"
+    },
+    {
+      "name": "risk_pressure",
+      "description": "Labor pressure card escalates to risk when ratio exceeds risk band"
+    }
+  ],
+  "dependencies": [
+    {
+      "type": "config",
+      "name": "survey benchmark constants",
+      "notes": "Uses labor median/risk bands for pressure classification"
+    }
+  ],
+  "adr_refs": [
+    "docs/adr/ADR-0001-ui-governance-baseline.md"
+  ],
+  "status": "draft",
+  "validation": {
+    "basis": "as_built_observation",
+    "state": "unreviewed",
+    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "reviewed_on": "2026-02-24",
+    "reviewer": "unassigned"
+  }
+}

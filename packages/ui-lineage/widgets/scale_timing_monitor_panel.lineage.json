@@ -1,0 +1,31 @@
+{
+  "widget_id": "scale_timing_monitor_panel",
+  "upstreams": [
+    {
+      "name": "trigger_rule_profiles",
+      "source": "dashboard state",
+      "fields": ["ruleKey", "conditions", "operator", "threshold"]
+    },
+    {
+      "name": "observed_month_metrics",
+      "source": "monthly metrics by location",
+      "fields": ["monthKey", "avgDailyRevenue", "laborPct", "weekendShare", "peakShare"]
+    }
+  ],
+  "transformations": [
+    {
+      "name": "rule_hit_history",
+      "logic": "Evaluate trigger hits by month and compute hit rate/first hit/current met state"
+    },
+    {
+      "name": "scope_specific_matrix",
+      "logic": "Compose single-location or dual-location comparison table rows"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "scale_timing_matrix",
+      "consumer": "dashboard scale timing monitor"
+    }
+  ]
+}

@@ -7,7 +7,9 @@
     "historical_trend_panel",
     "trigger_gap_planner_panel",
     "performance_intelligence_panel",
-    "industry_survey_lens_panel"
+    "industry_survey_lens_panel",
+    "scale_timing_monitor_panel",
+    "operational_guardrails_panel"
   ],
   "filters": [
     {
