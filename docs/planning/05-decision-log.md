@@ -5,11 +5,18 @@
 2. Page-first clarification remains the active approach.
 3. Legacy `joyus-fast-casual` content remains archived, not deleted.
 4. Data policy: no hourly refresh/rebuild during clarification without explicit approval.
+5. Manifest path convention is finalized as nested contracts:
+- `packages/ui-manifests/pages/<page-id>/page.manifest.json`
+- `packages/ui-manifests/widgets/<widget-id>/widget.manifest.json`
+6. Storybook rollout timing is immediate baseline for governed widgets, while legacy runtime remains active during migration.
+7. Governance gate baseline for early commits:
+- manifest/schema validation
+- sitemap route integrity
+- token audit
+- ADR + version bump check for widget logic changes
+8. Naming convergence approach:
+- new artifacts use `joyus-ice-cream-shop`
+- historical `joyus-fast-casual` names remain in recovered/archive artifacts until superseded.
 
 ## Pending decisions
-1. Final manifest path convention:
-- flat files vs nested `<id>/page.manifest.json` and `<id>/widget.manifest.json`.
-2. Storybook rollout timing:
-- immediate baseline vs phase-2 after clarification freeze.
-3. Governance gate strictness for early commits.
-4. Naming convergence from historical `joyus-fast-casual` to `joyus-ice-cream-shop` across all artifacts.
+1. Define cutover criteria for when legacy static runtime pages are removed in favor of React componentized surfaces.

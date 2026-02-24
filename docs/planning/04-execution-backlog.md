@@ -5,7 +5,7 @@
 - `/Users/AlexUA/claude/joyus-ai/spec/joyus-fast-casual-square-publish.md`
 
 ## Now
-1. Stabilize one manifest/schema structure and commit it as baseline.
+1. Stabilize one manifest/schema structure and commit it as baseline. (Completed: `c950cbd`)
 2. Complete page-by-page clarification for all top-level surfaces.
 3. Expand widget clarification for remaining critical widgets.
 4. Preserve and link recovered planning artifacts.
