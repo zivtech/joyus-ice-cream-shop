@@ -26,7 +26,7 @@
   "calculation_rules": [
     {
       "name": "next_week_readiness_gate",
-      "formula_or_logic": "Compute gate counters for pending requests, unsubmitted edits, unassigned positions, invalid coverage days, and PTO conflicts before Amy approval",
+      "formula_or_logic": "Compute gate counters for pending requests, unsubmitted edits, unassigned positions, invalid coverage days, and PTO conflicts before GM approval",
       "references": [
         "apps/ice-cream-ops/staffing-planner.js:2638",
         "apps/ice-cream-ops/staffing-planner.js:2701"
@@ -66,7 +66,7 @@
   "interactions": [
     {
       "action": "amy_next_week_decision",
-      "effect": "Amy can approve or reject next-week gate when status is pending"
+      "effect": "GM can approve or reject next-week gate when status is pending"
     },
     {
       "action": "approve_or_reject_day_request",
@@ -80,7 +80,7 @@
   "states": [
     {
       "name": "next_week_gate",
-      "description": "Readiness metrics and Amy approval gate for upcoming week"
+      "description": "Readiness metrics and GM approval gate for upcoming week"
     },
     {
       "name": "day_request_queue",

@@ -22,7 +22,7 @@
   - unassigned slot positions
   - invalid coverage days
   - PTO conflicts
-- Amy gate submission is blocked until all counters reach zero.
+- GM gate submission is blocked until all counters reach zero.
 - Day-request approval transitions:
   - mark request reviewed
   - clear day pending-request linkage
@@ -39,7 +39,7 @@
 - Request cards show state-specific actions only where transitions are allowed.
 
 ## Interactions and actions
-- Amy approval actions: `Amy Approve` / `Amy Reject` for pending next-week submissions.
+- GM approval actions: `GM Approve` / `GM Reject` for pending next-week submissions.
 - Day request actions: `Approve` / `Reject` on pending manager requests.
 - PTO sync action: `Sync PTO from Square` refreshes scoped PTO status and rows.
 - Subtab selection switches the workbench focus within Approvals page.
@@ -55,7 +55,7 @@
 - PTO sync errors are surfaced in UI but retry/backoff policies are minimal.
 
 ## Open questions
-- Should Amy approval support delegation and multi-approver fallback?
+- Should GM approval support delegation and multi-approver fallback?
 - Should request reasons be typed/categorized for analytics and policy tuning?
 - Should PTO conflicts block only overlapping slots or all next-week submission by default?
 

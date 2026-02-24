@@ -27,7 +27,7 @@
     },
     {
       "name": "submit_next_week_for_approval",
-      "effect": "Routes week to CEO approval gate"
+      "effect": "Routes week to GM approval gate"
     },
     {
       "name": "export_plan_json",

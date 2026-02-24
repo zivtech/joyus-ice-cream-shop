@@ -72,7 +72,7 @@ Notes:
 
 ## Publish Planner To Square
 1. Use `staffing-planner.html` to finalize assignments.
-2. Submit next week for Amy (CEO) approval.
+2. Submit next week for General Manager approval.
 3. Export plan JSON from planner.
 4. Dry run:
 

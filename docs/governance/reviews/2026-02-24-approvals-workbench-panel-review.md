@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Admin decisions on manager day-change requests and PTO conflict handling.
 
 2. What action changes because this exists?
-   - Approver can accept/reject next-week submission (`Amy Approve` / `Amy Reject`).
+   - Approver can accept/reject next-week submission (`GM Approve` / `GM Reject`).
    - Approver can resolve pending day policy requests.
    - Operator can refresh PTO sync and evaluate conflict state before approvals.
 

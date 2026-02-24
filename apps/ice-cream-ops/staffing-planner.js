@@ -72,7 +72,7 @@ const DEFAULT_OPERATIONS_SETTINGS = {
     minOpeners: 1,
     minClosers: 2,
     requirePolicyApproval: true,
-    requireAmyApproval: true,
+    requireGMApproval: true,
   },
   openingSchedule: {
     springUpDate: '2026-03-01',
@@ -260,7 +260,7 @@ const state = {
     status: 'draft',
     submittedAt: null,
     reviewedAt: null,
-    reviewer: 'Amy (CEO)',
+    reviewer: 'General Manager',
   },
   settings: JSON.parse(JSON.stringify(DEFAULT_OPERATIONS_SETTINGS)),
 };
@@ -333,8 +333,8 @@ function normalizeSettingsProfile(raw) {
   next.workflow.minClosers = Number.isFinite(Number(workflow.minClosers)) ? Number(workflow.minClosers) : base.workflow.minClosers;
   next.workflow.requirePolicyApproval =
     typeof workflow.requirePolicyApproval === 'boolean' ? workflow.requirePolicyApproval : base.workflow.requirePolicyApproval;
-  next.workflow.requireAmyApproval =
-    typeof workflow.requireAmyApproval === 'boolean' ? workflow.requireAmyApproval : base.workflow.requireAmyApproval;
+  next.workflow.requireGMApproval =
+    typeof workflow.requireGMApproval === 'boolean' ? workflow.requireGMApproval : base.workflow.requireGMApproval;
 
   const opening = raw.openingSchedule && typeof raw.openingSchedule === 'object' ? raw.openingSchedule : {};
   Object.keys(base.openingSchedule).forEach((key) => {
@@ -1492,7 +1492,7 @@ function buildWeeks() {
     status: 'draft',
     submittedAt: null,
     reviewedAt: null,
-    reviewer: 'Amy (CEO)',
+    reviewer: 'General Manager',
   };
 }
 
@@ -1607,7 +1607,7 @@ function loadState() {
       status: parsed.nextWeekApproval.status || 'draft',
       submittedAt: parsed.nextWeekApproval.submittedAt || null,
       reviewedAt: parsed.nextWeekApproval.reviewedAt || null,
-      reviewer: parsed.nextWeekApproval.reviewer || 'Amy (CEO)',
+      reviewer: parsed.nextWeekApproval.reviewer || 'General Manager',
     };
   }
 
@@ -2567,7 +2567,7 @@ function renderPlannerBoard() {
                      class="small-btn"
                      data-action="submit-next-week-approval"
                      ${state.nextWeekApproval.status === 'pending' ? 'disabled' : ''}
-                   >Submit Next Week to Amy (CEO)</button>
+                   >Submit Next Week to General Manager</button>
                  </div>`
               : ''
           }
@@ -2679,9 +2679,9 @@ function nextWeekChecks() {
 
 function nextWeekApprovalBadge() {
   const status = state.nextWeekApproval?.status || 'draft';
-  if (status === 'approved') return '<span class="badge status-ok">Amy Approved</span>';
-  if (status === 'pending') return '<span class="badge status-pending">Amy Review Pending</span>';
-  if (status === 'rejected') return '<span class="badge status-risk">Amy Rejected</span>';
+  if (status === 'approved') return '<span class="badge status-ok">GM Approved</span>';
+  if (status === 'pending') return '<span class="badge status-pending">GM Review Pending</span>';
+  if (status === 'rejected') return '<span class="badge status-risk">GM Rejected</span>';
   return '<span class="badge">Draft</span>';
 }
 
@@ -2693,15 +2693,15 @@ function invalidateNextWeekApproval(weekIdx) {
       status: 'draft',
       submittedAt: null,
       reviewedAt: null,
-      reviewer: 'Amy (CEO)',
+      reviewer: 'General Manager',
     };
   }
 }
 
-function submitNextWeekForAmyApproval() {
+function submitNextWeekForGMApproval() {
   const checks = nextWeekChecks();
   if (checks.pendingRequests > 0) {
-    window.alert(`Resolve ${checks.pendingRequests} pending policy request(s) in next week before Amy review.`);
+    window.alert(`Resolve ${checks.pendingRequests} pending policy request(s) in next week before GM review.`);
     return;
   }
   if (checks.unsubmittedPolicyEdits > 0) {
@@ -2709,7 +2709,7 @@ function submitNextWeekForAmyApproval() {
     return;
   }
   if (checks.invalidCoverageDays > 0) {
-    window.alert(`Fix coverage issues on ${checks.invalidCoverageDays} next-week day(s) before Amy review.`);
+    window.alert(`Fix coverage issues on ${checks.invalidCoverageDays} next-week day(s) before GM review.`);
     return;
   }
   if (checks.unassignedPositions > 0) {
@@ -2725,13 +2725,13 @@ function submitNextWeekForAmyApproval() {
     status: 'pending',
     submittedAt: new Date().toISOString(),
     reviewedAt: null,
-    reviewer: 'Amy (CEO)',
+    reviewer: 'General Manager',
   };
   saveState();
   renderAll();
 }
 
-function setAmyDecision(status) {
+function setGMDecision(status) {
   if (!['approved', 'rejected'].includes(status)) return;
   if ((state.nextWeekApproval?.status || 'draft') !== 'pending') return;
 
@@ -2739,7 +2739,7 @@ function setAmyDecision(status) {
     status,
     submittedAt: state.nextWeekApproval.submittedAt || new Date().toISOString(),
     reviewedAt: new Date().toISOString(),
-    reviewer: 'Amy (CEO)',
+    reviewer: 'General Manager',
   };
 
   if (status === 'rejected' && state.weeks[0]) {
@@ -3265,7 +3265,7 @@ function renderPlannerSubnav() {
                class="planner-subnav-btn ${approvalsSubtab === 'next_week' ? 'active' : ''}"
                data-action="switch-approvals-subtab"
                data-subtab="next_week"
-             >Amy Next-Week Approval</button>
+             >GM Next-Week Approval</button>
              <button
                type="button"
                class="planner-subnav-btn ${approvalsSubtab === 'day_requests' ? 'active' : ''}"
@@ -3303,7 +3303,7 @@ function renderPageInstructions() {
   if (topMenu === 'shift_planner' && page === 'approvals') {
     panel.innerHTML = `
       <h2>How To Use Approvals</h2>
-      <p>Review manager changes and next-week readiness first, then route final approval to Amy before export. Day-level policy changes and PTO conflicts should be resolved before weekly approval.</p>
+      <p>Review manager changes and next-week readiness first, then route final approval to GM before export. Day-level policy changes and PTO conflicts should be resolved before weekly approval.</p>
     `;
     return;
   }
@@ -3331,12 +3331,12 @@ function renderWeeklySidebar() {
   const nextWeekChecksState = nextWeekChecks();
   const nextWeekHelp =
     nextWeekStatus === 'approved'
-      ? `Approved by Amy${state.nextWeekApproval.reviewedAt ? ` on ${new Date(state.nextWeekApproval.reviewedAt).toLocaleString()}` : ''}.`
+      ? `Approved by GM${state.nextWeekApproval.reviewedAt ? ` on ${new Date(state.nextWeekApproval.reviewedAt).toLocaleString()}` : ''}.`
       : nextWeekStatus === 'pending'
-      ? `Submitted${state.nextWeekApproval.submittedAt ? ` on ${new Date(state.nextWeekApproval.submittedAt).toLocaleString()}` : ''}; waiting on Amy.`
+      ? `Submitted${state.nextWeekApproval.submittedAt ? ` on ${new Date(state.nextWeekApproval.submittedAt).toLocaleString()}` : ''}; waiting on GM.`
       : nextWeekStatus === 'rejected'
-      ? 'Rejected by Amy. Revise schedule and resubmit.'
-      : 'Draft. Submit next week for Amy approval when ready.';
+      ? 'Rejected by GM. Revise schedule and resubmit.'
+      : 'Draft. Submit next week for GM approval when ready.';
 
   const ptoScope = scope === 'BOTH' ? 'BOTH' : scope;
   const range = plannerDateRange();
@@ -3365,7 +3365,7 @@ function renderWeeklySidebar() {
         scope === 'BOTH'
           ? ''
           : `<article class="request-card">
-               <h3>Amy Next-Week Approval</h3>
+               <h3>GM Next-Week Approval</h3>
                <p><strong>Status:</strong> ${esc(nextWeekStatus.toUpperCase())}</p>
                <p>${esc(nextWeekHelp)}</p>
                <p>
@@ -3427,12 +3427,12 @@ function renderApprovalsPage() {
   const nextWeekChecksState = nextWeekChecks();
   const nextWeekHelp =
     nextWeekStatus === 'approved'
-      ? `Approved by Amy ${state.nextWeekApproval.reviewedAt ? `on ${new Date(state.nextWeekApproval.reviewedAt).toLocaleString()}` : ''}.`
+      ? `Approved by GM ${state.nextWeekApproval.reviewedAt ? `on ${new Date(state.nextWeekApproval.reviewedAt).toLocaleString()}` : ''}.`
       : nextWeekStatus === 'pending'
-      ? `Submitted ${state.nextWeekApproval.submittedAt ? new Date(state.nextWeekApproval.submittedAt).toLocaleString() : ''}; waiting on Amy's approval.`
+      ? `Submitted ${state.nextWeekApproval.submittedAt ? new Date(state.nextWeekApproval.submittedAt).toLocaleString() : ''}; waiting on GM's approval.`
       : nextWeekStatus === 'rejected'
-      ? 'Rejected by Amy. Managers should revise next-week schedule and resubmit.'
-      : 'Draft. Managers should finalize and submit next week to Amy for approval.';
+      ? 'Rejected by GM. Managers should revise next-week schedule and resubmit.'
+      : 'Draft. Managers should finalize and submit next week to GM for approval.';
 
   const renderRequest = (req, includeActions) => {
     return `
@@ -3477,8 +3477,8 @@ function renderApprovalsPage() {
         ${
           nextWeekStatus === 'pending'
             ? `<div class="request-actions">
-                 <button type="button" class="small-btn" data-action="amy-approve-next-week">Amy Approve</button>
-                 <button type="button" class="small-btn" data-action="amy-reject-next-week">Amy Reject</button>
+                 <button type="button" class="small-btn" data-action="gm-approve-next-week">GM Approve</button>
+                 <button type="button" class="small-btn" data-action="gm-reject-next-week">GM Reject</button>
                </div>`
             : ''
         }
@@ -3647,11 +3647,11 @@ function renderComplianceView() {
             </div>
             <div class="settings-field-row">
               <div class="label-wrap">
-                <strong>Require Amy Next-Week Approval</strong>
+                <strong>Require GM Next-Week Approval</strong>
                 <small>Final gate before publish/export for next week.</small>
               </div>
               <div class="settings-input-wrap">
-                <input type="checkbox" ${settings.workflow.requireAmyApproval ? 'checked' : ''} data-action="settings-field" data-section="workflow" data-key="requireAmyApproval" />
+                <input type="checkbox" ${settings.workflow.requireGMApproval ? 'checked' : ''} data-action="settings-field" data-section="workflow" data-key="requireGMApproval" />
               </div>
             </div>
           </div>
@@ -3850,7 +3850,7 @@ function renderComplianceView() {
           <ul class="compliance-list">
             <li>Store, jurisdiction, rule version, and timestamp.</li>
             <li>Violations detected and blocking severity.</li>
-            <li>Exception approval chain (manager, admin, owner/CEO).</li>
+            <li>Exception approval chain (manager, admin, owner/GM).</li>
             <li>Exportable compliance report per week/month.</li>
           </ul>
         </article>
@@ -4042,7 +4042,7 @@ function exportApprovedPayload() {
 
   const nextWeekStatus = state.nextWeekApproval?.status || 'draft';
   if (nextWeekStatus !== 'approved') {
-    window.alert('Amy must approve next week before export.');
+    window.alert('GM must approve next week before export.');
     return;
   }
 
@@ -4082,7 +4082,7 @@ function exportApprovedPayload() {
       approvalRequiredForPolicyChanges: true,
       noAutoAssignment: true,
       source: 'joyus-fast-casual-staffing-planner',
-      ceoApprovalRequiredForNextWeek: true,
+      gmApprovalRequiredForNextWeek: true,
     },
     approvals: {
       nextWeek: state.nextWeekApproval,
@@ -4122,7 +4122,7 @@ function bindPlannerEvents() {
 
     const action = target.dataset.action;
     if (action === 'submit-next-week-approval') {
-      submitNextWeekForAmyApproval();
+      submitNextWeekForGMApproval();
       return;
     }
 
@@ -4347,13 +4347,13 @@ function bindPlannerEvents() {
         return;
       }
 
-      if (action === 'amy-approve-next-week') {
-        setAmyDecision('approved');
+      if (action === 'gm-approve-next-week') {
+        setGMDecision('approved');
         return;
       }
 
-      if (action === 'amy-reject-next-week') {
-        setAmyDecision('rejected');
+      if (action === 'gm-reject-next-week') {
+        setGMDecision('rejected');
         return;
       }
 

@@ -233,21 +233,21 @@ def validate_plan(plan: dict[str, Any], max_shift_hours: float = 14.0) -> list[s
     next_week = (plan.get("approvals") or {}).get("nextWeek") or {}
     status = (next_week.get("status") or "").lower()
     if status != "approved":
-        issues.append("Amy next-week approval is not approved.")
+        issues.append("GM next-week approval is not approved.")
     else:
         reviewer = normalize_name(next_week.get("reviewer") or "")
         if reviewer in PLACEHOLDER_REVIEWERS:
-            issues.append("Amy next-week approval reviewer is missing/unassigned.")
+            issues.append("GM next-week approval reviewer is missing/unassigned.")
 
         reviewed_at = (next_week.get("reviewedAt") or "").strip()
         if not reviewed_at:
-            issues.append("Amy next-week approval is approved but reviewedAt is missing.")
+            issues.append("GM next-week approval is approved but reviewedAt is missing.")
 
     workflow = plan.get("workflow") or {}
     if workflow.get("approvalRequiredForPolicyChanges") is not True:
         issues.append("Workflow flag approvalRequiredForPolicyChanges must be true.")
-    if workflow.get("ceoApprovalRequiredForNextWeek") is not True:
-        issues.append("Workflow flag ceoApprovalRequiredForNextWeek must be true.")
+    if workflow.get("gmApprovalRequiredForNextWeek") is not True:
+        issues.append("Workflow flag gmApprovalRequiredForNextWeek must be true.")
 
     location_code = (plan.get("location") or "").strip().upper()
     if location_code in LOCATION_IDS:

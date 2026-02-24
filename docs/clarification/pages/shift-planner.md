@@ -38,7 +38,7 @@
 - Copy last week names/shifts/both.
 - Accept weather recommendation.
 - Submit policy change request.
-- Submit next week for CEO approval.
+- Submit next week for GM approval.
 - Export approved plan JSON.
 
 ## Dependencies and side effects

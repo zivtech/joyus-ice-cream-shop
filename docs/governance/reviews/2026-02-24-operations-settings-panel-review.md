@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - These upstream assumptions directly influence planner behavior, viability calculations, and approval readiness.
 
 2. What action changes because this exists?
-   - Admins can configure guardrails that constrain planner behavior (e.g., minimum closers, CEO approval requirements).
+   - Admins can configure guardrails that constrain planner behavior (e.g., minimum closers, GM approval requirements).
    - Seasonal date recommendations can be applied with one click, reducing manual date entry for step-up/step-down milestones.
    - Target profile and pay assumptions feed into economic calculations visible in planner and dashboard surfaces.
 
