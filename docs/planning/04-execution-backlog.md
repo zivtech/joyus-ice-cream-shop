@@ -8,7 +8,7 @@
 1. Stabilize one manifest/schema structure and commit it as baseline. (Completed: `c950cbd`)
 2. Complete page-by-page clarification for all top-level surfaces. (Completed: canonical docs exist for dashboard, shift-planner, shift-analysis, seasonal-playbook, settings)
 3. Expand widget clarification for remaining critical widgets. (Wave 1 completed: `recent_staffing_analysis_panel`, `approvals_workbench_panel`; Wave 2 completed: `historical_trend_panel`, `trigger_gap_planner_panel`; Wave 3 completed: `performance_intelligence_panel`, `industry_survey_lens_panel`; Wave 4 completed: `scale_timing_monitor_panel`, `operational_guardrails_panel`)
-4. Preserve and link recovered planning artifacts.
+4. Preserve and link recovered planning artifacts. (Completed: recovered index and canonical mapping documented in `docs/planning/recovered/README.md`)
 5. Keep data policy enforced (`data.json` snapshot, no rebuild).
 
 ## Next

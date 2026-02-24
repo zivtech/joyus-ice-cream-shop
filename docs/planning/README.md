@@ -23,3 +23,5 @@ It consolidates:
 Do not delete or rewrite recovered docs under `recovered/` until they are either:
 1. merged into canonical docs in this repo, or
 2. explicitly marked superseded in `05-decision-log.md`.
+
+Use `recovered/README.md` as the provenance index for historical planning artifacts.
