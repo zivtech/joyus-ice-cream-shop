@@ -53,10 +53,10 @@
     "docs/adr/ADR-0001-ui-governance-baseline.md"
   ],
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from recovered planning docs; usefulness and ownership still need product/platform confirmation.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. Useful as formal data synchronization interface governing the pipeline that feeds all analytics. Implementation governed by data policy. Follow-ups: define provider adapters, add sync audit logging, define retry policies, coordinate with data policy relaxation.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

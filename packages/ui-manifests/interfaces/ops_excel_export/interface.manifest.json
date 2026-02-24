@@ -55,10 +55,10 @@
     "docs/adr/ADR-0001-ui-governance-baseline.md"
   ],
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from recovered planning docs and runtime script usage; interface finalization pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. Useful as data portability interface serving dashboard export and planner publish payload. Follow-ups: finalize payload schemas, add export job status tracking, define data retention policy.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

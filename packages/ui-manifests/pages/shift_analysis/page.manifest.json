@@ -47,10 +47,10 @@
   "version": "1.0.0",
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness as dedicated retrospective analysis surface completing the decision loop Learn step. Follow-ups: server-side context notes, export capability for analysis summaries, note visibility rules per role.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

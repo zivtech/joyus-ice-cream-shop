@@ -97,10 +97,10 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness for owner strategic decisions through consolidated performance insights and YoY comparison. Follow-ups: store-to-store comparison view, portfolio average benchmarks, data confidence indicators.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

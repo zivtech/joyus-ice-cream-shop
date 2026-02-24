@@ -81,10 +81,10 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness as retrospective validation for trigger-based scaling model. Follow-ups: hit rate trend direction, confidence indicator combining hit rate with data completeness, drill-through to trend panel.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

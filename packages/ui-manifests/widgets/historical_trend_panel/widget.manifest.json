@@ -88,10 +88,10 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness for strategic and seasonal decision-making through trend visualization. Follow-ups: configurable rolling window, baseline overlay in all plan modes, data quality annotations.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

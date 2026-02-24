@@ -74,10 +74,10 @@
   "status": "draft",
   "version": "1.0.0",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness — most granular economic signal on dashboard, directly answering charter business questions. Follow-ups: tokenize bar color thresholds, make 72% margin configurable, add weekday/weekend toggle.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

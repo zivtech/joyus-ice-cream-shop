@@ -43,10 +43,10 @@
   "version": "1.0.0",
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. Useful as dedicated seasonal strategy surface. Follow-ups: resolve trigger editing ownership (dashboard read-only, playbook canonical), extract governed widgets from inline rendering, add change history for profiles.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

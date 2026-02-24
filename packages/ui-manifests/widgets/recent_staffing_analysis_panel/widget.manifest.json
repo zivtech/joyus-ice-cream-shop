@@ -126,10 +126,10 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. High usefulness for decision loop Learn phase — only retrospective analysis surface with day-level granularity and expected-source attribution. Follow-ups: server-side notes, weather confidence scoring, versioned schedule snapshots for planned-vs-actual.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

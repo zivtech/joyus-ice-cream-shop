@@ -57,10 +57,10 @@
   "version": "1.0.0",
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. Essential page — primary owner decision surface composing 7 validated-useful widgets covering all four owner comparative dimensions. Follow-ups: policy-lock certain controls per role, add metric lineage IDs, plan data.json decoupling.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }

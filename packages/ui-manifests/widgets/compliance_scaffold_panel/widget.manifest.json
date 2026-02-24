@@ -91,10 +91,10 @@
   ],
   "status": "draft",
   "validation": {
-    "basis": "as_built_observation",
-    "state": "unreviewed",
-    "notes": "Captured from current runtime implementation; utility/usability review pending.",
+    "basis": "approved_product_decision",
+    "state": "validated_useful",
+    "notes": "Wave 2 review passed. Useful as compliance domain roadmap and framework placeholder with explicit disclosure. Follow-ups: prioritize youth labor sub-tab for first functional implementation, connect to compliance_check interface, add implementation status tracking per domain.",
     "reviewed_on": "2026-02-24",
-    "reviewer": "unassigned"
+    "reviewer": "AlexUA"
   }
 }
