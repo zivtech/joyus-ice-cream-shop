@@ -5,10 +5,6 @@ Move schedule publishing from static PoC UX into Joyus AI as a real multi-tenant
 
 This keeps the GitHub Pages planner lightweight while making publish operations secure, auditable, and role-gated.
 
-See also:
-- [`joyus-fast-casual-feature-tracker.md`](joyus-fast-casual-feature-tracker.md) for roadmap status and sequencing.
-- [`joyus-fast-casual-data-sync-foundation.md`](joyus-fast-casual-data-sync-foundation.md) for API and MCP scaffolding.
-
 ## Scope
 - In scope:
   - Publish approved schedules to Square from Joyus backend services.
