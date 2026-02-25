@@ -43,6 +43,12 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
   2. Add explicit lineage IDs to key metrics for auditability.
   3. Plan data.json decoupling for multi-tenant API-driven data access.
 
+## Owner feedback (2026-02-25)
+- **Scenario comparison**: 6-vs-7-day is a Milk Jawn-specific question. For the platform, business owners will set up their own scenarios/questions during onboarding. DoorDash is only one delivery option — show with/without delivery activity generically. Delivery data may not be available at all times or may update on a different cycle; design must account for partial/stale delivery data.
+- **Excel export**: Need to determine what is useful to export before deciding this is the right place for the button. Multiple items across the platform may be exportable — export may belong on other pages too.
+- **Widget customization**: Should users be able to add/remove/move widgets on the dashboard? Consider a configurable widget layout.
+- **Widget deep links**: If a widget is more fully explained on another page, link to that page from the widget.
+
 ## Source evidence
 - `apps/ice-cream-ops/index.html`
 - `apps/ice-cream-ops/app.js:3`

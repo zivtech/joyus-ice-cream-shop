@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Manager validation of whether staffing assumptions are financially viable at hourly granularity.
 
 2. What action changes because this exists?
-   - Operators can identify unprofitable hours and adjust staffing or operating hours accordingly.
+   - Owners and managers can identify unprofitable hours and adjust staffing or operating hours accordingly.
    - Shared-manager cost allocation is visible at the hour level, supporting 7-day expansion analysis.
    - DoorDash revenue impact on hourly GP is togglable for channel mix decisions.
 

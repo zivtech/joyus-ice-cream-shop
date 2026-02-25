@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner comparative need: year-over-year and scenario-vs-baseline visibility for understanding why a period was better or worse.
 
 2. What action changes because this exists?
-   - Operators can spot inflection points in revenue, labor, or GP trends across months.
+   - Owners and GMs can spot inflection points in revenue, labor, or GP trends across months.
    - 3-month rolling average smooths noise for strategic planning decisions.
    - Baseline overlay (6-day vs 7-day) supports expansion scenario analysis.
 
@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Rolling trend reduces risk of overreacting to single-month anomalies.
 
 4. What breaks if removed?
-   - No month-level trend visibility. Operators lose the ability to see directional momentum and seasonal patterns.
+   - No month-level trend visibility. Owners and GMs lose the ability to see directional momentum and seasonal patterns.
    - Constitution's "observe" step in the decision loop loses a key historical analysis surface.
 
 5. Overlap/duplication check

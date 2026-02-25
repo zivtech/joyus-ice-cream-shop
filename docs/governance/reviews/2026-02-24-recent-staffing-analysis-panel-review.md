@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner understanding of why a week was better or worse than expected (constitution decision loop step 6: Learn).
 
 2. What action changes because this exists?
-   - Operators can compare actual performance against planned targets or historical baselines with explicit source attribution.
+   - Managers and owners can compare actual performance against planned targets or historical baselines with explicit source attribution.
    - Weather-alignment summaries help distinguish weather-driven variance from operational variance.
    - Context notes create institutional memory for future planning cycles.
    - Planned-vs-actual fallback behavior is transparently disclosed per day.

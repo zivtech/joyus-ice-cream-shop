@@ -12,14 +12,14 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 2. What action changes because this exists?
    - Approvals workbench can block publish when compliance status is fail.
    - Settings/compliance surface shows policy evaluation outcomes for configuration review.
-   - Operators can identify and resolve compliance violations before they reach the external publish path.
+   - Admins and Store Managers can identify and resolve compliance violations before they reach the external publish path.
 
 3. What risk is reduced?
    - Reduces risk of publishing schedules that violate youth labor laws, overtime rules, or notice period requirements.
    - Makes compliance status an explicit, visible gate rather than an implicit assumption.
 
 4. What breaks if removed?
-   - No formal compliance check gate in the approval/publish flow. Operators would rely on manual review to catch policy violations.
+   - No formal compliance check gate in the approval/publish flow. Admins would rely on manual review to catch policy violations.
    - The constitution's "policy safety" required outcome (#4) loses its enforcement mechanism.
 
 5. Overlap/duplication check

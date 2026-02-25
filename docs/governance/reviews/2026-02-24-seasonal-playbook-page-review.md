@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner/strategy lead management of target profiles by location and season.
 
 2. What action changes because this exists?
-   - Operators can configure trigger profiles and threshold interpretations for seasonal transitions.
+   - Owners and GMs can configure trigger profiles and threshold interpretations for seasonal transitions.
    - Location/date/month filters enable targeted seasonal analysis.
    - Context feeds back to dashboard strategic scaling widgets (trigger gap planner, scale timing monitor).
 
@@ -43,6 +43,12 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
   2. Extract playbook-specific widgets from inline rendering into governed widget manifests.
   3. Add change history for trigger profile modifications.
   4. Define minimum data history required before enabling trigger-based automation.
+
+## Owner feedback (2026-02-25)
+- **Data-first approach**: Ingest all historical data first (sales and staffing), analyze how sales changed historically by season, evaluate past margin performance, then recommend different "seasons" based on findings.
+- **Season granularity**: Currently assumes 2 step-up and 2 step-down periods — is that sufficient or should we look for more nuance?
+- **Guardrail interaction**: Guardrails may not have been in place historically. When guardrails change, may need to rerun the playbook.
+- **Page clarity**: Should clearly show what seasonal assumptions are, indicate upcoming actions to prepare for the new season, and show how guardrails affect items.
 
 ## Source evidence
 - `apps/ice-cream-ops/seasonal-playbook.html`

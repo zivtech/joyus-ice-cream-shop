@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner cross-location comparison of when triggers were historically met at each store.
 
 2. What action changes because this exists?
-   - Operators can see how reliably each trigger fires historically (hit rate %) and when it first fired.
+   - Owners and GMs can see how reliably each trigger fires historically (hit rate %) and when it first fired.
    - Dual-location table enables store-by-store scaling readiness comparison.
    - Current met/gap status pills provide at-a-glance scaling state.
 
@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - First-hit annotations help calibrate seasonal expectations (e.g., "EP typically triggers in March").
 
 4. What breaks if removed?
-   - No historical trigger reliability data. Operators would trust triggers without knowing their track record.
+   - No historical trigger reliability data. Owners and GMs would trust triggers without knowing their track record.
    - Trigger gap planner panel (prospective) loses its complementary retrospective validation surface.
 
 5. Overlap/duplication check

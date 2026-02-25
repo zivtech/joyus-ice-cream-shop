@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner year-over-year comparison when sufficient data exists.
 
 2. What action changes because this exists?
-   - Operators can identify their strongest and weakest months for targeted staffing adjustments.
+   - Owners and GMs can identify their strongest and weakest months for targeted staffing adjustments.
    - Weekend revenue share and evening peak share inform schedule weighting decisions.
    - YoY narrative provides growth/decline context for strategic planning.
 
@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Explicit "insufficient YoY overlap" messaging prevents false confidence from incomplete data.
 
 4. What breaks if removed?
-   - No consolidated performance summary with best/worst identification. Operators would need to manually scan monthly data.
+   - No consolidated performance summary with best/worst identification. Owners and GMs would need to manually scan monthly data.
    - YoY narrative and demand shape insights have no other surface.
 
 5. Overlap/duplication check

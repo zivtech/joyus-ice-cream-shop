@@ -10,16 +10,16 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Shift planner's need to produce a publish-ready export payload for downstream publish flow.
 
 2. What action changes because this exists?
-   - Operators can export current dashboard scope as an Excel workbook for offline review or board reporting.
+   - Owners and managers can export current dashboard scope as an Excel workbook for offline review or board reporting.
    - Shift planner can produce structured JSON export for the Square publish pipeline.
    - MCP tool integration allows assistant-driven export workflows.
 
 3. What risk is reduced?
-   - Reduces risk of operators lacking portable data access for external stakeholders.
+   - Reduces risk of owners and managers lacking portable data access for external stakeholders.
    - Structured export format ensures publish pipeline receives consistent data shapes.
 
 4. What breaks if removed?
-   - No export capability from dashboard. Operators would need to manually transcribe data.
+   - No export capability from dashboard. Owners and managers would need to manually transcribe data.
    - Planner export payload (consumed by Square publish script) loses its interface definition.
 
 5. Overlap/duplication check

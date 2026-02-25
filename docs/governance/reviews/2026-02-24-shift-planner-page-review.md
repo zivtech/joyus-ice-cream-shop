@@ -46,6 +46,14 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
   2. Define which filter combinations should be persisted vs reset on page load.
   3. Track progress on React migration to reduce monolithic script risk.
 
+## Owner feedback (2026-02-25)
+- **Missing decisions/questions**:
+  - How do we create proposed schedules? Can we check if a previous schedule violated guardrails and propose something differently?
+  - How does a proposed schedule compare to the same week in a previous year or average years?
+  - How do we assign someone a "regular" shift? How do we handle PTO or shift change requests?
+  - Need a way to determine what happens when a guardrail conflicts with margin goals, or when a guardrail changes.
+- **Permissions**: Already discussed the need for a different set of roles/permissions with associated settings (see `docs/governance/roles-and-permissions.md`).
+
 ## Source evidence
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.html`
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2266`

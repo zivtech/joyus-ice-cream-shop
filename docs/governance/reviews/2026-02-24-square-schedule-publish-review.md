@@ -11,7 +11,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 
 2. What action changes because this exists?
    - Approved schedules are translated into Square Scheduled Shifts via MCP with preflight validation gates.
-   - Dry-run mode allows operators to preview what will be created before committing.
+   - Dry-run mode allows admins and GMs to preview what will be created before committing.
    - Duplicate detection prevents re-publishing identical shifts already in Square.
 
 3. What risk is reduced?
@@ -20,7 +20,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Idempotency keys prevent accidental double-creation.
 
 4. What breaks if removed?
-   - No governed path from approved plan to Square. Operators would need to manually enter shifts or use an unvalidated export, losing all preflight safety checks.
+   - No governed path from approved plan to Square. Admins would need to manually enter shifts or use an unvalidated export, losing all preflight safety checks.
    - The plan -> approve -> publish decision loop loses its terminal step.
 
 5. Overlap/duplication check

@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner awareness of opening/closing staffing rule compliance.
 
 2. What action changes because this exists?
-   - Operators see labor pressure status (good/watch/risk) against benchmark bands, triggering cost reduction actions when risk escalates.
+   - Owners and GMs see labor pressure status (good/watch/risk) against benchmark bands, triggering cost reduction actions when risk escalates.
    - Manager cap narrative adjusts for shared-manager scenarios with explicit hourly assumptions.
    - Data confidence card flags modeled months, preventing overreliance on estimated data.
 

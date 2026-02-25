@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner understanding of how close current metrics are to the next scaling transition.
 
 2. What action changes because this exists?
-   - Operators can see the nearest unmet trigger and the specific condition gap that must close before the next scaling move.
+   - Owners and GMs can see the nearest unmet trigger and the specific condition gap that must close before the next scaling move.
    - Suggested action copy guides the scaling decision with concrete threshold targets.
    - Per-location cards enable store-specific timing decisions.
 
@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Reduces guesswork in scale-up/down timing by normalizing gap severity across conditions.
 
 4. What breaks if removed?
-   - No trigger gap analysis. Operators would need to manually compare metrics against thresholds to determine scaling readiness.
+   - No trigger gap analysis. Owners and GMs would need to manually compare metrics against thresholds to determine scaling readiness.
    - Charter core outcome #1 ("seasonal staffing scale up/down timing") loses its primary decision support surface.
 
 5. Overlap/duplication check

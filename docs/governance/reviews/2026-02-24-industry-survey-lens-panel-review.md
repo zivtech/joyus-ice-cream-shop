@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Owner understanding of dollar opportunity if labor ratio moved to median or top quartile.
 
 2. What action changes because this exists?
-   - Operators can see their labor percentage position against industry peers and act on the delta.
+   - Owners and GMs can see their labor percentage position against industry peers and act on the delta.
    - Weekly dollar opportunity estimates (delta-to-median, delta-to-top-quartile) give concrete savings targets.
    - Benchmark tone classification (good/watch/risk) provides quick status assessment.
 
@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Provides external reference point beyond internal historical data.
 
 4. What breaks if removed?
-   - No industry benchmark comparison. Operators lose the only external reference point for labor cost competitiveness.
+   - No industry benchmark comparison. Owners and GMs lose the only external reference point for labor cost competitiveness.
    - Constitution's owner need for "industry baseline" comparison loses its surface.
 
 5. Overlap/duplication check

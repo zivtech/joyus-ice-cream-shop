@@ -10,7 +10,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Constitution decision loop step 6 ("Learn"): capture outcomes to improve future decisions.
 
 2. What action changes because this exists?
-   - Operators can switch between actual-vs-baseline and planned-vs-actual compare modes to isolate variance causes.
+   - Managers and owners can switch between actual-vs-baseline and planned-vs-actual compare modes to isolate variance causes.
    - Lookback window (1-4 weeks) allows targeted analysis of recent performance.
    - Context notes create institutional memory for future planning interpretation.
 
@@ -42,6 +42,11 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
   1. Migrate context notes to server-side storage for multi-user visibility.
   2. Consider adding export capability for analysis summaries.
   3. Define whether manager notes should be visible to owners and vice versa.
+
+## Owner feedback (2026-02-25)
+- **Analytics usefulness**: Need to make sure the various analytics are determined to be useful before implementing.
+- **AI summary**: Want an AI bot to create a summary of what changed in each analysis period.
+- **Guardrail indicators**: Need to account for guardrails by giving some sort of indication when a shift appears a certain way (e.g., violated a guardrail).
 
 ## Source evidence
 - `apps/ice-cream-ops/staffing-planner.js:2756`

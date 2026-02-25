@@ -44,6 +44,9 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
   3. Add change history/audit log for settings modifications.
   4. Clarify tenant-level vs store-level settings scope for multi-location scenarios.
 
+## Owner feedback (2026-02-25)
+- **Settings vs build-time decisions**: The power of the platform is customizability per tenant. Need to make sure the right things go in settings (user-configurable) vs things that are "set and forget" during the build/onboarding process.
+
 ## Source evidence
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:3548`
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:3851`
