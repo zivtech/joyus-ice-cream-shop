@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'tenant_id',
+        'organization_id',
     ];
 
     /**
@@ -53,5 +54,10 @@ class User extends Authenticatable
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(\Stancl\Tenancy\Database\Models\Tenant::class, 'tenant_id');
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

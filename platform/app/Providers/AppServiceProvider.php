@@ -2,10 +2,27 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Employee;
+use App\Models\Location;
+use App\Models\TenantSetting;
+use App\Policies\EmployeePolicy;
+use App\Policies\LocationPolicy;
+use App\Policies\TenantSettingPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider extends AuthServiceProvider
 {
+    /**
+     * The model to policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
+     */
+    protected $policies = [
+        Location::class      => LocationPolicy::class,
+        Employee::class      => EmployeePolicy::class,
+        TenantSetting::class => TenantSettingPolicy::class,
+    ];
+
     /**
      * Register any application services.
      */
@@ -19,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }
