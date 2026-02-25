@@ -12,7 +12,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 2. What action changes because this exists?
    - Approver can accept/reject next-week submission (`GM Approve` / `GM Reject`).
    - Approver can resolve pending day policy requests.
-   - Operator can refresh PTO sync and evaluate conflict state before approvals.
+   - GM can refresh PTO sync and evaluate conflict state before approvals.
 
 3. What risk is reduced?
    - Prevents export/publish progression when readiness counters indicate unresolved planning risk.

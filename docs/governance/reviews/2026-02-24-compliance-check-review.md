@@ -7,7 +7,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 ## Constitution test
 1. Which decision does this support?
    - Admin/owner decision on whether a schedule draft meets compliance policies (youth labor, overtime, notice period) before approval and publish.
-   - Operator visibility into pass/warn/fail status of policy checks.
+   - Store Manager visibility into pass/warn/fail status of policy checks.
 
 2. What action changes because this exists?
    - Approvals workbench can block publish when compliance status is fail.

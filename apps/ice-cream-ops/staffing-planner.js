@@ -487,7 +487,7 @@ function dayHasAnyAssignments(day) {
 
 function pristineTemplateDay(day) {
   if (!day || typeof day !== 'object') return false;
-  if (day.policyChanged || day.pendingRequestId || day.lastDecision || day.lastAcceptedRecommendationKey) return false;
+  if (day.hasException || day.pendingRequestId || day.lastDecision || day.lastAcceptedRecommendationKey) return false;
   if (String(day.note || '').trim()) return false;
   if (dayHasAnyAssignments(day)) return false;
   return true;
@@ -1445,7 +1445,7 @@ function normalizeWeekDays(week) {
       weekday: def.weekday,
       season,
       slots: buildTemplateSlots(def.weekday, season, state.location),
-      policyChanged: false,
+      hasException: false,
       note: '',
       pendingRequestId: null,
       lastDecision: null,
@@ -1471,7 +1471,7 @@ function buildWeeks() {
         weekday: def.weekday,
         season,
         slots: buildTemplateSlots(def.weekday, season, state.location),
-        policyChanged: false,
+        hasException: false,
         note: '',
         pendingRequestId: null,
         lastDecision: null,
@@ -2402,7 +2402,7 @@ function renderPlannerBoard() {
             })
             .join('');
 
-          const canSubmit = day.policyChanged && !pendingReq && validation.ok;
+          const canSubmit = day.hasException && !pendingReq && validation.ok;
           const lastWeekRef = lastWeekReferenceForDay(weekIdx, dayIdx);
           const lastWeekRows = (lastWeekRef.slots || [])
             .map(
@@ -2422,7 +2422,7 @@ function renderPlannerBoard() {
                 <h3>${day.weekday} · ${formatDateLabel(day.date)}</h3>
                 <span class="badge">${SEASON_LABELS[day.season] || day.season}</span>
               </div>
-              <p class="day-help">Suggested slots. Managers assign people. Policy changes require admin approval before export.</p>
+              <p class="day-help">Suggested slots. Managers assign people. Exception requests require approval before export.</p>
               <div class="viability-box viability-${esc(viability.tone)}">
                 <p class="viability-label">Expected Shift Viability</p>
                 <p class="viability-main">${esc(viability.label)}</p>
@@ -2519,7 +2519,7 @@ function renderPlannerBoard() {
               <div class="day-actions">
                 <button type="button" class="small-btn" data-action="add-slot" data-week="${weekIdx}" data-day="${dayIdx}">+ Add Shift</button>
                 <textarea
-                  placeholder="Reason for policy change request (event, weather, expected demand spike)..."
+                  placeholder="Reason for exception request (event, weather, expected demand spike)..."
                   data-action="day-note"
                   data-week="${weekIdx}"
                   data-day="${dayIdx}"
@@ -2531,12 +2531,12 @@ function renderPlannerBoard() {
                   data-week="${weekIdx}"
                   data-day="${dayIdx}"
                   ${canSubmit ? '' : 'disabled'}
-                >Submit Policy Change Request</button>
+                >Submit Exception Request</button>
                 <p class="status-line ${validation.ok ? 'status-ok' : 'status-risk'}">${esc(validation.message)}</p>
                 ${pendingReq ? `<p class="status-line status-pending">Pending admin approval · request ${esc(pendingReq.id.slice(-6))}</p>` : ''}
                 ${day.lastDecision === 'approved' ? '<p class="status-line status-ok">Last change request approved.</p>' : ''}
                 ${day.lastDecision === 'rejected' ? '<p class="status-line status-risk">Last change request rejected.</p>' : ''}
-                ${day.policyChanged ? '<p class="status-line status-pending">Unsubmitted policy edits detected.</p>' : ''}
+                ${day.hasException ? '<p class="status-line status-pending">Unsubmitted exception edits detected.</p>' : ''}
                 ${
                   ptoSummary.total
                     ? `<p class="status-line ${ptoSummary.conflicts.length ? 'status-risk' : 'status-pending'}">PTO: ${ptoSummary.approvedCount} approved · ${ptoSummary.pendingCount} pending${
@@ -2640,7 +2640,7 @@ function nextWeekChecks() {
   if (!week) {
     return {
       pendingRequests: 0,
-      unsubmittedPolicyEdits: 0,
+      unsubmittedExceptions: 0,
       unassignedPositions: 0,
       invalidCoverageDays: 0,
       ptoConflicts: 0,
@@ -2648,14 +2648,14 @@ function nextWeekChecks() {
   }
 
   let pendingRequests = 0;
-  let unsubmittedPolicyEdits = 0;
+  let unsubmittedExceptions = 0;
   let unassignedPositions = 0;
   let invalidCoverageDays = 0;
   let ptoConflicts = 0;
 
   week.days.forEach((day) => {
     if (day.pendingRequestId) pendingRequests += 1;
-    if (day.policyChanged) unsubmittedPolicyEdits += 1;
+    if (day.hasException) unsubmittedExceptions += 1;
     if (!dayValidation(day).ok) invalidCoverageDays += 1;
     ptoConflicts += ptoSummaryForDay(state.location, day).conflicts.length;
 
@@ -2670,7 +2670,7 @@ function nextWeekChecks() {
 
   return {
     pendingRequests,
-    unsubmittedPolicyEdits,
+    unsubmittedExceptions,
     unassignedPositions,
     invalidCoverageDays,
     ptoConflicts,
@@ -2704,8 +2704,8 @@ function submitNextWeekForGMApproval() {
     window.alert(`Resolve ${checks.pendingRequests} pending policy request(s) in next week before GM review.`);
     return;
   }
-  if (checks.unsubmittedPolicyEdits > 0) {
-    window.alert(`Submit/resolve ${checks.unsubmittedPolicyEdits} day-level policy edit(s) in next week first.`);
+  if (checks.unsubmittedExceptions > 0) {
+    window.alert(`Submit/resolve ${checks.unsubmittedExceptions} day-level exception edit(s) in next week first.`);
     return;
   }
   if (checks.invalidCoverageDays > 0) {
@@ -2744,7 +2744,7 @@ function setGMDecision(status) {
 
   if (status === 'rejected' && state.weeks[0]) {
     state.weeks[0].days.forEach((day) => {
-      day.policyChanged = true;
+      day.hasException = true;
       day.lastDecision = 'rejected';
     });
   }
@@ -3279,7 +3279,7 @@ function renderPlannerSubnav() {
                data-subtab="pto_requests"
              >PTO Requests</button>
            </div>`
-        : '<div class="planner-subnav-secondary"><span class="planner-subnav-label">Shift Planner</span><span class="planner-subnav-note">Plan and assign shifts by store, then route policy changes through approvals.</span></div>'
+        : '<div class="planner-subnav-secondary"><span class="planner-subnav-label">Shift Planner</span><span class="planner-subnav-note">Plan and assign shifts by store, then route exception requests through approvals.</span></div>'
     }
   `;
 }
@@ -3294,7 +3294,7 @@ function renderPageInstructions() {
   if (topMenu === 'shift_planner' && page === 'weekly_plan') {
     panel.innerHTML = `
       <h2>How To Use Shift Planner</h2>
-      <p>Start with location and date, review weather recommendation, then assign names into slots. Use “Assign Next 12 Weeks” for recurring shifts and submit policy changes only when schedule structure needs approval.</p>
+      <p>Start with location and date, review weather recommendation, then assign names into slots. Use “Assign Next 12 Weeks” for recurring shifts and submit exception requests only when schedule structure needs approval.</p>
       <p class="help">Templates are month-invariant by default. Monday-open scenarios use Tuesday template assumptions.</p>
     `;
     return;
@@ -3303,7 +3303,7 @@ function renderPageInstructions() {
   if (topMenu === 'shift_planner' && page === 'approvals') {
     panel.innerHTML = `
       <h2>How To Use Approvals</h2>
-      <p>Review manager changes and next-week readiness first, then route final approval to GM before export. Day-level policy changes and PTO conflicts should be resolved before weekly approval.</p>
+      <p>Review manager changes and next-week readiness first, then route final approval to GM before export. Day-level exception requests and PTO conflicts should be resolved before weekly approval.</p>
     `;
     return;
   }
@@ -3371,7 +3371,7 @@ function renderWeeklySidebar() {
                <p>
                  <strong>Readiness:</strong>
                  ${nextWeekChecksState.pendingRequests} pending day requests ·
-                 ${nextWeekChecksState.unsubmittedPolicyEdits} unsubmitted edits ·
+                 ${nextWeekChecksState.unsubmittedExceptions} unsubmitted edits ·
                  ${nextWeekChecksState.unassignedPositions} unassigned positions ·
                  ${nextWeekChecksState.invalidCoverageDays} invalid coverage days ·
                  ${nextWeekChecksState.ptoConflicts} PTO conflicts
@@ -3469,7 +3469,7 @@ function renderApprovalsPage() {
         <p>
           <strong>Readiness:</strong>
           ${nextWeekChecksState.pendingRequests} pending day requests ·
-          ${nextWeekChecksState.unsubmittedPolicyEdits} unsubmitted edits ·
+          ${nextWeekChecksState.unsubmittedExceptions} unsubmitted edits ·
           ${nextWeekChecksState.unassignedPositions} unassigned positions ·
           ${nextWeekChecksState.invalidCoverageDays} invalid coverage days ·
           ${nextWeekChecksState.ptoConflicts} PTO conflicts
@@ -3956,8 +3956,8 @@ function renderAll() {
   renderPageVisibility();
 }
 
-function markPolicyChanged(day) {
-  day.policyChanged = true;
+function markException(day) {
+  day.hasException = true;
 }
 
 function submitChangeRequest(weekIdx, dayIdx) {
@@ -3976,14 +3976,14 @@ function submitChangeRequest(weekIdx, dayIdx) {
     return;
   }
 
-  if (!day.policyChanged) {
-    window.alert('No policy changes detected for this day.');
+  if (!day.hasException) {
+    window.alert('No exception changes detected for this day.');
     return;
   }
 
   const reason = (day.note || '').trim();
   if (!reason) {
-    window.alert('Please provide a reason before submitting a policy change request.');
+    window.alert('Please provide a reason before submitting an exception request.');
     return;
   }
 
@@ -4002,7 +4002,7 @@ function submitChangeRequest(weekIdx, dayIdx) {
 
   state.requests.unshift(request);
   day.pendingRequestId = requestId;
-  day.policyChanged = false;
+  day.hasException = false;
   day.note = '';
 
   saveState();
@@ -4022,7 +4022,7 @@ function setRequestStatus(requestId, status) {
         day.pendingRequestId = null;
         day.lastDecision = status;
         if (status === 'rejected') {
-          day.policyChanged = true;
+          day.hasException = true;
           day.note = day.note || 'Request rejected. Revise and resubmit for approval.';
         }
       }
@@ -4053,7 +4053,7 @@ function exportApprovedPayload() {
 
   state.weeks.forEach((week) => {
     week.days.forEach((day) => {
-      if (day.policyChanged) policyEditCount += 1;
+      if (day.hasException) policyEditCount += 1;
       if (day.pendingRequestId) dayPendingCount += 1;
       if (!dayValidation(day).ok) invalidCoverageCount += 1;
       day.slots.forEach((slot) => {
@@ -4079,7 +4079,7 @@ function exportApprovedPayload() {
     horizonWeeks: state.horizonWeeks,
     startDate: state.startDate,
     workflow: {
-      approvalRequiredForPolicyChanges: true,
+      approvalRequiredForExceptions: true,
       noAutoAssignment: true,
       source: 'joyus-fast-casual-staffing-planner',
       gmApprovalRequiredForNextWeek: true,
@@ -4164,7 +4164,7 @@ function bindPlannerEvents() {
         return;
       }
       day.lastAcceptedRecommendationKey = null;
-      day.policyChanged = true;
+      day.hasException = true;
       day.showLastWeekHelper = true;
       if (!day.note || !day.note.trim()) {
         if (mode === 'names') {
@@ -4216,7 +4216,7 @@ function bindPlannerEvents() {
     if (action === 'add-slot') {
       day.slots.push(makeSlot('17:00', '21:00', 'Flex Scooper', 1));
       day.lastAcceptedRecommendationKey = null;
-      markPolicyChanged(day);
+      markException(day);
       invalidateNextWeekApproval(weekIdx);
       saveState();
       renderAll();
@@ -4227,7 +4227,7 @@ function bindPlannerEvents() {
       if (!Number.isInteger(slotIdx) || !day.slots[slotIdx]) return;
       day.slots.splice(slotIdx, 1);
       day.lastAcceptedRecommendationKey = null;
-      markPolicyChanged(day);
+      markException(day);
       invalidateNextWeekApproval(weekIdx);
       saveState();
       renderAll();
@@ -4255,7 +4255,7 @@ function bindPlannerEvents() {
         return;
       }
 
-      markPolicyChanged(day);
+      markException(day);
       if (!day.note || !day.note.trim()) {
         day.note = `Accepted recommendation (${rec.action}) based on weather forecast/signal.`;
       }
@@ -4294,7 +4294,7 @@ function bindPlannerEvents() {
       }
 
       day.lastAcceptedRecommendationKey = null;
-      markPolicyChanged(day);
+      markException(day);
       invalidateNextWeekApproval(weekIdx);
       saveState();
       renderAll();

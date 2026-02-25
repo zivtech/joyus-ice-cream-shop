@@ -244,8 +244,8 @@ def validate_plan(plan: dict[str, Any], max_shift_hours: float = 14.0) -> list[s
             issues.append("GM next-week approval is approved but reviewedAt is missing.")
 
     workflow = plan.get("workflow") or {}
-    if workflow.get("approvalRequiredForPolicyChanges") is not True:
-        issues.append("Workflow flag approvalRequiredForPolicyChanges must be true.")
+    if workflow.get("approvalRequiredForExceptions") is not True:
+        issues.append("Workflow flag approvalRequiredForExceptions must be true.")
     if workflow.get("gmApprovalRequiredForNextWeek") is not True:
         issues.append("Workflow flag gmApprovalRequiredForNextWeek must be true.")
 
@@ -271,8 +271,8 @@ def validate_plan(plan: dict[str, Any], max_shift_hours: float = 14.0) -> list[s
                 seen_day_dates.add(day_date)
             if day.get("pendingRequestId"):
                 issues.append(f"Week {week_idx + 1} day {day.get('date')}: pending request exists.")
-            if day.get("policyChanged"):
-                issues.append(f"Week {week_idx + 1} day {day.get('date')}: unsubmitted policy edits exist.")
+            if day.get("hasException"):
+                issues.append(f"Week {week_idx + 1} day {day.get('date')}: unsubmitted exceptions exist.")
 
             for slot_idx, slot in enumerate(day.get("slots") or []):
                 start_raw = (slot.get("start") or "").strip()

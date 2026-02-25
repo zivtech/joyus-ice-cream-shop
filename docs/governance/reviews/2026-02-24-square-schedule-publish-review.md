@@ -7,7 +7,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 ## Constitution test
 1. Which decision does this support?
    - Owner/admin decision to push an approved weekly schedule to Square for operational execution.
-   - Operator confidence that only approved, validated plans reach the external system.
+   - GM confidence that only approved, validated plans reach the external system.
 
 2. What action changes because this exists?
    - Approved schedules are translated into Square Scheduled Shifts via MCP with preflight validation gates.
@@ -25,7 +25,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 
 5. Overlap/duplication check
    - The HTTP endpoint contract and the Python script contract describe the same logical operation at two transport layers (API and CLI script).
-   - This is not harmful duplication — they serve different invocation contexts (service call vs operator CLI). Both should exist.
+   - This is not harmful duplication — they serve different invocation contexts (service call vs admin CLI). Both should exist.
    - No overlap with other interfaces; this is the only Square publish path.
 
 ## Comparative-owner need alignment

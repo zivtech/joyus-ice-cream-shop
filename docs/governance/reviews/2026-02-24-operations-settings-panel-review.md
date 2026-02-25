@@ -19,7 +19,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Makes upstream configuration explicit and editable rather than hidden in code constants.
 
 4. What breaks if removed?
-   - Guardrail and assumption values would need to be hardcoded or managed outside the application, losing operator control.
+   - Guardrail and assumption values would need to be hardcoded or managed outside the application, losing admin control.
    - The constitution's "economic transparency" and "decision clarity" outcomes depend on these assumptions being visible and configurable.
 
 5. Overlap/duplication check

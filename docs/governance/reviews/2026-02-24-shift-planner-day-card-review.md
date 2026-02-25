@@ -10,11 +10,11 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
    - Admin/owner readiness for day-change request approval and export safety.
 
 2. What action changes because this exists?
-   - Managers can edit/add/delete slots, assign staff, copy prior-week templates, and submit policy requests.
-   - Managers can immediately see viability/weather/PTO context before requesting policy changes.
+   - Managers can edit/add/delete slots, assign staff, copy prior-week templates, and submit exception requests.
+   - Managers can immediately see viability/weather/PTO context before requesting exceptions.
 
 3. What risk is reduced?
-   - Coverage-risk and policy-change errors are surfaced before request/export (`dayValidation`, pending-request checks).
+   - Coverage-risk and exception errors are surfaced before request/export (`dayValidation`, pending-request checks).
    - Staffing decisions are less blind by including viability and weather context in-card.
 
 4. What breaks if removed?

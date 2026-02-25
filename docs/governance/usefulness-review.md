@@ -25,7 +25,7 @@ This repo separates observed behavior from approved product truth for widgets, p
 
 ## Operational flow
 1. Capture item as `as_built_observation` + `unreviewed` in manifest.
-2. Run review with operator/product stakeholders.
+2. Run review with admin/product stakeholders.
 3. Update validation fields to final review state.
 4. Promote to `active` only if criteria above are met.
 5. Run `pnpm validate` to enforce gates and print pending backlog.

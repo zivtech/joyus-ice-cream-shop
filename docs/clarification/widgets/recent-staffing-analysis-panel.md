@@ -7,7 +7,7 @@
 - Last clarified: 2026-02-24
 
 ## Purpose
-- Provide a structured actual-vs-expected performance review with weather context and operator notes for recent shifts.
+- Provide a structured actual-vs-expected performance review with weather context and manager notes for recent shifts.
 
 ## Data source and transform path
 - Actual rows: `sourceData.daily_actual[loc]` filtered by `recentActualRowsForScope(scope, lookbackWeeks)`.

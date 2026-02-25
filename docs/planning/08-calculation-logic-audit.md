@@ -154,7 +154,7 @@ Key chart functions to note for React component planning:
 |----------|------|---------|-------|
 | `dayValidation()` | 1227 | Validates minimum opener/closer coverage for a day. | **BUG: hardcodes min counts instead of reading from `state.settings.workflow`.** See [Bugs](#bugs--issues-found). |
 | `weekLaborHours()` | 1247 | Sums total labor hours across a week's slots. | Simple aggregation. |
-| `nextWeekChecks()` | 2638 | Pre-submission validation: pending requests, unsubmitted edits, unassigned positions, invalid coverage, PTO conflicts. | Approval gate logic. |
+| `nextWeekChecks()` | 2638 | Pre-submission validation: pending requests, unsubmitted exceptions, unassigned positions, invalid coverage, PTO conflicts. | Approval gate logic. |
 | `assignmentGapSummary()` | 2594 | Counts unassigned positions across upcoming weeks. | Readiness metric. |
 
 #### Financial Viability
@@ -240,9 +240,9 @@ Key chart functions to note for React component planning:
 | Function | Line | Purpose | Notes |
 |----------|------|---------|-------|
 | `submitNextWeekForGMApproval()` | 2701 | Validates readiness (5 checks) then transitions to `pending`. | **Core workflow — must be server-side.** |
-| `setGMDecision()` | 2734 | GM approves or rejects. On reject, marks all days as `policyChanged`. | **Core workflow — must be server-side.** |
+| `setGMDecision()` | 2734 | GM approves or rejects. On reject, marks all days as `hasException`. | **Core workflow — must be server-side.** |
 | `invalidateNextWeekApproval()` | 2688 | If week 0 was approved and gets edited, resets to `draft`. | Edit-invalidation rule. |
-| `markPolicyChanged()` | 3959 | Flags a day as having unapproved policy changes. | State mutation. |
+| `markException()` | 3959 | Flags a day as having an unsubmitted exception. | State mutation. |
 | `submitChangeRequest()` | 3963 | Creates a policy exception request for a day. | Request creation. |
 | `setRequestStatus()` | 4012 | Approves or denies a policy exception request. | Request resolution. |
 | `requestSummaryCounts()` | 2630 | Counts pending/approved/denied requests. | Aggregation. |

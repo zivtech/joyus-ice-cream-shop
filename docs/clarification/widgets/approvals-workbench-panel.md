@@ -18,7 +18,7 @@
 ## Calculation logic
 - Next-week readiness counters include:
   - pending day requests
-  - unsubmitted policy edits
+  - unsubmitted exceptions
   - unassigned slot positions
   - invalid coverage days
   - PTO conflicts

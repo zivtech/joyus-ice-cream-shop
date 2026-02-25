@@ -11,7 +11,7 @@
 
 ## Primary users
 - Store managers creating and assigning shifts.
-- Admin/owner role reviewing readiness and approval gates.
+- GM reviewing readiness and approval gates.
 
 ## Inputs and data
 - Required: local `data.json` fetched at planner bootstrap.
@@ -37,7 +37,7 @@
 - Add/delete slots.
 - Copy last week names/shifts/both.
 - Accept weather recommendation.
-- Submit policy change request.
+- Submit exception request.
 - Submit next week for GM approval.
 - Export approved plan JSON.
 

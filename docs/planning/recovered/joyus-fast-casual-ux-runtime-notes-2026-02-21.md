@@ -50,11 +50,11 @@ Capture implementation decisions from the Milk Jawn command center that should b
 
 3. Export contract
 - Keep `ops_export_excel` and `/api/v1/tenants/{tenantId}/exports/*` as first-class integration points.
-- Workbook remains operator-first values export, not a formula-heavy planning workbook.
+- Workbook remains manager-first values export, not a formula-heavy planning workbook.
 
 ## Recommended Next Build Steps
 
-1. Implement shared Operator UI Kit primitives in the Phase 3 web app:
+1. Implement shared Operations UI Kit primitives in the Phase 3 web app:
 - `PrimaryTabs`
 - `SectionTabs`
 - `ScopeSelector`

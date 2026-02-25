@@ -7,7 +7,7 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 ## Constitution test
 1. Which decision does this support?
    - Admin decision on when and how to synchronize data from external providers (Square timesheets, sales, PTO).
-   - Operator visibility into sync run status for data freshness confidence.
+   - Admin visibility into sync run status for data freshness confidence.
 
 2. What action changes because this exists?
    - Admins can trigger provider sync runs from settings or assistant workflows.

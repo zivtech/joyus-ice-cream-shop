@@ -6,13 +6,13 @@ Review mode: Constitution-aligned usefulness pass (recommendation only; manifest
 
 ## Constitution test
 1. Which decision does this support?
-   - Manager decisions on weekly schedule construction: slot creation, staff assignment, gap resolution, and policy change requests.
+   - Manager decisions on weekly schedule construction: slot creation, staff assignment, gap resolution, and exception requests.
    - Admin/owner decisions on approval readiness and export safety for the weekly plan.
    - This page is the primary composition surface for the plan -> validate -> approve -> publish decision loop.
 
 2. What action changes because this exists?
    - Managers can build and iterate on weekly schedules with day-level granularity (slots, assignments, viability, weather context).
-   - Managers can submit policy change requests and next-week approval submissions.
+   - Managers can submit exception requests and next-week approval submissions.
    - Admins can review readiness, approve, and export the schedule payload for downstream publish.
    - Location, horizon, and week-start filters scope the planning context.
 

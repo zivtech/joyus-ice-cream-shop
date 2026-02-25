@@ -387,7 +387,7 @@ CREATE TABLE schedule_days (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     schedule_id BIGINT UNSIGNED NOT NULL,
     date DATE NOT NULL,
-    policy_changed BOOLEAN NOT NULL DEFAULT FALSE,
+    has_exception BOOLEAN NOT NULL DEFAULT FALSE,
     pending_request_id BIGINT UNSIGNED NULL,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
@@ -640,7 +640,7 @@ interface Slot {
 interface ScheduleDay {
   date: ISODate;
   slots: Slot[];
-  policyChanged: boolean;
+  hasException: boolean;
   pendingRequestId: number | null;
 }
 
@@ -686,7 +686,7 @@ interface DayFinancialViability {
 
 interface NextWeekChecks {
   pendingRequests: number;
-  unsubmittedPolicyEdits: number;
+  unsubmittedExceptions: number;
   unassignedPositions: number;
   invalidCoverageDays: number;
   ptoConflicts: number;

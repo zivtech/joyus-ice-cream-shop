@@ -14,7 +14,7 @@ Related docs:
 
 | ID | Feature | Problem | Primary user | Data dependencies | APIs/MCP tools | UI surfaces | Compliance impact | Cost impact | Status | Owner | Target release |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| JFC-NOW-001 | POC UX + A11y stabilization | Planner content leaks into non-planner pages and controls are cluttered | Manager, Operator | Current `data.json`, planner state | N/A | Shift Planner, Shift Analysis, Settings, Dashboard nav | Medium: clearer risk visibility | Low | In progress | Codex | Sprint 1 |
+| JFC-NOW-001 | POC UX + A11y stabilization | Planner content leaks into non-planner pages and controls are cluttered | Store Manager, GM | Current `data.json`, planner state | N/A | Shift Planner, Shift Analysis, Settings, Dashboard nav | Medium: clearer risk visibility | Low | In progress | Codex | Sprint 1 |
 | JFC-NOW-002 | Excel export API + MCP (`ops_export_excel`) | Operators need downloadable workbook from UI and chat | Manager, Admin | KPI summaries, daypart, seasonal trigger, daily raw | `POST /api/v1/tenants/{tenantId}/exports/excel`; `GET /api/v1/tenants/{tenantId}/exports/{exportId}`; `ops_export_excel` | Dashboard export controls, future Joyus exports panel | Medium: enforce tenant scope + audit | Low | In progress | Platform | Sprint 1 |
 | JFC-NOW-003 | Sync run orchestration foundation | Static data path cannot scale to many locations | Admin, Data ops | Square auth tokens, location roster | `POST /api/v1/tenants/{tenantId}/sync-runs`; `GET /api/v1/tenants/{tenantId}/sync-runs/{runId}`; `ops_sync_run_create`; `ops_sync_run_status` | Settings > Integrations, Ops console | Medium: tenant boundary + audit | Medium | Planned | Platform | Sprint 1 |
 | JFC-NOW-004 | Connector authorization endpoint | Need provider-level auth initiation for each tenant | Admin | Provider metadata, tenant connector config | `POST /api/v1/tenants/{tenantId}/connectors/{provider}/authorize` | Settings > Integrations | Medium | Low | Planned | Platform | Sprint 1 |
@@ -32,7 +32,7 @@ Related docs:
 | JFC-NEXT-003 | PTO + availability conflict resolver | Last-minute holes are hard to fill safely | Manager | PTO feed, employee availability, skill matrix | `GET /api/v1/tenants/{tenantId}/schedules/{scheduleId}/conflicts` | Shift Planner, Approvals | High | Low to Medium | Planned | Workforce integrations | Q2 |
 | JFC-NEXT-004 | Weather + event demand engine | Forecast adjustments are not systematic | Manager, Owner | Hourly weather, local event feeds, historical sales | `GET /api/v1/tenants/{tenantId}/demand-signals` | Dashboard, Shift Planner | Low | Medium | Planned | Forecasting | Q2 |
 | JFC-NEXT-005 | Shift publish hardening to Square/Toast | Need resilient publish with retries and idempotency | Admin | Approved schedules, connector auth, location mapping | `POST /api/v1/tenants/{tenantId}/schedules/{scheduleId}/square/publish`; MCP publish tools | Approvals, Publish history | High | Medium | Planned | Platform | Q2 |
-| JFC-NEXT-006 | Playbook target builder | Static targets are not operator-friendly | Owner, Manager | KPI history, user-entered targets | `POST /api/v1/tenants/{tenantId}/targets` | Dashboard | Low | Low | Planned | Product | Q2 |
+| JFC-NEXT-006 | Playbook target builder | Static targets are not admin-friendly | Owner, Manager | KPI history, user-entered targets | `POST /api/v1/tenants/{tenantId}/targets` | Dashboard | Low | Low | Planned | Product | Q2 |
 
 ## Later (post-MVP)
 

@@ -8,7 +8,7 @@
 - Utility review state: `unreviewed`
 
 ## Purpose
-- Summarize top-level monthly, hourly, weekday, and yearly performance signals in one operator-facing narrative block.
+- Summarize top-level monthly, hourly, weekday, and yearly performance signals in one manager-facing narrative block.
 
 ## Data source and transform path
 - Monthly basis rows: `monthlySeriesForScope(state.plan, state.mondayScenario)`.

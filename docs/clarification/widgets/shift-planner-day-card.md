@@ -44,7 +44,7 @@
 - Assign-next-12-weeks propagation.
 - Accept weather recommendation action.
 - Toggle/view/copy last-week schedule (names/shifts/both).
-- Enter policy-change note and submit request.
+- Enter exception request note and submit request.
 - View PTO conflict context.
 
 ## Dependencies and side effects
@@ -61,7 +61,7 @@
 ## Open questions
 - Should viability be shown per slot block in addition to day-level?
 - Should card support compact/expanded modes for large horizons?
-- Which actions should require role-based permissions (manager vs admin)?
+- Which actions should require role-based permissions (Store Manager vs Admin)?
 
 ## Source references
 - `/Users/AlexUA/claude/joyus-ice-cream-shop/apps/ice-cream-ops/staffing-planner.js:2266`
