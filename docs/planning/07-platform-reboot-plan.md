@@ -504,6 +504,14 @@ These are decisions that need to be made before or during the relevant phase. Th
 
 **Needed by**: Phase 1 (nice-to-have, not blocking).
 
+### 4. Inventory & Order Management
+
+**Need**: Stores must track inventory (ice cream product, supplies like cups/spoons, waffle cone batter, cleaning supplies, etc.) and place orders when stock drops below par levels. Store managers are responsible for ordering. Items have pars (minimum stock thresholds).
+
+**Scope (to be defined)**: Par tracking, reorder triggers, order creation, supplier management, receiving/counting workflows, COGS tie-in to financial model.
+
+**Needed by**: TBD — not in current phased build plan. Requires its own requirements analysis and JTBD pass before scoping into a phase.
+
 ---
 
 ## Appendix: Cross-Reference of Jobs to Phases
