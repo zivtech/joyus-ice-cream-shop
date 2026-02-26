@@ -45,6 +45,7 @@ web_extra_daemons:
 hooks:
     post-start:
         - exec: "cd /var/www/html/platform && php artisan migrate --force 2>/dev/null || true"
+        - exec: "cd /var/www/html/platform && php artisan db:seed --force 2>/dev/null || true"
 
 # Key features of DDEV's config.yaml:
 
