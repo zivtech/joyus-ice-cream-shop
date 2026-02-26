@@ -516,11 +516,13 @@ These are decisions that need to be made before or during the relevant phase. Th
 
 ### Remaining Open Items
 
-### 1. DoorDash Commission Structure
+### ~~1. DoorDash Commission Structure~~ — Resolved
 
-**Question**: What commission rates does DoorDash charge Milk Jawn? Are there different tiers or promotional rates?
+**Answer**: DoorDash charges location-specific commission rates:
+- **East Passyunk (EP)**: 20%
+- **NoLibs (NL)**: 25%
 
-**Needed by**: Phase 3 (delivery adapter design — need to model commission accurately for channel economics).
+Commission rates are per-location, not per-tenant. The platform models this via `TenantSetting` (category: `delivery`, key: `doordash_commission_rate`) or as a field on the Location model.
 
 ### ~~2. Scheduling Engine Integration Pattern~~ — Resolved
 
