@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\Employee;
 use App\Models\Location;
+use App\Models\Schedule;
 use App\Models\TenantSetting;
 use App\Policies\EmployeePolicy;
 use App\Policies\LocationPolicy;
+use App\Policies\SchedulePolicy;
 use App\Policies\TenantSettingPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 
@@ -21,6 +23,7 @@ class AppServiceProvider extends AuthServiceProvider
         Location::class      => LocationPolicy::class,
         Employee::class      => EmployeePolicy::class,
         TenantSetting::class => TenantSettingPolicy::class,
+        Schedule::class      => SchedulePolicy::class,
     ];
 
     /**

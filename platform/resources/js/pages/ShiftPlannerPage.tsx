@@ -1,28 +1,96 @@
-import { useAuth } from '@/hooks/useAuth';
+import { useState, useCallback } from 'react';
+import { useSchedules, useSchedule } from '@/api/hooks';
+import { LocationSelector } from '@/components/LocationSelector';
+import { WeekSelector } from '@/components/WeekSelector';
+import { ScheduleActions } from '@/components/ScheduleActions';
+import { DayColumn } from '@/components/planner/DayColumn';
+import { EmptySchedule } from '@/components/planner/EmptySchedule';
+import { getMonday, toISODate } from '@/utils/format';
+import client from '@/api/client';
+import type { Schedule } from '@/types';
 
 export function ShiftPlannerPage() {
-  const { user } = useAuth();
-  const roleLabel = user?.roles[0]
-    ? user.roles[0].replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-    : '';
+  const [locationId, setLocationId] = useState<number | null>(null);
+  const [weekStart, setWeekStart] = useState(() => toISODate(getMonday(new Date())));
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState('');
+
+  const handleLocationChange = useCallback((id: number) => {
+    setLocationId(id);
+  }, []);
+
+  const { data: schedules, refresh: refreshList } = useSchedules(
+    locationId ? { location_id: locationId, week_start: weekStart } : undefined,
+  );
+
+  const activeSchedule = schedules.length > 0 ? schedules[0] : null;
+  const { data: schedule, loading, error, refresh: refreshSchedule } = useSchedule(activeSchedule?.id ?? null);
+
+  function handleRefresh() {
+    refreshList();
+    refreshSchedule();
+  }
+
+  async function handleCreateSchedule() {
+    if (!locationId) return;
+    setCreating(true);
+    setCreateError('');
+    try {
+      await client.post<Schedule>('/schedules', {
+        location_id: locationId,
+        week_start: weekStart,
+      });
+      handleRefresh();
+    } catch {
+      setCreateError('Failed to create schedule.');
+    } finally {
+      setCreating(false);
+    }
+  }
 
   return (
-    <div className="max-w-3xl">
-      <h1 className="text-xl font-semibold text-gray-900">Shift Planner</h1>
-      <p className="text-sm text-gray-500 mt-1">Schedule and manage shifts for your locations.</p>
-
-      <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 border border-indigo-200">
-            {roleLabel}
-          </span>
-        </div>
-        <p className="text-sm text-gray-600">
-          <span className="font-medium text-gray-800">Shift Planner — coming in Phase 4.</span>{' '}
-          This page will provide a weekly drag-and-drop schedule builder, labor cost projections
-          per shift, and one-click publish to Square.
-        </p>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold text-gray-900">Shift Planner</h1>
+        <p className="text-sm text-gray-500 mt-1">Build and manage weekly shift schedules.</p>
       </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-4">
+          <LocationSelector value={locationId} onChange={handleLocationChange} />
+          <WeekSelector value={weekStart} onChange={setWeekStart} />
+        </div>
+        {schedule && <ScheduleActions schedule={schedule} onAction={handleRefresh} />}
+      </div>
+
+      {error && (
+        <div className="mb-4 rounded-md bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+      {createError && (
+        <div className="mb-4 rounded-md bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+          {createError}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="py-16 text-center text-sm text-gray-500">Loading schedule...</div>
+      ) : schedule ? (
+        <div className="grid grid-cols-7 gap-2">
+          {schedule.days.map((day) => (
+            <DayColumn key={day.id} day={day} schedule={schedule} onSlotChange={handleRefresh} />
+          ))}
+        </div>
+      ) : (
+        <EmptySchedule
+          weekStart={weekStart}
+          locationId={locationId}
+          onCreateClick={() => {
+            if (!creating) void handleCreateSchedule();
+          }}
+        />
+      )}
     </div>
   );
 }
