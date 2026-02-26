@@ -1,6 +1,6 @@
 # 07 — Platform Reboot Plan
 
-> **Status**: Active — Phase 3 complete, Phase 4 next
+> **Status**: Active — Phase 4 complete, Phase 5 next
 > **Created**: 2026-02-24
 > **Purpose**: Comprehensive reference for rebooting the Milk Jawn platform from a single-tenant vanilla JS application to a hosted, multi-tenant operational platform.
 
@@ -396,20 +396,28 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 
 **Test coverage**: 16 new PHP tests (PosAdapter 7, DeliveryAdapter 4, ImportHistoricalData 5). Total: 57 Laravel + 126 engine = 183 tests.
 
-### Phase 4: Core Operational UI
+### Phase 4: Core Operational UI — Complete
 
 **Goal**: The primary user-facing product. Dashboard, shift planner, and schedule publishing with role-based access.
 
 **Delivers**: End-user value. After this phase, the platform is usable for daily operations.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Dashboard | Revenue, labor cost, gross profit, seasonal comparisons, channel mix (in-store vs. delivery) | Jobs 1, 2, 3, 4b |
-| Shift Planner | Schedule building with coverage rules, cost projection | Job 7 |
-| Schedule Approval Workflow | GM approval gate with readiness checks | Job 5 |
-| Schedule Publishing | Approved schedule -> POS via adapter | Job 4 |
-| Staff Schedule View | Mobile-friendly schedule visibility | Jobs 10, 12 |
-| Role-based permissions in UI | Render based on authenticated user's server-side permissions | Role Model |
+**Commit**: `a9906d9`
+
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Dashboard | KPI cards (revenue, labor %, GP, avg daily rev), daily actuals table, location/date selectors | Jobs 1, 2, 3, 4b | Complete |
+| Shift Planner | 7-column week grid, slot editor modal, employee assignment, schedule CRUD | Job 7 | Complete |
+| Schedule Approval Workflow | Submit/approve/reject/publish workflow with SchedulePolicy role enforcement (gm+ for approval) | Job 5 | Complete |
+| Schedule Publishing | Status workflow complete (draft→pending→approved→published); POS push deferred to live integration | Job 4 | Workflow complete |
+| Shift Analysis | Sortable daily actuals table with location/date filtering and summary footer | Jobs 9 | Complete |
+| Role-based permissions in UI | SchedulePolicy + RoleGate components enforce server-side and client-side access | Role Model | Complete |
+
+**Backend**: ScheduleController (CRUD + 4 workflow actions), ScheduleSlotController, ShiftAssignmentController, DailyActualController (index + summary with GP calculation). 21 new tests.
+
+**Frontend**: 15 new React components — DashboardPage, ShiftPlannerPage, ShiftAnalysisPage, SeasonalPlaybookPage, plus shared components (KpiCard, LocationSelector, DateRangeSelector, WeekSelector, StatusBadge, ScheduleActions, DayColumn, SlotEditor, EmptySchedule). API hooks layer, format utilities.
+
+**Test coverage**: 78 Laravel tests (229 assertions) + 126 engine tests = 204 total.
 
 ### Phase 5: Compliance and Advanced Features
 
