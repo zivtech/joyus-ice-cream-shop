@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BillingController;
 use App\Http\Controllers\Api\ComplianceRuleController;
 use App\Http\Controllers\Api\DailyActualController;
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\OnboardingController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PolicyExceptionRequestController;
 use App\Http\Controllers\Api\PtoRequestController;
@@ -15,6 +18,7 @@ use App\Http\Controllers\Api\TenantSettingController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
+Route::get('/health', [HealthController::class, 'status']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -73,4 +77,15 @@ Route::middleware(['auth:sanctum', 'tenant.scope'])->group(function () {
     Route::post('pto-requests/{ptoRequest}/deny', [PtoRequestController::class, 'deny']);
     Route::post('pto-requests/{ptoRequest}/cancel', [PtoRequestController::class, 'cancel']);
     Route::apiResource('pto-requests', PtoRequestController::class)->only(['index', 'store', 'show']);
+
+    // Onboarding
+    Route::get('onboarding/status', [OnboardingController::class, 'status']);
+    Route::post('onboarding/connect-pos', [OnboardingController::class, 'connectPos']);
+    Route::post('onboarding/import-data', [OnboardingController::class, 'importData']);
+    Route::post('onboarding/configure-rules', [OnboardingController::class, 'configureRules']);
+
+    // Billing
+    Route::get('billing/status', [BillingController::class, 'status']);
+    Route::post('billing/subscribe', [BillingController::class, 'subscribe']);
+    Route::post('billing/cancel', [BillingController::class, 'cancel']);
 });

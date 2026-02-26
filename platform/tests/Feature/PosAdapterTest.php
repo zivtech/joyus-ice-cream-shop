@@ -55,9 +55,9 @@ class PosAdapterTest extends TestCase
     public function test_adapter_factory_throws_on_unknown_adapter(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unknown POS adapter: toast');
+        $this->expectExceptionMessage('Unknown POS adapter: nonexistent');
 
-        AdapterFactory::pos('toast');
+        AdapterFactory::pos('nonexistent');
     }
 
     public function test_square_health_check_returns_true_on_success(): void

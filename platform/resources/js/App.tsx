@@ -14,6 +14,9 @@ import { CertificationDashboardPage } from '@/pages/CertificationDashboardPage';
 import { ExceptionRequestsPage } from '@/pages/ExceptionRequestsPage';
 import { PtoPage } from '@/pages/PtoPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { OnboardingPage } from '@/pages/OnboardingPage';
+import { BusinessRulesPage } from '@/pages/BusinessRulesPage';
+import { BillingPage } from '@/pages/BillingPage';
 
 export function App() {
   return (
@@ -94,6 +97,30 @@ export function App() {
               element={
                 <ProtectedRoute>
                   <PtoPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="onboarding"
+              element={
+                <ProtectedRoute roles={['admin', 'gm']}>
+                  <OnboardingPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="business-rules"
+              element={
+                <ProtectedRoute roles={['admin', 'gm']}>
+                  <BusinessRulesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="billing"
+              element={
+                <ProtectedRoute roles={['admin']}>
+                  <BillingPage />
                 </ProtectedRoute>
               }
             />

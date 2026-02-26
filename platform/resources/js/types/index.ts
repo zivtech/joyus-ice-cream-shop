@@ -218,3 +218,32 @@ export interface CertificationSummary {
   expiring_soon: number;
   expired: number;
 }
+
+export interface OnboardingStep {
+  completed: boolean;
+  label: string;
+  count?: number;
+}
+
+export interface OnboardingStatus {
+  steps: Record<string, OnboardingStep>;
+  current_step: string;
+  progress_pct: number;
+}
+
+export interface BillingPlan {
+  key: string;
+  label: string;
+  price: number;
+  locations: number | string;
+  features: string[];
+}
+
+export interface BillingStatus {
+  plan: string;
+  status: 'trialing' | 'active' | 'past_due' | 'canceled';
+  trial_ends_at: string | null;
+  is_active: boolean;
+  on_trial: boolean;
+  plans: BillingPlan[];
+}

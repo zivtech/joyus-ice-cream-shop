@@ -13,6 +13,8 @@ import type {
   MultiLocationRollup,
   CertificationEmployee,
   CertificationSummary,
+  OnboardingStatus,
+  BillingStatus,
 } from '@/types';
 
 interface PaginatedResponse<T> {
@@ -408,6 +410,50 @@ export function useCertificationStatus(params?: {
       .catch(() => setError('Failed to load certification data.'))
       .finally(() => setLoading(false));
   }, [locationId, expiringDays]);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return { data, loading, error, refresh };
+}
+
+export function useOnboardingStatus(): HookResult<OnboardingStatus | null> {
+  const [data, setData] = useState<OnboardingStatus | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    setError('');
+    client
+      .get<OnboardingStatus>('/onboarding/status')
+      .then((res) => setData(res.data))
+      .catch(() => setError('Failed to load onboarding status.'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return { data, loading, error, refresh };
+}
+
+export function useBillingStatus(): HookResult<BillingStatus | null> {
+  const [data, setData] = useState<BillingStatus | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    setError('');
+    client
+      .get<BillingStatus>('/billing/status')
+      .then((res) => setData(res.data))
+      .catch(() => setError('Failed to load billing status.'))
+      .finally(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
     refresh();

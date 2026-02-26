@@ -1,4 +1,5 @@
 import { useState, useEffect, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { RoleGate } from '@/components/RoleGate';
 import client from '@/api/client';
@@ -179,6 +180,40 @@ export function SettingsPage() {
             </div>
           </form>
         </RoleGate>
+      </div>
+
+      {/* Quick Navigation */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h2 className="text-sm font-semibold text-gray-900 mb-4">Configuration</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <RoleGate roles={['admin', 'gm']}>
+            <Link
+              to="/business-rules"
+              className="block rounded-lg border border-gray-200 p-4 hover:border-indigo-300 hover:bg-indigo-50 transition-colors"
+            >
+              <h3 className="text-sm font-semibold text-gray-900">Business Rules</h3>
+              <p className="text-xs text-gray-500 mt-1">Pay rates, hours, labor targets, workflow</p>
+            </Link>
+          </RoleGate>
+          <RoleGate roles={['admin']}>
+            <Link
+              to="/billing"
+              className="block rounded-lg border border-gray-200 p-4 hover:border-indigo-300 hover:bg-indigo-50 transition-colors"
+            >
+              <h3 className="text-sm font-semibold text-gray-900">Billing</h3>
+              <p className="text-xs text-gray-500 mt-1">Subscription management and plans</p>
+            </Link>
+          </RoleGate>
+          <RoleGate roles={['admin', 'gm']}>
+            <Link
+              to="/compliance"
+              className="block rounded-lg border border-gray-200 p-4 hover:border-indigo-300 hover:bg-indigo-50 transition-colors"
+            >
+              <h3 className="text-sm font-semibold text-gray-900">Compliance Rules</h3>
+              <p className="text-xs text-gray-500 mt-1">Certification and coverage requirements</p>
+            </Link>
+          </RoleGate>
+        </div>
       </div>
     </div>
   );

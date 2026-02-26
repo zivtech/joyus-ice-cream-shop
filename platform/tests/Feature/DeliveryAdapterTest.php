@@ -27,9 +27,9 @@ class DeliveryAdapterTest extends TestCase
     public function test_adapter_factory_throws_on_unknown_delivery_adapter(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unknown delivery adapter: grubhub');
+        $this->expectExceptionMessage('Unknown delivery adapter: nonexistent');
 
-        AdapterFactory::delivery('grubhub');
+        AdapterFactory::delivery('nonexistent');
     }
 
     public function test_doordash_adapter_returns_empty_collection(): void
