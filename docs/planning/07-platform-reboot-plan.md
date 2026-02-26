@@ -1,6 +1,6 @@
 # 07 — Platform Reboot Plan
 
-> **Status**: Active — Phase 2 complete, Phase 3 next
+> **Status**: Active — Phase 3 complete, Phase 4 next
 > **Created**: 2026-02-24
 > **Purpose**: Comprehensive reference for rebooting the Milk Jawn platform from a single-tenant vanilla JS application to a hosted, multi-tenant operational platform.
 
@@ -373,24 +373,28 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 
 **Tracked for future**: (1) Add `storeCount` param to `sharedManagerWeeklyImpact` — currently hardcoded `/2` for per-store split. (2) Add Zod input validation to Node HTTP server before production.
 
-### Phase 3: POS Integration
+### Phase 3: POS Integration — Complete
 
 **Goal**: Abstract POS adapter interface with a working Square implementation. Import pipeline brings historical data into the normalized schema.
 
 **Delivers**: The data bridge. Without this, the platform has no real data to work with.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Define abstract POS adapter interface | TypeScript interface with the five methods described above | Infrastructure |
-| Implement Square adapter | Import transactions, labor, employees; publish schedules; sync PTO | Jobs 4, 14 |
-| Import pipeline | Square raw data -> normalized platform schema, stored in backend entities | Job 14 |
-| Migrate Milk Jawn historical data | 44 months of Square data imported and validated against current `data.json` | Validation |
-| POS connection configuration UI | Secure storage of API credentials per tenant | Job 14 |
-| Define abstract delivery marketplace adapter interface | TypeScript interface for order import, payout import, menu sync | Job 4b |
-| Implement DoorDash adapter (if Milk Jawn uses it) | Import delivery orders with commission/fee data, channel attribution | Job 4b |
-| Delivery connection configuration UI | Per-tenant, per-location delivery platform credentials | Job 4b |
+**Commit**: `d683644`
+
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Define abstract POS adapter interface | PHP `PosAdapter` contract + TypeScript `NormalizedDailySales`, `NormalizedEmployee`, `ScheduleForPublish` types | Infrastructure | Complete |
+| Implement Square adapter | HTTP facade with pagination, rate-limit retry, orders/labor/team-members import, schedule publishing | Jobs 4, 14 | Complete |
+| Import pipeline | `pos:sync` and `delivery:sync` artisan commands with `--dry-run`, audit logging via PosSync/DeliverySync | Job 14 | Complete |
+| Migrate Milk Jawn historical data | `data:import-historical` command — upserts DailyActual + Employee records from data.json with BOTH pivot | Validation | Complete |
+| POS connection configuration UI | Credentials stored in TenantSetting (category: pos, key: square_access_token) | Job 14 | Backend complete, UI deferred to Phase 4 |
+| Define abstract delivery marketplace adapter interface | PHP `DeliveryAdapter` contract + TypeScript `NormalizedDeliveryDay` type | Job 4b | Complete |
+| Implement DoorDash adapter | Stub pending API partnership — historical delivery data imports via data:import-historical from doordash_net field | Job 4b | Stub complete |
+| Delivery connection configuration UI | Per-tenant, per-location delivery platform credentials | Job 4b | Deferred to Phase 4 |
 
 **Validation milestone**: After this phase, Milk Jawn's existing 44 months of historical data should be importable and produce the same analytics results as the current vanilla JS dashboard. This is the critical regression test.
+
+**Test coverage**: 16 new PHP tests (PosAdapter 7, DeliveryAdapter 4, ImportHistoricalData 5). Total: 57 Laravel + 126 engine = 183 tests.
 
 ### Phase 4: Core Operational UI
 
