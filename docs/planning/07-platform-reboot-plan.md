@@ -1,6 +1,6 @@
 # 07 — Platform Reboot Plan
 
-> **Status**: Active planning document
+> **Status**: Active — Phase 2 complete, Phase 3 next
 > **Created**: 2026-02-24
 > **Purpose**: Comprehensive reference for rebooting the Milk Jawn platform from a single-tenant vanilla JS application to a hosted, multi-tenant operational platform.
 
@@ -324,44 +324,54 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 | Task | Description | Status |
 |---|---|---|
 | Document jobs-to-be-done and architecture | This document | Complete |
-| Audit `app.js` calculation logic | Identify pure business logic vs. DOM/UI code | Not started |
-| Audit `staffing-planner.js` calculation logic | Identify extractable scheduling logic | Not started |
+| Audit `app.js` calculation logic | Identify pure business logic vs. DOM/UI code | Complete (see `08-calculation-logic-audit.md`) |
+| Audit `staffing-planner.js` calculation logic | Identify extractable scheduling logic | Complete (see `08-calculation-logic-audit.md`) |
 | Map existing `data.json` fields to normalized schema | Understand what Square data we have and how it maps | Not started |
-| Set up Laravel project | `laravel new` with API mode, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Not started |
+| Set up Laravel project | `laravel new` with API mode, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Complete (`platform/`) |
 | Define normalized data types | TypeScript interfaces for `NormalizedTransaction`, `NormalizedLaborEntry`, etc. | Not started |
 | Audit Milk Jawn's delivery platform usage | Which platforms (DoorDash, UberEats, Grubhub), how orders flow (through POS or separate), commission structures | Not started |
 
-### Phase 1: Foundation
+### Phase 1: Foundation — Complete
 
 **Goal**: Standing Laravel backend with user management, multi-tenant entities, and a React shell that authenticates via Sanctum and renders based on permissions.
 
 **Delivers**: The skeleton that everything else builds on. No end-user value yet, but all the plumbing is in place.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Laravel project setup | `laravel new --api`, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Infrastructure |
-| User/role/permission system | Five roles via spatie/laravel-permission, Policies for authorization, server-side enforcement | Role Model |
-| Multi-tenant entity model | Organization, Location, Employee Eloquent models with stancl/tenancy row-level scoping | Job 16, 17 |
-| Configurable role labels per tenant | `role_labels` JSON column on Organization model | Job 17 |
-| API endpoints | Laravel API Resources for CRUD + custom controllers for business operations | Infrastructure |
-| Authentication | Sanctum API tokens for React SPA auth | Infrastructure |
-| React shell | Vite + React with routing, auth integration, role-based rendering | Infrastructure |
+**Commits**: `99cb012` (backend), `94399d9` (React shell)
 
-### Phase 2: Scheduling Engine
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Laravel project setup | `laravel new --api`, install stancl/tenancy, spatie/laravel-permission, Sanctum, Horizon | Infrastructure | Complete |
+| User/role/permission system | Five roles via spatie/laravel-permission, Policies for authorization, server-side enforcement | Role Model | Complete |
+| Multi-tenant entity model | Organization, Location, Employee Eloquent models with stancl/tenancy row-level scoping | Job 16, 17 | Complete |
+| Configurable role labels per tenant | `role_labels` JSON column on Organization model | Job 17 | Complete |
+| API endpoints | Laravel API Resources for CRUD + custom controllers for business operations | Infrastructure | Complete |
+| Authentication | Sanctum API tokens for React SPA auth | Infrastructure | Complete |
+| React shell | Vite + React with routing, auth integration, role-based rendering | Infrastructure | Complete |
+
+### Phase 2: Scheduling Engine — Complete
 
 **Goal**: Extract and formalize the calculation logic into a standalone, thoroughly tested module.
 
 **Delivers**: The computational core of the platform — reusable, testable, and independent of any UI or backend framework.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Extract calculation logic from `staffing-planner.js` | Pure functions for coverage, cost, scoring | Job 7 |
-| Extract analytics logic from `app.js` | Revenue/labor/profit calculations | Jobs 1, 2, 3 |
-| Define scheduling engine API | Clear function signatures, input/output types | Infrastructure |
-| Comprehensive test suite | Test against known Milk Jawn data for regression validation | Quality |
-| Compliance constraint interface | Engine accepts compliance rules as scheduling constraints | Job 10 |
+**Commit**: `4c61397`
+
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Extract calculation logic from `staffing-planner.js` | Pure functions for coverage, cost, scoring, weather, templates, PTO, validation | Job 7 | Complete |
+| Extract analytics logic from `app.js` | Revenue/labor/profit calculations, benchmarks, seasonal triggers | Jobs 1, 2, 3 | Complete |
+| Define scheduling engine API | 461-line TypeScript type system, `TenantSettings` parameterization replacing all hardcoded values | Infrastructure | Complete |
+| Comprehensive test suite | 126 tests across 9 test files (financial, scheduling, weather, PTO, seasonal, retrospective) | Quality | Complete |
+| Node HTTP service wrapper | Express 5 on port 3100, 8 compute endpoints + health check (resolves Open Item #2) | Infrastructure | Complete |
+| Laravel integration | `SchedulingEngineService` singleton, config, 41 PHP tests with `Http::fake()` | Infrastructure | Complete |
+| Compliance constraint interface | Engine accepts compliance rules as scheduling constraints | Job 10 | Deferred to Phase 5 |
 
 **Key principle**: This module has zero dependencies on the backend platform, React, or any UI framework. It's pure computation. It can be tested with `node` or in a browser. This isolation is what makes the platform's logic trustworthy and portable.
+
+**Bug fixes**: BUG-1 from calculation audit — `dayValidation()` now reads `workflow.minOpeners`/`minClosers` from settings instead of hardcoded values. `applyRecommendationToDay` converted from mutable to immutable pattern.
+
+**Tracked for future**: (1) Add `storeCount` param to `sharedManagerWeeklyImpact` — currently hardcoded `/2` for per-store split. (2) Add Zod input validation to Node HTTP server before production.
 
 ### Phase 3: POS Integration
 
@@ -474,6 +484,7 @@ These are decisions that need to be made before or during the relevant phase. Th
 | 5 | Transition Period | Keep current vanilla JS running, build new platform in parallel, switch at feature parity. |
 | 6 | Delivery Platforms | DoorDash only (currently). Orders arrive on separate tablets, not through Square. DoorDash adapter needed in Phase 3. |
 | 7 | Backend Platform | **Laravel**. Evaluated Drupal, Node/NestJS, Django, Rails, Laravel, Supabase against 7 criteria. Laravel selected for team PHP expertise, mature multi-tenancy/permission packages, built-in queue/scheduler, excellent AI code generation, and budget fit. |
+| 8 | Scheduling Engine Integration | **Lightweight Node HTTP service** (Express 5 on port 3100). Laravel calls via `Http::post()` through `SchedulingEngineService` singleton. Simplest to develop, test, and debug. |
 
 ### Remaining Open Items
 
@@ -483,18 +494,11 @@ These are decisions that need to be made before or during the relevant phase. Th
 
 **Needed by**: Phase 3 (delivery adapter design — need to model commission accurately for channel economics).
 
-### 2. Scheduling Engine Integration Pattern
+### ~~2. Scheduling Engine Integration Pattern~~ — Resolved
 
-**Question**: How does the Laravel backend call the JS/TS scheduling engine?
+**Decision**: Lightweight Node HTTP service (Express 5 on port 3100). Laravel calls engine via `Http::post()` through `SchedulingEngineService` singleton.
 
-**Options**:
-- Lightweight Node HTTP service (Express with a `/compute` endpoint)
-- Serverless function (AWS Lambda, Vercel Edge Function)
-- Node subprocess from PHP (`Process::run('node engine.js ...')`)
-
-**Recommendation**: Lightweight Node HTTP service. Simplest to develop, test, and debug. Laravel calls it via `Http::post()`.
-
-**Needed by**: Phase 2.
+**Implemented in**: Phase 2, commit `4c61397`. See `packages/scheduling-engine/server/` and `platform/app/Services/SchedulingEngineService.php`.
 
 ### 3. Filament for Admin Panel
 
