@@ -528,13 +528,11 @@ These are decisions that need to be made before or during the relevant phase. Th
 
 **Implemented in**: Phase 2, commit `4c61397`. See `packages/scheduling-engine/server/` and `platform/app/Services/SchedulingEngineService.php`.
 
-### 3. Filament for Admin Panel
+### ~~3. Filament for Admin Panel~~ — Resolved
 
-**Question**: Use Filament (Laravel admin panel package) for internal operations tooling?
+**Decision**: Yes. Filament v3 installed at `/admin` with 10 resources (Organizations, Users, Locations, Employees, Compliance Rules, Schedules, Subscriptions, Tenant Settings, POS Syncs, Delivery Syncs), dashboard stats widget, and admin-only access via `FilamentUser` interface.
 
-**Considerations**: Filament gives you a free admin UI for managing compliance presets, debugging tenant data, and creating test tenants. Low effort to set up. Should not be customer-facing.
-
-**Needed by**: Phase 1 (nice-to-have, not blocking).
+**Implemented in**: Commit `13da53d`. See `platform/app/Filament/`.
 
 ### 4. Inventory & Order Management
 
