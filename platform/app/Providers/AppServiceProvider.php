@@ -29,6 +29,7 @@ class AppServiceProvider extends AuthServiceProvider
     public function register(): void
     {
         $this->app->singleton(\App\Services\SchedulingEngineService::class);
+        $this->app->singleton(\App\Adapters\AdapterFactory::class);
     }
 
     /**

@@ -98,3 +98,17 @@ export {
 
 // ─── Delivery ───────────────────────────────────────────────────────────────
 export { revenueWithMode as deliveryRevenueWithMode } from './delivery/revenue.js';
+
+// ─── Adapter Contracts ──────────────────────────────────────────────────────
+export type {
+  NormalizedDailySales,
+  NormalizedEmployee,
+  NormalizedDeliveryDay,
+  ShiftForPublish,
+  ScheduleForPublish,
+  PublishShiftResult,
+  PublishResult,
+  PosConnectionConfig,
+  DeliveryConnectionConfig,
+  SyncResult,
+} from './adapters/types.js';
