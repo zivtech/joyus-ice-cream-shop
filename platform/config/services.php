@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'scheduling_engine' => [
+        'url' => env('SCHEDULING_ENGINE_URL', 'http://127.0.0.1:3100'),
+    ],
+
 ];
