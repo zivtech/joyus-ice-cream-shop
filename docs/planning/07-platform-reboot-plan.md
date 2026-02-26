@@ -1,6 +1,6 @@
 # 07 — Platform Reboot Plan
 
-> **Status**: Active — Phase 4 complete, Phase 5 next
+> **Status**: Active — Phase 5 complete, Phase 6 next
 > **Created**: 2026-02-24
 > **Purpose**: Comprehensive reference for rebooting the Milk Jawn platform from a single-tenant vanilla JS application to a hosted, multi-tenant operational platform.
 
@@ -419,21 +419,29 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 
 **Test coverage**: 78 Laravel tests (229 assertions) + 126 engine tests = 204 total.
 
-### Phase 5: Compliance and Advanced Features
+### Phase 5: Compliance and Advanced Features — Complete
 
 **Goal**: Compliance rules engine, certification tracking, exception workflows, and variance analysis.
 
 **Delivers**: The features that differentiate this platform from a simple schedule builder.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Jurisdiction-aware compliance rules engine | Configurable presets per state/locality | Compliance Model |
-| Certification tracking | Employee certification records, expiration tracking | Job 11 |
-| Compliance as scheduling constraint | Pre-publish validation blocks uncovered shifts | Compliance Model |
-| Exception request workflow | Store Manager requests, GM approval, audit trail | Jobs 6, 8 |
-| Planned-vs-actual variance | Scheduled vs. actual labor from POS timecard data | Job 9 |
-| Multi-location rollup analytics | Aggregate metrics across locations | Job 16 |
-| Certification expiration notifications | Reminders to employees and managers | Job 11 |
+**Commit**: `af9cd32`
+
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Jurisdiction-aware compliance rules engine | ComplianceRule model with CRUD, jurisdiction presets (PA/NJ/NY), hard/soft constraint types | Compliance Model | Complete |
+| Certification tracking | CertificationDashboardPage with summary cards, expiry warnings, employee status table | Job 11 | Complete |
+| Compliance as scheduling constraint | POST /api/compliance-rules/validate checks certified employee coverage per shift | Compliance Model | Complete |
+| Exception request workflow | PolicyExceptionRequest CRUD + approve/reject with audit trail (requester, reviewer, timestamps) | Jobs 6, 8 | Complete |
+| Planned-vs-actual variance | GET /api/daily-actuals/variance compares scheduled vs actual labor per day with % delta | Job 9 | Complete |
+| Multi-location rollup analytics | GET /api/daily-actuals/rollup aggregates across all locations + portfolio dashboard view | Job 16 | Complete |
+| Certification expiration notifications | GET /api/employees/certification-status with expiring_within_days filter | Job 11 | API complete, push notifications deferred |
+
+**Backend**: 3 new controllers, 3 authorization policies, ComplianceRule model + migration, 2 enhanced controllers (variance/rollup/certification). 18 new tests.
+
+**Frontend**: 4 new pages (Compliance, Certifications, Exceptions, PTO), enhanced Dashboard (portfolio rollup), enhanced ShiftAnalysis (variance tab), updated routing + sidebar nav (Management section).
+
+**Test coverage**: 96 Laravel tests (293 assertions) + 126 engine tests = 222 total.
 
 ### Phase 6: Platform Hardening
 
