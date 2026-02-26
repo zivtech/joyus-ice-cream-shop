@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('schedule_day_id')->constrained('schedule_days');
             $table->foreignId('requester_id')->constrained('users');
             $table->text('reason');
-            $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'denied', 'rejected'])->default('pending');
             $table->foreignId('reviewer_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();

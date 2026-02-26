@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('reason')->nullable();
-            $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'denied', 'cancelled'])->default('pending');
             $table->string('source', 50)->nullable();
             $table->timestamp('synced_at')->nullable();
             $table->timestamps();

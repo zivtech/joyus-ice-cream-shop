@@ -9,6 +9,10 @@ import { ShiftPlannerPage } from '@/pages/ShiftPlannerPage';
 import { ShiftAnalysisPage } from '@/pages/ShiftAnalysisPage';
 import { SeasonalPlaybookPage } from '@/pages/SeasonalPlaybookPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+import { CompliancePage } from '@/pages/CompliancePage';
+import { CertificationDashboardPage } from '@/pages/CertificationDashboardPage';
+import { ExceptionRequestsPage } from '@/pages/ExceptionRequestsPage';
+import { PtoPage } from '@/pages/PtoPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export function App() {
@@ -58,6 +62,38 @@ export function App() {
               element={
                 <ProtectedRoute roles={['admin', 'gm']}>
                   <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="compliance"
+              element={
+                <ProtectedRoute roles={['admin', 'gm']}>
+                  <CompliancePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="certifications"
+              element={
+                <ProtectedRoute roles={['admin', 'gm', 'store_manager']}>
+                  <CertificationDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="exceptions"
+              element={
+                <ProtectedRoute roles={['admin', 'gm', 'store_manager']}>
+                  <ExceptionRequestsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="pto"
+              element={
+                <ProtectedRoute>
+                  <PtoPage />
                 </ProtectedRoute>
               }
             />

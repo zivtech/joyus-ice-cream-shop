@@ -125,3 +125,96 @@ export interface RegisterCredentials {
   password: string;
   organization_name: string;
 }
+
+export interface ComplianceRule {
+  id: number;
+  jurisdiction: string;
+  certification_type: string;
+  coverage_requirement: 'every_shift' | 'operating_hours' | 'per_location';
+  constraint_type: 'hard' | 'soft';
+  minimum_certified_count: number;
+  expiration_months: number | null;
+  active: boolean;
+  notes: string | null;
+}
+
+export interface ComplianceViolation {
+  date: string;
+  rule: string;
+  required: number;
+  found: number;
+  constraint_type: 'hard' | 'soft';
+}
+
+export interface ComplianceValidation {
+  compliant: boolean;
+  violations: ComplianceViolation[];
+}
+
+export interface PolicyExceptionRequest {
+  id: number;
+  schedule_day_id: number;
+  requester_id: number;
+  requester?: User;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected';
+  reviewer_id: number | null;
+  reviewer?: User;
+  reviewed_at: string | null;
+  created_at: string;
+}
+
+export interface PtoRequest {
+  id: number;
+  employee_id: number;
+  employee?: Employee;
+  location_id: number;
+  start_date: string;
+  end_date: string;
+  reason: string | null;
+  status: 'pending' | 'approved' | 'denied' | 'cancelled';
+  created_at: string;
+}
+
+export interface VarianceDay {
+  date: string;
+  actual_revenue: number;
+  actual_labor: number;
+  planned_labor: number;
+  variance: number;
+  variance_pct: number;
+}
+
+export interface LocationRollup {
+  location_id: number;
+  code: string;
+  name: string;
+  revenue: number;
+  labor: number;
+  labor_pct: number;
+}
+
+export interface MultiLocationRollup {
+  total_revenue: number;
+  total_labor: number;
+  total_delivery_net: number;
+  labor_pct: number;
+  gp_estimate: number;
+  day_count: number;
+  locations: LocationRollup[];
+}
+
+export interface CertificationEmployee {
+  id: number;
+  name: string;
+  certifications: string[];
+  expiry_dates: string[];
+  days_until_expiry: number;
+  status: 'valid' | 'expiring_soon' | 'expired';
+}
+
+export interface CertificationSummary {
+  total_certified: number;
+  expiring_soon: number;
+  expired: number;
+}

@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ComplianceRuleController;
 use App\Http\Controllers\Api\DailyActualController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\PolicyExceptionRequestController;
+use App\Http\Controllers\Api\PtoRequestController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ScheduleSlotController;
 use App\Http\Controllers\Api\ShiftAssignmentController;
@@ -25,8 +28,11 @@ Route::middleware(['auth:sanctum', 'tenant.scope'])->group(function () {
     Route::patch('/organization', [OrganizationController::class, 'update']);
     Route::patch('/organization/role-labels', [OrganizationController::class, 'updateRoleLabels']);
 
-    // Locations & Employees
+    // Locations
     Route::apiResource('locations', LocationController::class);
+
+    // Employees — named routes before apiResource to avoid {employee} catch
+    Route::get('employees/certification-status', [EmployeeController::class, 'certificationStatus']);
     Route::apiResource('employees', EmployeeController::class);
 
     // Tenant settings (upsert replaces store)
@@ -46,7 +52,25 @@ Route::middleware(['auth:sanctum', 'tenant.scope'])->group(function () {
     // Shift Assignments
     Route::apiResource('shift-assignments', ShiftAssignmentController::class)->only(['store', 'destroy']);
 
-    // Daily Actuals
+    // Daily Actuals — named routes before generic ones
+    Route::get('daily-actuals/variance', [DailyActualController::class, 'variance']);
+    Route::get('daily-actuals/rollup', [DailyActualController::class, 'rollup']);
     Route::get('daily-actuals', [DailyActualController::class, 'index']);
     Route::get('daily-actuals/summary', [DailyActualController::class, 'summary']);
+
+    // Compliance Rules — named routes before apiResource to avoid {compliance_rule} catch
+    Route::get('compliance-rules/presets', [ComplianceRuleController::class, 'presets']);
+    Route::post('compliance-rules/validate', [ComplianceRuleController::class, 'validate']);
+    Route::apiResource('compliance-rules', ComplianceRuleController::class);
+
+    // Exception Requests
+    Route::post('exception-requests/{exceptionRequest}/approve', [PolicyExceptionRequestController::class, 'approve']);
+    Route::post('exception-requests/{exceptionRequest}/reject', [PolicyExceptionRequestController::class, 'reject']);
+    Route::apiResource('exception-requests', PolicyExceptionRequestController::class)->only(['index', 'store', 'show']);
+
+    // PTO Requests
+    Route::post('pto-requests/{ptoRequest}/approve', [PtoRequestController::class, 'approve']);
+    Route::post('pto-requests/{ptoRequest}/deny', [PtoRequestController::class, 'deny']);
+    Route::post('pto-requests/{ptoRequest}/cancel', [PtoRequestController::class, 'cancel']);
+    Route::apiResource('pto-requests', PtoRequestController::class)->only(['index', 'store', 'show']);
 });
