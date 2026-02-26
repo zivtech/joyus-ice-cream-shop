@@ -1,6 +1,6 @@
 # 07 — Platform Reboot Plan
 
-> **Status**: Active — Phase 5 complete, Phase 6 next
+> **Status**: All 6 phases complete
 > **Created**: 2026-02-24
 > **Purpose**: Comprehensive reference for rebooting the Milk Jawn platform from a single-tenant vanilla JS application to a hosted, multi-tenant operational platform.
 
@@ -443,21 +443,29 @@ Each phase builds on the previous one. No phase ships until it's solid. The phas
 
 **Test coverage**: 96 Laravel tests (293 assertions) + 126 engine tests = 222 total.
 
-### Phase 6: Platform Hardening
+### Phase 6: Platform Hardening — Complete
 
 **Goal**: Make the platform ready for tenants beyond Milk Jawn.
 
 **Delivers**: Self-service onboarding, configuration UI, billing, and additional POS support.
 
-| Task | Description | Jobs Addressed |
-|---|---|---|
-| Onboarding flow | Connect POS, import data, configure business, guided setup | Job 14 |
-| Business rules configuration UI | Operating hours, positions, pay rates, coverage rules, thresholds | Job 15 |
-| Additional POS adapters | Toast, Clover, Lightspeed — as demand warrants | Job 14 |
-| Additional delivery marketplace adapters | UberEats, Grubhub, additional platforms — as demand warrants | Job 4b |
-| Billing and subscription management | Stripe integration or similar | Platform |
-| Performance optimization | Multi-tenant query optimization, caching, CDN | Platform |
-| Monitoring and alerting | Application health, error tracking, uptime | Platform |
+**Commit**: `3e5bcc0`
+
+| Task | Description | Jobs Addressed | Status |
+|---|---|---|---|
+| Onboarding flow | OnboardingController (status, connect POS, import data, configure rules) + multi-step wizard UI | Job 14 | Complete |
+| Business rules configuration UI | BusinessRulesPage for pay rates, operating hours, labor targets, workflow settings | Job 15 | Complete |
+| Additional POS adapters | Toast and Clover adapter stubs implementing PosAdapter interface | Job 14 | Stubs complete |
+| Additional delivery marketplace adapters | UberEats and Grubhub adapter stubs implementing DeliveryAdapter interface | Job 4b | Stubs complete |
+| Billing and subscription management | Subscription model, BillingController (status/subscribe/cancel), 3-tier plan UI (starter/professional/enterprise) | Platform | Complete |
+| Performance optimization | BelongsToTenant trait on 7 models, DailyActual summary caching (5 min TTL) | Platform | Complete |
+| Monitoring and alerting | Public /api/health endpoint checking database, scheduling engine, and cache status | Platform | Complete |
+
+**Backend**: 4 new controllers (Onboarding, Billing, Health, AdapterFactory tests), Subscription model + migration, BelongsToTenant trait, 4 adapter stubs (Toast, Clover, UberEats, Grubhub), enhanced AdapterFactory. 23 new tests.
+
+**Frontend**: 3 new pages (OnboardingPage wizard, BusinessRulesPage, BillingPage), enhanced SettingsPage with navigation cards, updated routing + sidebar nav (Platform section).
+
+**Test coverage**: 119 Laravel tests (381 assertions) + 126 engine tests = 245 total.
 
 ---
 
