@@ -54,13 +54,24 @@
 39. Stakeholder clarification: Alex is CTO, not the operator. GM/Owner is the primary daily user and finds the demo "extraordinarily confusing." Future Forge sessions should include her directly.
 40. Review priority established: cross-cutting communication issues first (affects everything), then dashboard widget evaluation, then planner feature gaps. Planner is the daily-use tool; dashboard is periodic analytics.
 
+41. **Build target decision:** Patch the demo first (Phase 0 language/provenance/causality fixes), then continue the platform using Forge action plan as operator-facing spec. Existing platform spec (doc 07) remains the foundation. Forge findings add the missing operator lens.
+42. **Industry benchmarks:** Self-benchmarking first (EP vs NL, YoY, season-over-season — data already exists in Square POS history). External benchmark data loaded at runtime later from private data source. Same data boundary as Square POS data — real numbers cannot leak into the repo.
+43. **72% margin:** Unknown origin — likely AI-generated placeholder from a test worksheet. Two things to build: configurable target margin (owner-controlled setting) and historic actual margin (calculated from real data). Display both together for provenance.
+44. **Note persistence:** Database (Laravel + Postgres). Notes stored as records tied to dates and locations. Required for structured tags and pattern detection.
+45. **GM session timing:** Conducted informally Feb 28, 2026 — 43-minute guided session with Amy (Otter transcript). Findings incorporated into doc 10. Next formal session: after Phase 0 language fixes are applied.
+46. **GM direct findings:** Amy confirmed all language confusion from proxy session. New signal: she understands position-based scheduling ("scooper 1, scooper 2"), scheduling is pattern-based (not from scratch), events are minimal (validates anomaly detection), weather matters only in transition seasons, marketing/Instagram drives sales spikes, and she asked "does Square already do this?" — value proposition needs to be explicit upfront.
+
 ## Pending decisions
-1. Scheduling engine integration pattern: lightweight Node HTTP service vs. serverless function vs. subprocess.
-2. DoorDash commission structure details (needed for delivery adapter economics).
-3. Filament admin panel for internal operations tooling.
-4. Data source for industry benchmarks: paid provider, free public data (BLS, trade associations), or self-benchmarking only?
-5. ~~Event calendar scope~~ → Replaced by data-driven anomaly detection approach: system identifies days significantly above/below seasonal baseline from historical data, presents them to user for confirmation, confirmed patterns become settings. No manual event calendar.
-6. Partial plan model: what does a skeleton schedule look like months ahead vs. a detailed schedule for next week? Plan states proposed: Skeleton → In Progress → Complete → Approved → Published.
-7. Holiday assumption settings: how does the user review, confirm, and change year-to-year holiday patterns detected from data? (e.g., open Christmas Eve AM in 2024 but not 2025)
-8. Note persistence model: analyst notes need to move from localStorage to a real backend for tagging, searching, and pattern detection.
-9. Seasonal template transitions: when seasonal triggers fire, which template activates? How does the GM see and override the change?
+1. ~~Scheduling engine integration pattern~~ — resolved in doc 07 (Node HTTP service, Express 5 on port 3100)
+2. ~~DoorDash commission structure~~ — resolved in doc 07 (EP: 20%, NL: 25%, per-location setting)
+3. ~~Filament admin panel~~ — resolved in doc 07 (Filament v3 at /admin with 10 resources)
+4. ~~Data source for industry benchmarks~~ — resolved: self-benchmarking first, external at runtime later (decision 42)
+5. ~~Event calendar scope~~ → resolved: anomaly detection approach, validated by Amy ("we have so few events")
+6. Partial plan model: Amy's input clarifies — position-based templates with person assignment closer to the date. Pattern carry-forward from prior weeks. Plan states: Skeleton → In Progress → Complete → Approved → Published.
+7. Holiday assumption settings: Amy confirmed Christmas Eve varies by location and year (open 10-3 at one shop in 2024, closed in 2025). Per-location, per-year settings needed.
+8. ~~Note persistence model~~ — resolved: database (decision 44)
+9. Seasonal template transitions: Amy provided specific hours (warm: 12-11pm Tue-Sun; cold: 3-10pm Tue-Fri, noon-11pm Sat, noon-10pm Sun). Templates should map to these seasonal patterns.
+10. Seasonal planning view design: what does this look like? Amy's session adds context — staffing levels overlaid on seasonal hour patterns with YoY comparison. Needs design work.
+11. Marketing/social media as demand signal: Instagram posts and product launches (cookie butter) drive sales spikes. Future integration candidate — not in current build phases.
+12. Square availability sync: staff update availability in Square, tool needs to ingest this alongside PTO. Not currently in POS adapter spec.
+13. Value proposition framing: Amy asked "does Square already do this?" after 43 minutes. Tool differentiation (DoorDash data, manager salary, proposed schedules, cross-location comparison) needs to be explicit in the UI, not just known to the CTO.

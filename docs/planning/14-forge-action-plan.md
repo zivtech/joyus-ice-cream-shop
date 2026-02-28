@@ -197,14 +197,21 @@ Several features require data work before they can be built:
 
 ---
 
-## Pending Decisions for CTO
+## CTO Decisions (Resolved Feb 28, 2026)
 
-1. **Build target:** Fix the demo, continue the platform, or start fresh?
-2. **Industry benchmarks:** Invest in finding a real data source, or replace with self-benchmarking for now?
-3. **72% margin:** Is this measured from actual COGS? Can it vary by season/product? Should it be a setting?
-4. **Note persistence:** What backend stores the notes? Database, file system, or integration with existing platform?
-5. **GM session timing:** When to involve the GM/Owner — after Phase 0, or now?
-6. **Scope of "seasonal planning view":** What does this actually look like? Calendar? Summary cards? Comparison table? Needs design work.
+1. **Build target:** ~~Fix the demo, continue the platform, or start fresh?~~ **Patch the demo first** (Phase 0 fixes so GM can react to something coherent), **then continue the platform** using the Forge action plan as the operator-facing spec. Existing platform spec (doc 07) remains the foundation — Forge findings add the operator lens.
+
+2. **Industry benchmarks:** ~~Invest in finding a real data source, or replace with self-benchmarking for now?~~ **Self-benchmarking first** (EP vs NL, YoY, season-over-season). External benchmark data loaded at runtime later — real data exists privately but cannot leak into the repo. Same data boundary as Square POS data.
+
+3. **72% margin:** ~~Is this measured from actual COGS? Can it vary by season/product? Should it be a setting?~~ **Unknown origin** — likely an AI-generated placeholder from a test worksheet. Build two things: a **configurable target margin** (setting the owner controls) and **historic actual margin** (calculated from real data). Show both: "your target is 70%, your actual this month is 68%, last year same month was 72%."
+
+4. **Note persistence:** ~~What backend stores the notes?~~ **Database.** Platform has Laravel + Postgres. Notes stored as records tied to dates and locations. Required for structured tags and pattern detection downstream.
+
+5. **GM session timing:** ~~When to involve the GM/Owner — after Phase 0, or now?~~ **Now, informally — DONE.** 43-minute session conducted Feb 28, 2026 (Otter transcript: "Meeting with amy about the milk jawn app"). Findings incorporated into doc 10. Next formal session: after Phase 0 language fixes.
+
+## Remaining Open Decision
+
+6. **Scope of "seasonal planning view":** What does this actually look like? Calendar? Summary cards? Comparison table? Needs design work. Amy's session added context: seasonal hours are specific and structured (warm vs cold months with different hours per day-of-week). View should probably show staffing levels overlaid on seasonal hour patterns with YoY comparison.
 
 ---
 

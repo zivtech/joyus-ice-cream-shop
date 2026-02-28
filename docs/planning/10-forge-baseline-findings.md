@@ -4,7 +4,7 @@
 > **Created**: 2026-02-28
 > **Session type**: Forge Guided Review — Baseline Session
 > **Application under review**: Milk Jawn demo (`~/zivtech-demos/projects/milk-jawn/`)
-> **Stakeholders**: Alex Urevick-Ackelsberg (CTO), GM/Owner (to be included in future sessions)
+> **Stakeholders**: Alex Urevick-Ackelsberg (CTO), Amy (GM/Owner — session conducted Feb 28, 2026)
 > **Context scenario**: Vibe-coded app — built iteratively with Claude, needs to be understood and made useful for the actual operator
 
 ---
@@ -27,7 +27,66 @@ This is not a feature problem. It's a communication problem. The app speaks the 
 ## Stakeholder Clarification
 
 - **Alex (CTO)**: Built the demo, understands the data model, can explain what widgets do but sometimes couldn't explain their controls (e.g., didn't know Monday %s were relative to Tuesday until this session)
-- **GM/Owner**: The actual daily user. Finds the demo confusing. Would use the scheduling tool daily if it worked for her. The dashboard/analytics would be periodic (weekly/monthly). Has not yet participated in a Forge session directly.
+- **Amy (GM/Owner)**: The actual daily user. Participated in a 43-minute guided session on Feb 28, 2026. Confirmed the demo is confusing. Would use the scheduling tool daily if it worked for her. The dashboard/analytics would be periodic (weekly/monthly).
+
+## GM/Owner Direct Session (Feb 28, 2026)
+
+**Format:** Alex guided Amy through the demo page by page, explaining what things were meant to do while capturing her reactions. Not a pure first-impression test — Alex provided context so Amy could react to the *concepts* rather than just the labels. This was appropriate: pure confusion would have only confirmed what the proxy session already found. The guided approach produced new signal.
+
+**Session conditions:** Amy had a significant headache during the session, which affected engagement depth. Despite this, the session produced actionable findings.
+
+### What she confirmed (validates proxy findings)
+
+Every language/comprehension issue identified in the proxy CTO session was confirmed directly:
+- Hour-by-hour gross profit: "I'm not sure what this graph is for. What is it measuring? What do the colors mean?"
+- Manager time allocation: "What does it mean? One manager day?"
+- Template descriptions: "Two Tuesday through Thursday template plus one lead day — I don't know what that means"
+- Historical Trend Explorer: "I don't understand what I'm looking at here"
+- Performance Intelligence: "peak versus week hour — I have no idea what that is"
+- Scale Timing Monitor: doesn't know what the language means
+- Trigger Gap Planner: "I don't know what trigger gap planner means"
+- 72% margin: confirmed nobody knows the source
+
+### New findings from Amy directly
+
+**1. She understands position-based scheduling.**
+"If you do it divorced from people's names, if it's just scooper one, scooper two, scooper three, then you just have to plug in scoopers." She separates template-level planning from person-level assignment naturally. This is more sophisticated than expected and validates the partial-plan/template approach.
+
+**2. Scheduling is pattern-based, not planned from scratch.**
+Two weeks out. Based on staff availability (tracked in Square) and recurring patterns. "If somebody's always available on a Tuesday, then they're usually scheduled that day." She doesn't rebuild from zero — she adjusts a pattern. The tool should support pattern carry-forward, not blank-slate scheduling.
+
+**3. Historical data usage is seasonal.**
+Spring and fall: they actually look back at historical data. Summer and winter: they set a pattern and stick to it. "Other than that, we just kind of set a pattern for winter or summer based on what feels right." Historical context should be prominent during transition seasons, ambient otherwise.
+
+**4. Events are minimal — validates anomaly detection approach.**
+"We have so few events that we don't really use a calendar." Google Calendar informally. The big ones: Hot Chocolate Crawl (EP), Ice Cream for Breakfast Day (both), and flavors on the avenue (EP). Northern Liberties events are less important (canceled last year). This confirms that a manual event calendar would be overkill — anomaly detection from historical data is the right approach.
+
+**5. Weather matters only in volatile seasons.**
+"In spring and fall, when the season changes are more volatile and unpredictable." Rest of year: last-minute adjustments only (call someone out or in). Weather integration should be contextual, not always-on prominent.
+
+**6. Marketing/social media drives sales spikes.**
+Amy specifically noted that Instagram posts and new product launches drive sales — not just weather or events. Cookie butter was the example. "A lot of it is just chance." This is a new input source not previously identified. Potential future integration: Instagram activity, MailChimp campaigns, menu changes as demand signals.
+
+**7. "Does Square already do this?"**
+The critical value-proposition question. Amy doesn't understand what this tool gives her that Square doesn't. Alex's answer: Square doesn't build proposed schedules, doesn't include DoorDash data, doesn't include manager salary costs, doesn't do cross-location comparison. **The tool's value proposition needs to be explicit and upfront — not something the CTO has to explain.**
+
+**8. Seasonal hours are specific and structured.**
+- Warm months: 12pm-11pm, Tue-Sun
+- Cold months: Tue-Fri 3pm-10pm, Sat noon-11pm, Sun noon-10pm
+These should be settings that drive the seasonal model.
+
+**9. Approval workflow: suggest, don't override.**
+"I don't usually make the changes. I suggest changes." The GM reviews, rejects with notes, and the manager makes the adjustments. Reject-with-notes is the right pattern, not inline editing by the approver.
+
+**10. Christmas Eve varies by location and year.**
+Open 10-3 (or similar) at one location, closed at the other. Changed between 2024 and 2025. Validates per-location, per-year holiday settings.
+
+**11. She still doesn't understand the tool's purpose.**
+After 43 minutes: "What is the whole purpose of this tool, just to be able to plan it all out for, like, a year in advance or something?" The value proposition never landed. This is the most important finding — the tool needs to lead with WHY before showing HOW.
+
+### Process observation
+
+Alex guided more than observed — explaining what widgets were supposed to do rather than letting Amy react cold. This was the right call: pure confusion ("I don't know what this is" x15) would have only re-confirmed the language audit. By explaining, Alex got Amy to engage with the *underlying concepts* and produced new signal (position-based scheduling, pattern carry-forward, seasonal data usage, marketing as demand driver, Square comparison).
 
 ## Findings by Category
 
@@ -175,15 +234,18 @@ Based on this baseline session, the guided review should proceed:
 
 ## Open Items for Future Sessions
 
-- [ ] Session with GM/Owner directly — validate these findings and language translations from her perspective
-- [ ] Dashboard widget-by-widget review — which are useful, misplaced, or unnecessary?
-- [ ] Planner workflow mapping — what does the GM's actual weekly/monthly scheduling process look like?
-- [ ] Data source investigation for industry benchmarks
-- [ ] Event calendar requirements — full inventory of recurring events and holidays
-- [ ] Define what "partial plan" means operationally — what's in a skeleton vs. what gets filled in?
-- [ ] Resolve the 72% margin assumption — is it measured, estimated, or configurable?
+- [x] Session with GM/Owner directly — **DONE (Feb 28, 2026)** — see GM/Owner Direct Session above
+- [x] Dashboard widget-by-widget review — **DONE** — see doc 12
+- [x] Planner workflow mapping — **DONE** — see doc 13, plus Amy's session confirmed pattern-based scheduling, 2-week horizon, Square availability sync
+- [x] Event calendar requirements — **RESOLVED** — events are minimal, anomaly detection approach validated
+- [x] Resolve the 72% margin assumption — **RESOLVED** — unknown origin, will be configurable target + historic actual
+- [ ] Data source investigation for industry benchmarks — self-benchmarking first, external data loaded at runtime later
+- [ ] Define what "partial plan" means operationally — Amy's input: position-based templates ("scooper 1, scooper 2") with person assignment closer to the date
 - [ ] Design visual causality for controls — how should changed numbers be highlighted?
-- [ ] Strategic question: are "Lore" workflows (knowledge elicitation, guided review) and "Forge" workflows (observe current work, spec out middleware/replacements) subtasks of the same tool, or different tools? (See Forge open questions.)
+- [ ] Marketing/social media as demand signal — new requirement from Amy's session. Instagram posts and product launches drive sales. Future integration candidate.
+- [ ] Value proposition framing — Amy asked "does Square already do this?" after 43 minutes. The tool's differentiation needs to be explicit upfront.
+- [ ] Square availability sync — Amy confirmed staff update availability in Square, conflicts surface there. Tool needs to ingest this.
+- [ ] Strategic question: are "Lore" workflows and "Forge" workflows subtasks of the same tool, or different tools? (See Forge open questions.)
 
 ---
 
