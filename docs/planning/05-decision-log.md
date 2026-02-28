@@ -50,7 +50,17 @@
 36. React framework: Vite + React with react-router (SPA, no SSR).
 37. Transition strategy: Keep current vanilla JS running, build Laravel platform in parallel, switch at feature parity.
 
+38. Forge Baseline Session conducted on demo app (`~/zivtech-demos/projects/milk-jawn/`). Key findings: demo is built for the builder not the operator, language is system-centric, controls lack causality explanation, numbers have no provenance, planner needs months-ahead planning with YoY context, analyst notes should feed future automated planning. Review priority: cross-cutting issues (language, trust, provenance) → dashboard widgets → planner features. Full findings in `docs/planning/10-forge-baseline-findings.md`.
+39. Stakeholder clarification: Alex is CTO, not the operator. GM/Owner is the primary daily user and finds the demo "extraordinarily confusing." Future Forge sessions should include her directly.
+40. Review priority established: cross-cutting communication issues first (affects everything), then dashboard widget evaluation, then planner feature gaps. Planner is the daily-use tool; dashboard is periodic analytics.
+
 ## Pending decisions
 1. Scheduling engine integration pattern: lightweight Node HTTP service vs. serverless function vs. subprocess.
 2. DoorDash commission structure details (needed for delivery adapter economics).
 3. Filament admin panel for internal operations tooling.
+4. Data source for industry benchmarks: paid provider, free public data (BLS, trade associations), or self-benchmarking only?
+5. ~~Event calendar scope~~ → Replaced by data-driven anomaly detection approach: system identifies days significantly above/below seasonal baseline from historical data, presents them to user for confirmation, confirmed patterns become settings. No manual event calendar.
+6. Partial plan model: what does a skeleton schedule look like months ahead vs. a detailed schedule for next week? Plan states proposed: Skeleton → In Progress → Complete → Approved → Published.
+7. Holiday assumption settings: how does the user review, confirm, and change year-to-year holiday patterns detected from data? (e.g., open Christmas Eve AM in 2024 but not 2025)
+8. Note persistence model: analyst notes need to move from localStorage to a real backend for tagging, searching, and pattern detection.
+9. Seasonal template transitions: when seasonal triggers fire, which template activates? How does the GM see and override the change?
